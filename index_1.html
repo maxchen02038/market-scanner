@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S&P 500 Market Scanner</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #07090f; color: #e2e8f0; font-family: 'Inter', sans-serif; padding: 2rem 1rem 3rem; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  .pill { display: inline-flex; align-items: center; gap: .45rem; background: #0d1220; border: 1px solid #1e2d4a; border-radius: 999px; padding: .28rem .85rem; margin-bottom: .9rem; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; display: inline-block; animation: dotPulse 1.6s ease-in-out infinite; }
+  .pill-label { font-family: 'JetBrains Mono', monospace; font-size: .6rem; letter-spacing: .18em; color: #64748b; text-transform: uppercase; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 700; line-height: 1.13; letter-spacing: -.02em; background: linear-gradient(135deg, #f1f5f9 25%, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .subtitle { margin-top: .5rem; color: #475569; font-size: .87rem; }
+
+  #scanBtn { display: flex; align-items: center; justify-content: center; gap: .55rem; margin: 1.8rem auto; padding: .85rem 2.2rem; background: linear-gradient(135deg, #4f46e5, #6d28d9); color: #fff; border: none; border-radius: 999px; font-family: inherit; font-size: .95rem; font-weight: 600; cursor: pointer; animation: glow 2.4s ease-in-out infinite; transition: filter .2s, transform .15s; }
+  #scanBtn:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-1px); }
+  #scanBtn:disabled { background: #1a2035; color: #64748b; border: 1px solid #1e2d4a; animation: none; cursor: not-allowed; }
+  .btn-dot     { width: 8px; height: 8px; background: #a5f3fc; border-radius: 50%; display: inline-block; animation: dotPulse 1.4s ease-in-out infinite; }
+  .btn-spinner { width: 13px; height: 13px; border: 2px solid #2d3e60; border-top-color: #818cf8; border-radius: 50%; display: inline-block; animation: spin .7s linear infinite; }
+
+  #stepBox { display: none; background: #0d1220; border: 1px solid #1e2d4a; border-radius: 10px; padding: .85rem 1.1rem; margin-bottom: 1.3rem; flex-direction: column; gap: .42rem; }
+  #stepBox.visible { display: flex; }
+  .step-row { display: flex; align-items: center; gap: .55rem; font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: #1e2d4a; transition: color .3s; }
+  .step-row.done   { color: #22c55e; }
+  .step-row.active { color: #818cf8; }
+
+  #errorBox { display: none; background: rgba(239,68,68,.07); border: 1px solid rgba(239,68,68,.25); border-left: 3px solid #ef4444; border-radius: 10px; padding: .8rem 1rem; margin-bottom: 1.2rem; font-size: .82rem; color: #f87171; line-height: 1.6; }
+  #errorBox.visible { display: block; }
+
+  #results { display: none; opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease; }
+  #results.visible { display: block; }
+  #results.shown   { opacity: 1; transform: none; }
+
+  .catalyst { background: #0d1220; border: 1px solid #1e3a2a; border-left: 3px solid #22c55e; border-radius: 10px; padding: .75rem 1rem; margin-bottom: 1.1rem; display: flex; gap: .6rem; align-items: flex-start; }
+  .cat-icon  { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
+  .cat-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; color: #22c55e; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .1rem; }
+  .cat-text  { font-size: .82rem; color: #94a3b8; line-height: 1.55; }
+
+  .sector-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 14px; padding: 1.35rem 1.5rem; margin-bottom: 1.15rem; position: relative; overflow: hidden; }
+  .sector-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #4f46e5, #818cf8, #06b6d4); }
+  .sector-card::after  { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(79,70,229,.07), transparent 60%); pointer-events: none; }
+  .sec-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #4f46e5; text-transform: uppercase; margin-bottom: .48rem; }
+  .sec-row { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; margin-bottom: .5rem; }
+  .sec-name { font-size: 1.4rem; font-weight: 700; letter-spacing: -.02em; color: #e2e8f0; }
+  .badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem; border-radius: 5px; padding: .09rem .42rem; }
+  .badge-gray   { color: #475569; background: #131b2e; border: 1px solid #1e2d4a; }
+  .badge-purple { color: #818cf8; background: rgba(79,70,229,.1); border: 1px solid rgba(79,70,229,.2); }
+  .badge-green  { color: #22c55e; font-family: 'JetBrains Mono', monospace; font-size: .95rem; font-weight: 700; background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.2); border-radius: 5px; padding: .09rem .5rem; }
+  .sec-reason { font-size: .83rem; color: #64748b; line-height: 1.6; }
+
+  .stocks-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #334155; text-transform: uppercase; margin-bottom: .7rem; }
+  .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; padding: 1.05rem 1.25rem; margin-bottom: .75rem; display: flex; align-items: flex-start; gap: .95rem; transition: border-color .18s, background .18s; animation: fadeUp .4s both; }
+  .stock-card:nth-child(1){animation-delay:.05s} .stock-card:nth-child(2){animation-delay:.13s} .stock-card:nth-child(3){animation-delay:.21s}
+  .stock-card:hover { border-color: #4f46e5; background: #0f1525; }
+  .rank-badge { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: .76rem; flex-shrink: 0; }
+  .rank-1 { background: rgba(251,191,36,.13); color: #fbbf24; border: 1px solid rgba(251,191,36,.35); }
+  .rank-2 { background: rgba(148,163,184,.1);  color: #94a3b8; border: 1px solid rgba(148,163,184,.25); }
+  .rank-3 { background: rgba(180,120,60,.1);   color: #b07030; border: 1px solid rgba(180,120,60,.3); }
+  .stock-body { flex: 1; min-width: 0; }
+  .stock-header { display: flex; align-items: center; gap: .48rem; flex-wrap: wrap; margin-bottom: .26rem; }
+  .s-ticker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: .93rem; color: #e2e8f0; }
+  .s-name   { font-size: .8rem; color: #475569; }
+  .s-pills  { margin-left: auto; display: flex; gap: .38rem; flex-shrink: 0; }
+  .pill-green  { font-family: 'JetBrains Mono', monospace; font-size: .76rem; font-weight: 700; color: #22c55e; background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.2); border-radius: 5px; padding: .09rem .42rem; }
+  .pill-red    { font-family: 'JetBrains Mono', monospace; font-size: .76rem; font-weight: 700; color: #f87171; background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.2); border-radius: 5px; padding: .09rem .42rem; }
+  .pill-indigo { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: #818cf8; background: rgba(129,140,248,.08); border: 1px solid rgba(129,140,248,.2); border-radius: 5px; padding: .09rem .42rem; }
+  .s-meta  { display: flex; gap: 1.1rem; margin-bottom: .38rem; }
+  .s-meta span { font-family: 'JetBrains Mono', monospace; font-size: .67rem; color: #334155; }
+  .s-desc  { font-size: .81rem; color: #64748b; line-height: 1.58; }
+  .s-tags  { display: flex; gap: .32rem; flex-wrap: wrap; margin-top: .5rem; }
+  .s-tag   { font-family: 'JetBrains Mono', monospace; font-size: .61rem; background: #131b2e; border: 1px solid #1e2d4a; color: #475569; border-radius: 4px; padding: .08rem .4rem; }
+  .footer-row { display: flex; justify-content: space-between; align-items: center; margin-top: .6rem; flex-wrap: wrap; gap: .4rem; }
+  .footer-row p    { font-size: .66rem; color: #334155; }
+  .footer-row span { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: #334155; }
+
+  @keyframes dotPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(1.7)} }
+  @keyframes glow     { 0%,100%{box-shadow:0 0 18px rgba(99,102,241,.3)} 50%{box-shadow:0 0 36px rgba(99,102,241,.6)} }
+  @keyframes spin     { to{transform:rotate(360deg)} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div style="text-align:center;margin-bottom:1.5rem">
+    <div class="pill"><span class="live-dot"></span><span class="pill-label">S&amp;P 500 · AI Powered</span></div>
+    <h1>Sector &amp; Stock<br>Performance Scanner</h1>
+    <p class="subtitle">Claude searches the web for live data on every scan — no setup needed</p>
+  </div>
+
+  <button id="scanBtn" onclick="runScan()">
+    <span class="btn-dot"></span> Run Market Scan
+  </button>
+
+  <div id="stepBox">
+    <div class="step-row" id="s0"><span class="si">·</span>&nbsp; Contacting Claude AI…</div>
+    <div class="step-row" id="s1"><span class="si">·</span>&nbsp; Searching web for today's sector data…</div>
+    <div class="step-row" id="s2"><span class="si">·</span>&nbsp; Identifying best performing sector…</div>
+    <div class="step-row" id="s3"><span class="si">·</span>&nbsp; Finding top S&amp;P 500 stocks…</div>
+    <div class="step-row" id="s4"><span class="si">·</span>&nbsp; Building live report…</div>
+  </div>
+
+  <div id="errorBox"></div>
+
+  <div id="results">
+    <div class="catalyst">
+      <span class="cat-icon">📰</span>
+      <div>
+        <div class="cat-label" id="rCatalystLabel">Market Catalyst</div>
+        <p class="cat-text" id="rCatalystText"></p>
+      </div>
+    </div>
+    <div class="sector-card">
+      <div class="sec-eyebrow">#1 Best Performing Sector · Live</div>
+      <div class="sec-row">
+        <span class="sec-name" id="rSectorName"></span>
+        <span class="badge-green" id="rSectorGain"></span>
+        <span class="badge badge-gray" id="rSectorTicker"></span>
+        <span class="badge badge-purple" id="rSectorYtd"></span>
+      </div>
+      <p class="sec-reason" id="rSectorReason"></p>
+    </div>
+    <div class="stocks-label">Top 3 S&amp;P 500 Stocks in Sector</div>
+    <div id="stockList"></div>
+    <div class="footer-row">
+      <p>⚠️ AI-sourced data for educational purposes only. Not financial advice.</p>
+      <span id="rTimestamp"></span>
+    </div>
+  </div>
+
+</div>
+<script>
+const SIDS = ['s0','s1','s2','s3','s4'];
+function activateStep(i){const e=document.getElementById(SIDS[i]);e.classList.add('active');e.querySelector('.si').textContent='›';}
+function completeStep(i){const e=document.getElementById(SIDS[i]);e.classList.remove('active');e.classList.add('done');e.querySelector('.si').textContent='✓';}
+function resetSteps(){SIDS.forEach(id=>{const e=document.getElementById(id);e.classList.remove('done','active');e.querySelector('.si').textContent='·';});}
+function showError(msg){const b=document.getElementById('errorBox');b.innerHTML=msg;b.classList.add('visible');}
+function clearError(){const b=document.getElementById('errorBox');b.innerHTML='';b.classList.remove('visible');}
+
+async function runScan(){
+  const btn=document.getElementById('scanBtn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="btn-spinner"></span>&nbsp;Scanning…';
+  clearError();
+  resetSteps();
+  document.getElementById('stepBox').classList.add('visible');
+  const results=document.getElementById('results');
+  results.classList.remove('visible','shown');
+  results.style.display='none';
+  document.getElementById('stockList').innerHTML='';
+
+  const today=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  try {
+    activateStep(0);
+
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1500,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{
+          role:'user',
+          content:`Today is ${today}. Use your web_search tool to search for the current best performing S&P 500 sector today and the top 3 performing stocks in that sector right now.
+
+Search for "S&P 500 sector performance today" and "top performing stocks [sector] today".
+
+Then respond with ONLY a raw JSON object — no markdown, no code fences, no explanation:
+{
+  "catalyst": "One sentence describing today's main market catalyst based on your search.",
+  "sector": "Sector name",
+  "sector_etf": "ETF ticker e.g. XLK",
+  "sector_gain": "+2.97%",
+  "sector_ytd": "+32% YTD",
+  "sector_reason": "One sentence why this sector leads today.",
+  "stocks": [
+    {"rank":1,"ticker":"WDC","name":"Western Digital","gain":"+13.8%","ytd":"+58% YTD","price":"$63.50","mktcap":"$69B","description":"One sentence why this stock is moving today."},
+    {"rank":2,"ticker":"MU","name":"Micron Technology","gain":"+9.24%","ytd":"+244% YTD","price":"$106.00","mktcap":"$1.1T","description":"One sentence why this stock is moving today."},
+    {"rank":3,"ticker":"STX","name":"Seagate Technology","gain":"+9.0%","ytd":"+44% YTD","price":"$84.20","mktcap":"$21B","description":"One sentence why this stock is moving today."}
+  ]
+}`
+        }]
+      })
+    });
+
+    completeStep(0);
+    activateStep(1);
+
+    if(!res.ok){
+      const err=await res.json().catch(()=>({}));
+      throw new Error(err.error?.message||`API error ${res.status}`);
+    }
+
+    const data=await res.json();
+    completeStep(1);
+    activateStep(2);
+
+    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const match=text.match(/\{[\s\S]*\}/);
+    if(!match) throw new Error('Could not parse market data. Please try again.');
+    const d=JSON.parse(match[0]);
+
+    completeStep(2);
+    activateStep(3);
+    await new Promise(r=>setTimeout(r,300));
+    completeStep(3);
+    activateStep(4);
+    await new Promise(r=>setTimeout(r,280));
+    completeStep(4);
+
+    // Render catalyst
+    const now=new Date();
+    document.getElementById('rCatalystLabel').textContent='Market Catalyst · '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    document.getElementById('rCatalystText').textContent=d.catalyst;
+
+    // Render sector
+    document.getElementById('rSectorName').textContent=d.sector;
+    document.getElementById('rSectorGain').textContent=d.sector_gain;
+    document.getElementById('rSectorGain').style.color=d.sector_gain.startsWith('-')?'#f87171':'#22c55e';
+    document.getElementById('rSectorTicker').textContent=d.sector_etf||'';
+    document.getElementById('rSectorYtd').textContent=d.sector_ytd||'';
+    document.getElementById('rSectorReason').textContent=d.sector_reason;
+
+    // Render stocks
+    const rankClass=['rank-1','rank-2','rank-3'];
+    const list=document.getElementById('stockList');
+    d.stocks.forEach((s,i)=>{
+      const up=!s.gain.startsWith('-');
+      const card=document.createElement('div');
+      card.className='stock-card';
+      card.innerHTML=`
+        <div class="rank-badge ${rankClass[i]}">#${s.rank}</div>
+        <div class="stock-body">
+          <div class="stock-header">
+            <span class="s-ticker">${s.ticker}</span>
+            <span class="s-name">${s.name}</span>
+            <div class="s-pills">
+              <span class="${up?'pill-green':'pill-red'}">${s.gain}</span>
+              ${s.ytd?`<span class="pill-indigo">${s.ytd}</span>`:''}
+            </div>
+          </div>
+          <div class="s-meta">
+            <span>Price ${s.price||'—'}</span>
+            <span>Mkt Cap ${s.mktcap||'—'}</span>
+          </div>
+          <p class="s-desc">${s.description}</p>
+          <div class="s-tags">
+            <span class="s-tag">${d.sector}</span>
+            <span class="s-tag">S&amp;P 500</span>
+            <span class="s-tag">${d.sector_etf||''}</span>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    });
+
+    document.getElementById('stepBox').classList.remove('visible');
+    document.getElementById('rTimestamp').textContent=
+      'Web searched '+now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+
+      ' · '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+
+    results.style.display='block';
+    results.classList.add('visible');
+    setTimeout(()=>results.classList.add('shown'),30);
+
+  } catch(err){
+    document.getElementById('stepBox').classList.remove('visible');
+    showError('<strong>Scan failed:</strong> '+err.message);
+  }
+
+  btn.disabled=false;
+  btn.innerHTML='<span class="btn-dot"></span>&nbsp;Run Market Scan';
+}
+</script>
+</body>
+</html>
