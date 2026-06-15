@@ -49,12 +49,12 @@
   .stocks-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #334155; text-transform: uppercase; margin-bottom: .7rem; }
 
   /* Ticker wheel */
-  .ticker-wheel-wrap { margin-bottom: 1.15rem; background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; overflow: visible; position: relative; }
+  .ticker-wheel-wrap { margin-bottom: 1.15rem; background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; overflow: hidden; position: relative; }
   .ticker-clip { overflow: hidden; border-radius: 0 0 12px 12px; position: relative; }
   .ticker-clip::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 48px; background: linear-gradient(to right, #0d1220, transparent); z-index: 2; pointer-events: none; }
   .ticker-clip::after  { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 48px; background: linear-gradient(to left, #0d1220, transparent); z-index: 2; pointer-events: none; }
   .ticker-wheel-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #4f46e5; text-transform: uppercase; padding: .6rem 1rem .4rem; border-bottom: 1px solid #1e2d4a; }
-  .ticker-track-outer { overflow: visible; padding: .6rem 0; }
+  .ticker-track-outer { overflow: hidden; padding: .6rem 0; }
   .ticker-track { display: flex; gap: .75rem; width: max-content; animation: tickerScroll 32s linear infinite; padding: 0 1rem; }
   .ticker-track:hover { animation-play-state: paused; }
   .ticker-chip { display: flex; align-items: center; gap: .55rem; background: #131b2e; border: 1px solid #1e2d4a; border-radius: 8px; padding: .38rem .75rem; white-space: nowrap; transition: border-color .15s, background .15s; flex-shrink: 0; cursor: default; }
@@ -66,33 +66,27 @@
   .ticker-pct.down { color: #f87171; background: rgba(248,113,113,.1); }
   @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-  /* Ticker tooltip */
-  .ticker-chip { position: relative; }
-  .ticker-tooltip {
+  /* Ticker floating tooltip — attached to body so never clipped */
+  #floatTooltip {
     display: none;
-    position: absolute;
-    bottom: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 220px;
+    position: fixed;
+    width: 230px;
     background: #0d1220;
     border: 1px solid #4f46e5;
     border-radius: 10px;
     padding: .75rem .85rem;
-    z-index: 100;
-    box-shadow: 0 8px 32px rgba(0,0,0,.6), 0 0 20px rgba(79,70,229,.2);
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(0,0,0,.7), 0 0 24px rgba(79,70,229,.25);
     pointer-events: none;
   }
-  .ticker-tooltip::after {
+  #floatTooltip::after {
     content: '';
     position: absolute;
-    top: 100%;
-    left: 50%;
+    top: 100%; left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;
     border-top-color: #4f46e5;
   }
-  .ticker-chip:hover .ticker-tooltip { display: block; animation: tooltipFade .15s ease; }
   .tt-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; padding-bottom: .45rem; border-bottom: 1px solid #1e2d4a; }
   .tt-sym  { font-family: 'JetBrains Mono', monospace; font-size: .85rem; font-weight: 700; color: #e2e8f0; }
   .tt-name { font-family: 'JetBrains Mono', monospace; font-size: .6rem; color: #475569; margin-top: .1rem; }
@@ -101,8 +95,7 @@
   .tt-stat { background: #131b2e; border: 1px solid #1e2d4a; border-radius: 5px; padding: .22rem .4rem; }
   .tt-stat-label { font-family: 'JetBrains Mono', monospace; font-size: .52rem; color: #334155; text-transform: uppercase; letter-spacing: .07em; display: block; }
   .tt-stat-val   { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: #e2e8f0; font-weight: 600; display: block; margin-top: .08rem; }
-  .tt-loading { font-family: 'JetBrains Mono', monospace; font-size: .65rem; color: #334155; text-align: center; padding: .3rem 0; }
-  @keyframes tooltipFade { from { opacity: 0; transform: translateX(-50%) translateY(4px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  @keyframes tooltipFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
   /* Stock card */
   .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; margin-bottom: .75rem; overflow: hidden; transition: border-color .18s, background .18s, box-shadow .18s; animation: fadeUp .4s both; }
@@ -153,6 +146,18 @@
 </style>
 </head>
 <body>
+<!-- Floating tooltip rendered at body level so it's never clipped -->
+<div id="floatTooltip">
+  <div class="tt-header">
+    <div>
+      <div class="tt-sym" id="ft-sym"></div>
+      <div class="tt-name" id="ft-name"></div>
+    </div>
+    <div class="tt-pct" id="ft-pct"></div>
+  </div>
+  <div class="tt-grid" id="ft-grid"></div>
+</div>
+
 <div class="wrap">
   <div style="text-align:center;margin-bottom:1.5rem">
     <div class="pill"><span class="live-dot"></span><span class="pill-label">S&amp;P 500 · Live Data</span></div>
@@ -349,86 +354,100 @@ async function buildTickerWheel(sector, allStockData) {
 
   // Build chips — duplicate for seamless loop
   const chipCache = {};
+  const floatTT   = document.getElementById('floatTooltip');
+
+  // Position the floating tooltip above the hovered chip
+  function positionTooltip(chip) {
+    const rect = chip.getBoundingClientRect();
+    const ttW  = 230;
+    let left   = rect.left + rect.width / 2 - ttW / 2;
+    // Keep within viewport
+    if (left < 8) left = 8;
+    if (left + ttW > window.innerWidth - 8) left = window.innerWidth - ttW - 8;
+    const top  = rect.top - floatTT.offsetHeight - 12 + window.scrollY;
+    floatTT.style.left = left + 'px';
+    floatTT.style.top  = top  + 'px';
+  }
+
+  function showFloatTT(chip, s, price, prevClose, up, pct) {
+    document.getElementById('ft-sym').textContent  = s.sym;
+    document.getElementById('ft-name').textContent = s.sym; // updated after load
+    document.getElementById('ft-pct').textContent  = pct;
+    document.getElementById('ft-pct').style.color  = up ? '#22c55e' : '#f87171';
+    document.getElementById('ft-grid').innerHTML   = `
+      <div class="tt-stat"><span class="tt-stat-label">Price</span><span class="tt-stat-val">${price}</span></div>
+      <div class="tt-stat"><span class="tt-stat-label">Prev Close</span><span class="tt-stat-val">${prevClose}</span></div>
+      <div class="tt-stat" style="grid-column:span 2;opacity:.5"><span class="tt-stat-label">Loading metrics…</span><span class="tt-stat-val">—</span></div>`;
+    floatTT.style.display = 'block';
+    floatTT.style.animation = 'tooltipFade .15s ease';
+    positionTooltip(chip);
+  }
+
+  function hideFloatTT() {
+    floatTT.style.display = 'none';
+  }
+
+  function populateFloatTT(s, cached, price, prevClose) {
+    const p = cached.profile || {};
+    const m = (cached.metrics || {}).metric || {};
+    document.getElementById('ft-name').textContent = p.name || s.sym;
+    const f2  = v => v != null && !isNaN(v) ? v.toFixed(2) : '—';
+    const fd  = v => v != null && !isNaN(v) ? '$' + v.toFixed(2) : '—';
+    const fp2 = v => v != null && !isNaN(v) ? v.toFixed(1) + '%' : '—';
+    const cap = v => !v ? '—' : v >= 1000 ? '$'+(v/1000).toFixed(1)+'T' : '$'+v.toFixed(0)+'B';
+    const stats = [
+      { label:'Price',      val:price },
+      { label:'Prev Close', val:prevClose },
+      { label:'52W High',   val:fd(m['52WeekHigh']) },
+      { label:'52W Low',    val:fd(m['52WeekLow']) },
+      { label:'Mkt Cap',    val:cap(p.marketCapitalization) },
+      { label:'P/E Ratio',  val:f2(m['peNormalizedAnnual']) },
+      { label:'EPS TTM',    val:fd(m['epsTTM']) },
+      { label:'Beta',       val:f2(m['beta']) },
+      { label:'Div Yield',  val:fp2(m['dividendYieldIndicatedAnnual']) },
+      { label:'Exchange',   val:p.exchange || '—' },
+    ];
+    document.getElementById('ft-grid').innerHTML = stats.map(st => `
+      <div class="tt-stat">
+        <span class="tt-stat-label">${st.label}</span>
+        <span class="tt-stat-val">${st.val}</span>
+      </div>`).join('');
+  }
 
   const makeChip = (s) => {
-    const up    = (s.dp ?? 0) >= 0;
-    const pct   = s.dp == null || isNaN(s.dp) ? '—' : (up?'+':'') + s.dp.toFixed(2) + '%';
-    const price = (!s.c || s.c===0) ? '—' : '$' + s.c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-    const prevClose = (!s.pc || s.pc===0) ? '—' : '$' + s.pc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const up       = (s.dp ?? 0) >= 0;
+    const pct      = s.dp == null || isNaN(s.dp) ? '—' : (up?'+':'') + s.dp.toFixed(2) + '%';
+    const price    = (!s.c  || s.c===0)  ? '—' : '$' + s.c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const prevClose= (!s.pc || s.pc===0) ? '—' : '$' + s.pc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 
     const chip = document.createElement('div');
     chip.className = 'ticker-chip';
     chip.innerHTML = `
       <span class="ticker-sym">${s.sym}</span>
       <span class="ticker-price">${price}</span>
-      <span class="ticker-pct ${up?'up':'down'}">${pct}</span>
-      <div class="ticker-tooltip">
-        <div class="tt-header">
-          <div>
-            <div class="tt-sym">${s.sym}</div>
-            <div class="tt-name" id="tt-name-${s.sym}">Loading…</div>
-          </div>
-          <div class="tt-pct" style="color:${up?'#22c55e':'#f87171'}">${pct}</div>
-        </div>
-        <div class="tt-grid" id="tt-grid-${s.sym}">
-          <div class="tt-stat"><span class="tt-stat-label">Price</span><span class="tt-stat-val">${price}</span></div>
-          <div class="tt-stat"><span class="tt-stat-label">Prev Close</span><span class="tt-stat-val">${prevClose}</span></div>
-          <div class="tt-stat" style="grid-column:span 2"><span class="tt-stat-label">Loading metrics…</span><span class="tt-stat-val" style="color:#334155">—</span></div>
-        </div>
-      </div>`;
+      <span class="ticker-pct ${up?'up':'down'}">${pct}</span>`;
 
-    // Lazy load metrics on first hover
     let loaded = false;
+
     chip.addEventListener('mouseenter', async () => {
-      if (loaded) return;
-      loaded = true;
-      if (chipCache[s.sym]) {
-        renderTooltip(s.sym, chipCache[s.sym], price, prevClose, up, pct);
+      showFloatTT(chip, s, price, prevClose, up, pct);
+      if (loaded) {
+        if (chipCache[s.sym]) populateFloatTT(s, chipCache[s.sym], price, prevClose);
         return;
       }
+      loaded = true;
       try {
         const [profile, metrics] = await Promise.all([fp(s.sym), fm(s.sym)]);
         chipCache[s.sym] = { profile, metrics };
-        renderTooltip(s.sym, chipCache[s.sym], price, prevClose, up, pct);
-      } catch { /* keep loading state */ }
+        populateFloatTT(s, chipCache[s.sym], price, prevClose);
+      } catch { /* leave loading state */ }
     });
+
+    chip.addEventListener('mousemove', () => positionTooltip(chip));
+    chip.addEventListener('mouseleave', hideFloatTT);
 
     return chip;
   };
-
-  function renderTooltip(sym, cached, price, prevClose, up, pct) {
-    const p = cached.profile || {};
-    const m = (cached.metrics || {}).metric || {};
-    const nameEl = document.getElementById(`tt-name-${sym}`);
-    const gridEl = document.getElementById(`tt-grid-${sym}`);
-    if (!nameEl || !gridEl) return;
-
-    nameEl.textContent = p.name || sym;
-
-    const f2 = v => v != null && !isNaN(v) ? v.toFixed(2) : '—';
-    const fd = v => v != null && !isNaN(v) ? '$' + v.toFixed(2) : '—';
-    const fp2= v => v != null && !isNaN(v) ? v.toFixed(1) + '%' : '—';
-    const cap= v => !v ? '—' : v >= 1000 ? '$'+(v/1000).toFixed(1)+'T' : '$'+v.toFixed(0)+'B';
-
-    const stats = [
-      { label: 'Price',      val: price },
-      { label: 'Prev Close', val: prevClose },
-      { label: '52W High',   val: fd(m['52WeekHigh']) },
-      { label: '52W Low',    val: fd(m['52WeekLow']) },
-      { label: 'Mkt Cap',    val: cap(p.marketCapitalization) },
-      { label: 'P/E Ratio',  val: f2(m['peNormalizedAnnual']) },
-      { label: 'EPS TTM',    val: fd(m['epsTTM']) },
-      { label: 'Beta',       val: f2(m['beta']) },
-      { label: 'Div Yield',  val: fp2(m['dividendYieldIndicatedAnnual']) },
-      { label: 'Exchange',   val: p.exchange || '—' },
-    ];
-
-    gridEl.innerHTML = stats.map(s => `
-      <div class="tt-stat">
-        <span class="tt-stat-label">${s.label}</span>
-        <span class="tt-stat-val">${s.val}</span>
-      </div>`).join('');
-  }
 
   // Add chips twice for seamless infinite scroll
   sorted.forEach(s => track.appendChild(makeChip(s)));
