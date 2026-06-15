@@ -29,10 +29,6 @@
   #results { display: none; opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease; }
   #results.visible { display: block; }
   #results.shown   { opacity: 1; transform: none; }
-  .catalyst { background: #0d1220; border: 1px solid #1e3a2a; border-left: 3px solid #22c55e; border-radius: 10px; padding: .75rem 1rem; margin-bottom: 1.1rem; display: flex; gap: .6rem; align-items: flex-start; }
-  .cat-icon  { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
-  .cat-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; color: #22c55e; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .1rem; }
-  .cat-text  { font-size: .82rem; color: #94a3b8; line-height: 1.55; }
   .sector-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 14px; padding: 1.35rem 1.5rem; margin-bottom: 1.15rem; position: relative; overflow: hidden; }
   .sector-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #4f46e5, #818cf8, #06b6d4); }
   .sector-card::after  { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(79,70,229,.07), transparent 60%); pointer-events: none; }
@@ -42,7 +38,6 @@
   .badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem; border-radius: 5px; padding: .09rem .42rem; }
   .badge-gray   { color: #475569; background: #131b2e; border: 1px solid #1e2d4a; }
   .badge-purple { color: #818cf8; background: rgba(79,70,229,.1); border: 1px solid rgba(79,70,229,.2); }
-  .badge-green  { color: #22c55e; font-family: 'JetBrains Mono', monospace; font-size: .95rem; font-weight: 700; background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.2); border-radius: 5px; padding: .09rem .5rem; }
   .sec-reason { font-size: .83rem; color: #64748b; line-height: 1.6; }
   .stocks-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #334155; text-transform: uppercase; margin-bottom: .7rem; }
   .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; padding: 1.05rem 1.25rem; margin-bottom: .75rem; display: flex; align-items: flex-start; gap: .95rem; transition: border-color .18s, background .18s; animation: fadeUp .4s both; }
@@ -59,7 +54,6 @@
   .s-pills  { margin-left: auto; display: flex; gap: .38rem; flex-shrink: 0; }
   .pill-green  { font-family: 'JetBrains Mono', monospace; font-size: .76rem; font-weight: 700; color: #22c55e; background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.2); border-radius: 5px; padding: .09rem .42rem; }
   .pill-red    { font-family: 'JetBrains Mono', monospace; font-size: .76rem; font-weight: 700; color: #f87171; background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.2); border-radius: 5px; padding: .09rem .42rem; }
-  .pill-indigo { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: #818cf8; background: rgba(129,140,248,.08); border: 1px solid rgba(129,140,248,.2); border-radius: 5px; padding: .09rem .42rem; }
   .s-meta  { display: flex; gap: 1.1rem; margin-bottom: .38rem; }
   .s-meta span { font-family: 'JetBrains Mono', monospace; font-size: .67rem; color: #334155; }
   .s-desc  { font-size: .81rem; color: #64748b; line-height: 1.58; }
@@ -77,9 +71,9 @@
 <body>
 <div class="wrap">
   <div style="text-align:center;margin-bottom:1.5rem">
-    <div class="pill"><span class="live-dot"></span><span class="pill-label">S&amp;P 500 · AI Powered</span></div>
+    <div class="pill"><span class="live-dot"></span><span class="pill-label">S&amp;P 500 · Live Data</span></div>
     <h1>Sector &amp; Stock<br>Performance Scanner</h1>
-    <p class="subtitle">Claude searches the web for live data on every scan</p>
+    <p class="subtitle">Real-time data via Finnhub — updates every scan</p>
   </div>
 
   <button id="scanBtn" onclick="runScan()">
@@ -87,185 +81,186 @@
   </button>
 
   <div id="stepBox">
-    <div class="step-row" id="s0"><span class="si">·</span>&nbsp; Contacting Claude AI…</div>
-    <div class="step-row" id="s1"><span class="si">·</span>&nbsp; Searching web for today's sector data…</div>
-    <div class="step-row" id="s2"><span class="si">·</span>&nbsp; Identifying best performing sector…</div>
-    <div class="step-row" id="s3"><span class="si">·</span>&nbsp; Finding top S&amp;P 500 stocks…</div>
+    <div class="step-row" id="s0"><span class="si">·</span>&nbsp; Connecting to Finnhub…</div>
+    <div class="step-row" id="s1"><span class="si">·</span>&nbsp; Fetching all 11 sector ETF quotes…</div>
+    <div class="step-row" id="s2"><span class="si">·</span>&nbsp; Ranking sectors by today's performance…</div>
+    <div class="step-row" id="s3"><span class="si">·</span>&nbsp; Fetching top stocks in winning sector…</div>
     <div class="step-row" id="s4"><span class="si">·</span>&nbsp; Building live report…</div>
   </div>
 
   <div id="errorBox"></div>
 
   <div id="results">
-    <div class="catalyst">
-      <span class="cat-icon">📰</span>
-      <div>
-        <div class="cat-label" id="rCatalystLabel">Market Catalyst</div>
-        <p class="cat-text" id="rCatalystText"></p>
-      </div>
-    </div>
     <div class="sector-card">
       <div class="sec-eyebrow">#1 Best Performing Sector · Live</div>
       <div class="sec-row">
         <span class="sec-name" id="rSectorName"></span>
-        <span class="badge-green" id="rSectorGain"></span>
+        <span id="rSectorGain" style="font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:700"></span>
         <span class="badge badge-gray" id="rSectorTicker"></span>
-        <span class="badge badge-purple" id="rSectorYtd"></span>
       </div>
       <p class="sec-reason" id="rSectorReason"></p>
     </div>
     <div class="stocks-label">Top 3 S&amp;P 500 Stocks in Sector</div>
     <div id="stockList"></div>
     <div class="footer-row">
-      <p>⚠️ AI-sourced data for educational purposes only. Not financial advice.</p>
+      <p>⚠️ Educational purposes only. Not financial advice.</p>
       <span id="rTimestamp"></span>
     </div>
   </div>
 </div>
 
 <script>
-const API_KEY = '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';
+const KEY = 'd8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0';
+const BASE = 'https://finnhub.io/api/v1';
+
+const SECTORS = [
+  { etf:'XLK',  name:'Information Technology', stocks:['NVDA','AAPL','MSFT','AVGO','WDC','MU','STX','AMAT','KLAC','LRCX'] },
+  { etf:'XLF',  name:'Financials',             stocks:['BRK.B','JPM','V','MA','BAC','WFC','GS','MS','BLK','SPGI'] },
+  { etf:'XLE',  name:'Energy',                 stocks:['XOM','CVX','COP','EOG','SLB','MPC','PSX','VLO','OXY','HAL'] },
+  { etf:'XLV',  name:'Health Care',            stocks:['LLY','JNJ','UNH','ABBV','MRK','TMO','ABT','DHR','AMGN','PFE'] },
+  { etf:'XLY',  name:'Consumer Discretionary', stocks:['AMZN','TSLA','HD','MCD','NKE','LOW','SBUX','BKNG','TJX','ORLY'] },
+  { etf:'XLP',  name:'Consumer Staples',       stocks:['PG','KO','PEP','COST','WMT','PM','MO','CL','MDLZ','KHC'] },
+  { etf:'XLI',  name:'Industrials',            stocks:['GE','RTX','CAT','HON','UPS','BA','LMT','MMM','DE','EMR'] },
+  { etf:'XLB',  name:'Materials',              stocks:['LIN','APD','SHW','FCX','NEM','NUE','VMC','MLM','ALB','IFF'] },
+  { etf:'XLRE', name:'Real Estate',            stocks:['PLD','AMT','EQIX','CCI','PSA','SPG','DLR','O','WELL','AVB'] },
+  { etf:'XLU',  name:'Utilities',              stocks:['NEE','DUK','SO','D','AEP','EXC','SRE','ED','XEL','ES'] },
+  { etf:'XLC',  name:'Communication Services', stocks:['META','GOOGL','NFLX','DIS','CMCSA','VZ','T','TMUS','EA','OMC'] },
+];
+
+async function fq(sym) {
+  const r = await fetch(`${BASE}/quote?symbol=${encodeURIComponent(sym)}&token=${KEY}`);
+  if (!r.ok) throw new Error(`Finnhub error ${r.status}`);
+  return r.json();
+}
+
+async function fp(sym) {
+  try {
+    const r = await fetch(`${BASE}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${KEY}`);
+    return r.ok ? r.json() : {};
+  } catch { return {}; }
+}
+
+const fmt = {
+  pct:   dp => dp == null || isNaN(dp) ? '—' : (dp >= 0 ? '+' : '') + dp.toFixed(2) + '%',
+  price: c  => (!c || c === 0) ? '—' : '$' + c.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}),
+  cap:   m  => !m ? '—' : m >= 1000 ? '$' + (m/1000).toFixed(1) + 'T' : '$' + m.toFixed(0) + 'B',
+};
 
 const SIDS = ['s0','s1','s2','s3','s4'];
-function activateStep(i){const e=document.getElementById(SIDS[i]);e.classList.add('active');e.querySelector('.si').textContent='›';}
-function completeStep(i){const e=document.getElementById(SIDS[i]);e.classList.remove('active');e.classList.add('done');e.querySelector('.si').textContent='✓';}
-function resetSteps(){SIDS.forEach(id=>{const e=document.getElementById(id);e.classList.remove('done','active');e.querySelector('.si').textContent='·';});}
-function showError(msg){const b=document.getElementById('errorBox');b.innerHTML=msg;b.classList.add('visible');}
-function clearError(){const b=document.getElementById('errorBox');b.innerHTML='';b.classList.remove('visible');}
+function activateStep(i) { const e=document.getElementById(SIDS[i]); e.classList.add('active'); e.querySelector('.si').textContent='›'; }
+function completeStep(i) { const e=document.getElementById(SIDS[i]); e.classList.remove('active'); e.classList.add('done'); e.querySelector('.si').textContent='✓'; }
+function resetSteps()    { SIDS.forEach(id=>{ const e=document.getElementById(id); e.classList.remove('done','active'); e.querySelector('.si').textContent='·'; }); }
+function showError(msg)  { const b=document.getElementById('errorBox'); b.innerHTML=msg; b.classList.add('visible'); }
+function clearError()    { const b=document.getElementById('errorBox'); b.innerHTML=''; b.classList.remove('visible'); }
 
-async function runScan(){
-  const btn=document.getElementById('scanBtn');
-  btn.disabled=true;
-  btn.innerHTML='<span class="btn-spinner"></span>&nbsp;Scanning…';
+async function runScan() {
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span>&nbsp;Scanning…';
   clearError();
   resetSteps();
   document.getElementById('stepBox').classList.add('visible');
-  const results=document.getElementById('results');
+  const results = document.getElementById('results');
   results.classList.remove('visible','shown');
-  results.style.display='none';
-  document.getElementById('stockList').innerHTML='';
-
-  const today=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  results.style.display = 'none';
+  document.getElementById('stockList').innerHTML = '';
 
   try {
+    // Step 0 — verify connection
     activateStep(0);
-
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:1500,
-        tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{
-          role:'user',
-          content:`Today is ${today}. Use your web_search tool to find the current best performing S&P 500 sector today and the top 3 performing stocks in that sector right now.
-
-Respond with ONLY a raw JSON object — no markdown, no code fences, no explanation:
-{
-  "catalyst": "One sentence describing today's main market catalyst.",
-  "sector": "Sector name",
-  "sector_etf": "ETF ticker e.g. XLK",
-  "sector_gain": "+2.97%",
-  "sector_ytd": "+32% YTD",
-  "sector_reason": "One sentence why this sector leads today.",
-  "stocks": [
-    {"rank":1,"ticker":"WDC","name":"Western Digital","gain":"+13.8%","ytd":"+58% YTD","price":"$63.50","mktcap":"$69B","description":"One sentence why this stock is moving today."},
-    {"rank":2,"ticker":"MU","name":"Micron Technology","gain":"+9.24%","ytd":"+244% YTD","price":"$106.00","mktcap":"$1.1T","description":"One sentence why this stock is moving today."},
-    {"rank":3,"ticker":"STX","name":"Seagate Technology","gain":"+9.0%","ytd":"+44% YTD","price":"$84.20","mktcap":"$21B","description":"One sentence why this stock is moving today."}
-  ]
-}`
-        }]
-      })
-    });
-
+    await fq('SPY');
     completeStep(0);
+
+    // Step 1 — fetch all sector ETFs
     activateStep(1);
-
-    if(!res.ok){
-      const err=await res.json().catch(()=>({}));
-      throw new Error(err.error?.message||`API error ${res.status}`);
-    }
-
-    const data=await res.json();
+    const etfData = await Promise.all(
+      SECTORS.map(s => fq(s.etf).then(q => ({ ...s, dp: q.dp, c: q.c })))
+    );
     completeStep(1);
+
+    // Step 2 — rank and pick best
     activateStep(2);
-
-    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    const match=text.match(/\{[\s\S]*\}/);
-    if(!match) throw new Error('Could not parse market data. Please try again.');
-    const d=JSON.parse(match[0]);
-
+    etfData.sort((a, b) => (b.dp ?? -999) - (a.dp ?? -999));
+    const best = etfData[0];
+    await new Promise(r => setTimeout(r, 200));
     completeStep(2);
+
+    // Step 3 — fetch top stocks in best sector
     activateStep(3);
-    await new Promise(r=>setTimeout(r,300));
+    const stockData = await Promise.all(
+      best.stocks.map(sym => fq(sym).then(q => ({ sym, dp: q.dp, c: q.c, pc: q.pc })))
+    );
+    stockData.sort((a, b) => (b.dp ?? -999) - (a.dp ?? -999));
+    const top3 = stockData.slice(0, 3);
+    const profiles = await Promise.all(top3.map(s => fp(s.sym)));
     completeStep(3);
+
+    // Step 4 — render
     activateStep(4);
-    await new Promise(r=>setTimeout(r,280));
+    await new Promise(r => setTimeout(r, 280));
     completeStep(4);
 
-    const now=new Date();
-    document.getElementById('rCatalystLabel').textContent='Market Catalyst · '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-    document.getElementById('rCatalystText').textContent=d.catalyst;
-    document.getElementById('rSectorName').textContent=d.sector;
-    document.getElementById('rSectorGain').textContent=d.sector_gain;
-    document.getElementById('rSectorGain').style.color=d.sector_gain.startsWith('-')?'#f87171':'#22c55e';
-    document.getElementById('rSectorTicker').textContent=d.sector_etf||'';
-    document.getElementById('rSectorYtd').textContent=d.sector_ytd||'';
-    document.getElementById('rSectorReason').textContent=d.sector_reason;
+    // Sector card
+    document.getElementById('rSectorName').textContent = best.name;
+    const gainEl = document.getElementById('rSectorGain');
+    gainEl.textContent = fmt.pct(best.dp);
+    gainEl.style.color = best.dp >= 0 ? '#22c55e' : '#f87171';
+    document.getElementById('rSectorTicker').textContent = best.etf;
+    document.getElementById('rSectorReason').textContent =
+      `${best.name} is today's top-performing S&P 500 sector, with the ${best.etf} ETF ${best.dp >= 0 ? 'up' : 'down'} ${fmt.pct(best.dp)} so far today. The top individual gainers within the sector are shown below.`;
 
-    const rankClass=['rank-1','rank-2','rank-3'];
-    const list=document.getElementById('stockList');
-    d.stocks.forEach((s,i)=>{
-      const up=!s.gain.startsWith('-');
-      const card=document.createElement('div');
-      card.className='stock-card';
-      card.innerHTML=`
-        <div class="rank-badge ${rankClass[i]}">#${s.rank}</div>
+    // Stock cards
+    const rankClass = ['rank-1','rank-2','rank-3'];
+    const list = document.getElementById('stockList');
+    top3.forEach((s, i) => {
+      const p = profiles[i] || {};
+      const name = p.name || s.sym;
+      const ind  = p.finnhubIndustry || best.name;
+      const up   = (s.dp ?? 0) >= 0;
+      const card = document.createElement('div');
+      card.className = 'stock-card';
+      card.innerHTML = `
+        <div class="rank-badge ${rankClass[i]}">#${i+1}</div>
         <div class="stock-body">
           <div class="stock-header">
-            <span class="s-ticker">${s.ticker}</span>
-            <span class="s-name">${s.name}</span>
+            <span class="s-ticker">${s.sym}</span>
+            <span class="s-name">${name}</span>
             <div class="s-pills">
-              <span class="${up?'pill-green':'pill-red'}">${s.gain}</span>
-              ${s.ytd?`<span class="pill-indigo">${s.ytd}</span>`:''}
+              <span class="${up ? 'pill-green' : 'pill-red'}">${fmt.pct(s.dp)}</span>
             </div>
           </div>
           <div class="s-meta">
-            <span>Price ${s.price||'—'}</span>
-            <span>Mkt Cap ${s.mktcap||'—'}</span>
+            <span>Price ${fmt.price(s.c)}</span>
+            <span>Prev Close ${fmt.price(s.pc)}</span>
+            <span>Mkt Cap ${fmt.cap(p.marketCapitalization)}</span>
           </div>
-          <p class="s-desc">${s.description}</p>
+          <p class="s-desc">${name} is the #${i+1} gainer in ${best.name} today, ${up ? 'up' : 'down'} ${fmt.pct(s.dp)} from yesterday's close of ${fmt.price(s.pc)}.</p>
           <div class="s-tags">
-            <span class="s-tag">${d.sector}</span>
+            <span class="s-tag">${ind}</span>
             <span class="s-tag">S&amp;P 500</span>
-            <span class="s-tag">${d.sector_etf||''}</span>
+            <span class="s-tag">${best.etf}</span>
           </div>
         </div>`;
       list.appendChild(card);
     });
 
     document.getElementById('stepBox').classList.remove('visible');
-    document.getElementById('rTimestamp').textContent=
-      'Web searched '+now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+
-      ' · '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const now = new Date();
+    document.getElementById('rTimestamp').textContent =
+      'Live · ' + now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) +
+      ' · ' + now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 
-    results.style.display='block';
+    results.style.display = 'block';
     results.classList.add('visible');
-    setTimeout(()=>results.classList.add('shown'),30);
+    setTimeout(() => results.classList.add('shown'), 30);
 
-  } catch(err){
+  } catch(err) {
     document.getElementById('stepBox').classList.remove('visible');
-    showError('<strong>Scan failed:</strong> '+err.message);
+    showError('<strong>Scan failed:</strong> ' + err.message);
   }
 
-  btn.disabled=false;
-  btn.innerHTML='<span class="btn-dot"></span>&nbsp;Run Market Scan';
+  btn.disabled = false;
+  btn.innerHTML = '<span class="btn-dot"></span>&nbsp;Run Market Scan';
 }
 </script>
 </body>
