@@ -195,9 +195,47 @@ function attachBlurb(card, sym, name, industry, logoUrl) {
       const m = metrics?.metric || {};
       const p = profile || {};
 
-      const description = p.weburl
-        ? `${p.name || name} is a ${p.finnhubIndustry || industry} company${p.country ? ' based in ' + p.country : ''}${p.exchange ? ', listed on ' + p.exchange : ''}. ${p.ipo ? 'IPO: ' + p.ipo + '.' : ''}`
-        : `${name} operates in the ${industry} sector as an S&P 500 component.`;
+      // Build a richer description from available profile fields
+      const parts = [];
+
+      // Core identity
+      const companyName = p.name || name;
+      const ind = p.finnhubIndustry || industry;
+      const country = p.country || null;
+      const exchange = p.exchange || null;
+      const ipo = p.ipo || null;
+      const employees = p.employeeTotal || null;
+      const mktcapRaw = p.marketCapitalization || null;
+      const shares = p.shareOutstanding || null;
+      const currency = p.currency || 'USD';
+
+      // Sentence 1: what they are and where
+      let s1 = `${companyName} is a ${ind} company`;
+      if (country) s1 += ` headquartered in ${country}`;
+      if (exchange) s1 += ` and trades on the ${exchange}`;
+      s1 += '.';
+      parts.push(s1);
+
+      // Sentence 2: size and scale
+      const sizeParts = [];
+      if (employees) sizeParts.push(`${Number(employees).toLocaleString()} employees`);
+      if (mktcapRaw) {
+        const capStr = mktcapRaw >= 1000 ? `$${(mktcapRaw/1000).toFixed(1)}T` : `$${mktcapRaw.toFixed(0)}B`;
+        sizeParts.push(`a market cap of ${capStr}`);
+      }
+      if (shares) sizeParts.push(`${(shares/1000).toFixed(0)}M shares outstanding`);
+      if (sizeParts.length) parts.push(`The company has ${sizeParts.join(', ')}.`);
+
+      // Sentence 3: IPO / listing history
+      if (ipo) {
+        const ipoYear = ipo.split('-')[0];
+        parts.push(`It has been publicly listed since ${ipoYear}.`);
+      }
+
+      // Sentence 4: website
+      if (p.weburl) parts.push(`Website: ${p.weburl.replace(/^https?:\/\//, '').replace(/\/$/, '')}`);
+
+      const description = parts.length > 1 ? parts.join(' ') : `${companyName} operates in the ${ind} sector as an S&P 500 component.`;
 
       // Logo
       const logoEl = card.querySelector('.blurb-logo');
