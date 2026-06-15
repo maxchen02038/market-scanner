@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>S&P 500 Market Scanner</title>
+<link rel="icon" type="image/png" href="https://chatgpt.com/backend-api/estuary/content?id=file_00000000f10471fbab424b0b347bca5a&ts=494877&p=fs&cid=1&sig=cbe8a63f0ff1f364851ede82144a9485111b3d9b40bf213a9eaf6f6ffac2ce7e&v=0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,21 +15,26 @@
   .pill-label { font-family: 'JetBrains Mono', monospace; font-size: .6rem; letter-spacing: .18em; color: #64748b; text-transform: uppercase; }
   h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 700; line-height: 1.13; letter-spacing: -.02em; background: linear-gradient(135deg, #f1f5f9 25%, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .subtitle { margin-top: .5rem; color: #475569; font-size: .87rem; }
+
   #scanBtn { display: flex; align-items: center; justify-content: center; gap: .55rem; margin: 1.8rem auto; padding: .85rem 2.2rem; background: linear-gradient(135deg, #4f46e5, #6d28d9); color: #fff; border: none; border-radius: 999px; font-family: inherit; font-size: .95rem; font-weight: 600; cursor: pointer; animation: glow 2.4s ease-in-out infinite; transition: filter .2s, transform .15s; }
   #scanBtn:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-1px); }
   #scanBtn:disabled { background: #1a2035; color: #64748b; border: 1px solid #1e2d4a; animation: none; cursor: not-allowed; }
   .btn-dot     { width: 8px; height: 8px; background: #a5f3fc; border-radius: 50%; display: inline-block; animation: dotPulse 1.4s ease-in-out infinite; }
   .btn-spinner { width: 13px; height: 13px; border: 2px solid #2d3e60; border-top-color: #818cf8; border-radius: 50%; display: inline-block; animation: spin .7s linear infinite; }
+
   #stepBox { display: none; background: #0d1220; border: 1px solid #1e2d4a; border-radius: 10px; padding: .85rem 1.1rem; margin-bottom: 1.3rem; flex-direction: column; gap: .42rem; }
   #stepBox.visible { display: flex; }
   .step-row { display: flex; align-items: center; gap: .55rem; font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: #1e2d4a; transition: color .3s; }
   .step-row.done   { color: #22c55e; }
   .step-row.active { color: #818cf8; }
+
   #errorBox { display: none; background: rgba(239,68,68,.07); border: 1px solid rgba(239,68,68,.25); border-left: 3px solid #ef4444; border-radius: 10px; padding: .8rem 1rem; margin-bottom: 1.2rem; font-size: .82rem; color: #f87171; line-height: 1.6; }
   #errorBox.visible { display: block; }
+
   #results { display: none; opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease; }
   #results.visible { display: block; }
   #results.shown   { opacity: 1; transform: none; }
+
   .sector-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 14px; padding: 1.35rem 1.5rem; margin-bottom: 1.15rem; position: relative; overflow: hidden; }
   .sector-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #4f46e5, #818cf8, #06b6d4); }
   .sector-card::after  { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(79,70,229,.07), transparent 60%); pointer-events: none; }
@@ -39,17 +45,20 @@
   .badge-gray   { color: #475569; background: #131b2e; border: 1px solid #1e2d4a; }
   .badge-purple { color: #818cf8; background: rgba(79,70,229,.1); border: 1px solid rgba(79,70,229,.2); }
   .sec-reason { font-size: .83rem; color: #64748b; line-height: 1.6; }
+
   .stocks-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #334155; text-transform: uppercase; margin-bottom: .7rem; }
 
-  /* Stock cards */
-  .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; margin-bottom: .75rem; transition: border-color .18s, background .18s, box-shadow .18s; animation: fadeUp .4s both; overflow: hidden; }
+  /* Stock card */
+  .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; margin-bottom: .75rem; overflow: hidden; transition: border-color .18s, background .18s, box-shadow .18s; animation: fadeUp .4s both; }
   .stock-card:nth-child(1){animation-delay:.05s} .stock-card:nth-child(2){animation-delay:.13s} .stock-card:nth-child(3){animation-delay:.21s}
-  .stock-card:hover { border-color: #4f46e5; background: #0f1525; box-shadow: 0 0 28px rgba(79,70,229,.2); }
-  .stock-card-inner { padding: 1.05rem 1.25rem; display: flex; align-items: flex-start; gap: .95rem; }
+  .stock-card:hover { border-color: #4f46e5; background: #0d1220; box-shadow: 0 0 28px rgba(79,70,229,.18); }
+  .stock-top { padding: 1.05rem 1.25rem; display: flex; align-items: flex-start; gap: .95rem; }
+
   .rank-badge { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: .76rem; flex-shrink: 0; }
   .rank-1 { background: rgba(251,191,36,.13); color: #fbbf24; border: 1px solid rgba(251,191,36,.35); }
   .rank-2 { background: rgba(148,163,184,.1);  color: #94a3b8; border: 1px solid rgba(148,163,184,.25); }
   .rank-3 { background: rgba(180,120,60,.1);   color: #b07030; border: 1px solid rgba(180,120,60,.3); }
+
   .stock-body { flex: 1; min-width: 0; }
   .stock-header { display: flex; align-items: center; gap: .48rem; flex-wrap: wrap; margin-bottom: .26rem; }
   .s-ticker { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: .93rem; color: #e2e8f0; }
@@ -63,13 +72,19 @@
   .s-tags  { display: flex; gap: .32rem; flex-wrap: wrap; margin-top: .5rem; }
   .s-tag   { font-family: 'JetBrains Mono', monospace; font-size: .61rem; background: #131b2e; border: 1px solid #1e2d4a; color: #475569; border-radius: 4px; padding: .08rem .4rem; }
 
-  /* Chart slide-down */
-  .chart-area { max-height: 0; overflow: hidden; transition: max-height .38s ease, opacity .38s ease; opacity: 0; border-top: 1px solid transparent; }
-  .stock-card:hover .chart-area { max-height: 230px; opacity: 1; border-top-color: #1e2d4a; }
-  .chart-wrap { padding: .7rem 1rem .9rem; }
-  .chart-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem; letter-spacing: .12em; color: #334155; text-transform: uppercase; margin-bottom: .45rem; display: flex; justify-content: space-between; align-items: center; }
-  .chart-status { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: #334155; padding: .5rem 0; }
-  canvas.candle-chart { width: 100% !important; height: 165px !important; display: block; }
+  /* Company blurb slide-down */
+  .blurb-area { max-height: 0; overflow: hidden; transition: max-height .35s ease, opacity .35s ease; opacity: 0; border-top: 1px solid transparent; }
+  .stock-card:hover .blurb-area { max-height: 260px; opacity: 1; border-top-color: #1e2d4a; }
+  .blurb-inner { padding: .85rem 1.25rem .95rem 1.25rem; display: flex; gap: 1.2rem; align-items: flex-start; }
+  .blurb-logo { width: 36px; height: 36px; border-radius: 8px; background: #131b2e; border: 1px solid #1e2d4a; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: .65rem; color: #4f46e5; font-weight: 700; flex-shrink: 0; overflow: hidden; }
+  .blurb-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+  .blurb-content { flex: 1; min-width: 0; }
+  .blurb-name { font-size: .82rem; font-weight: 600; color: #e2e8f0; margin-bottom: .3rem; }
+  .blurb-text { font-size: .78rem; color: #64748b; line-height: 1.6; margin-bottom: .55rem; }
+  .blurb-stats { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .blurb-stat { background: #131b2e; border: 1px solid #1e2d4a; border-radius: 6px; padding: .25rem .55rem; }
+  .blurb-stat-label { font-family: 'JetBrains Mono', monospace; font-size: .55rem; color: #334155; text-transform: uppercase; letter-spacing: .08em; display: block; }
+  .blurb-stat-val   { font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: #e2e8f0; font-weight: 600; display: block; margin-top: .1rem; }
 
   .footer-row { display: flex; justify-content: space-between; align-items: center; margin-top: .6rem; flex-wrap: wrap; gap: .4rem; }
   .footer-row p    { font-size: .66rem; color: #334155; }
@@ -86,7 +101,7 @@
   <div style="text-align:center;margin-bottom:1.5rem">
     <div class="pill"><span class="live-dot"></span><span class="pill-label">S&amp;P 500 · Live Data</span></div>
     <h1>Sector &amp; Stock<br>Performance Scanner</h1>
-    <p class="subtitle">Real-time data via Finnhub · Hover stocks to see 30-day candlestick chart</p>
+    <p class="subtitle">Real-time data via Finnhub · Hover over stocks to learn more</p>
   </div>
 
   <button id="scanBtn" onclick="runScan()">
@@ -113,7 +128,7 @@
       </div>
       <p class="sec-reason" id="rSectorReason"></p>
     </div>
-    <div class="stocks-label">Top 3 S&amp;P 500 Stocks · Hover for 30-day chart</div>
+    <div class="stocks-label">Top 3 S&amp;P 500 Stocks · Hover for company info</div>
     <div id="stockList"></div>
     <div class="footer-row">
       <p>⚠️ Educational purposes only. Not financial advice.</p>
@@ -123,7 +138,7 @@
 </div>
 
 <script>
-const FKEY = 'd8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0';
+const FKEY  = 'd8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0';
 const FBASE = 'https://finnhub.io/api/v1';
 
 const SECTORS = [
@@ -140,6 +155,7 @@ const SECTORS = [
   { etf:'XLC',  name:'Communication Services', stocks:['META','GOOGL','NFLX','DIS','CMCSA','VZ','T','TMUS','EA','OMC'] },
 ];
 
+// Finnhub helpers
 async function fq(sym) {
   const r = await fetch(`${FBASE}/quote?symbol=${encodeURIComponent(sym)}&token=${FKEY}`);
   if (!r.ok) throw new Error(`Finnhub error ${r.status}`);
@@ -148,24 +164,15 @@ async function fq(sym) {
 async function fp(sym) {
   try { const r = await fetch(`${FBASE}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${FKEY}`); return r.ok ? r.json() : {}; } catch { return {}; }
 }
-
-// Yahoo Finance chart API — free, no auth, CORS-friendly from https origins
-async function fetchCandles(sym) {
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=1mo`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`Yahoo error ${r.status}`);
-  const json = await r.json();
-  const result = json?.chart?.result?.[0];
-  if (!result) throw new Error('No data');
-  const ts = result.timestamp;
-  const q  = result.indicators.quote[0];
-  return { t: ts, o: q.open, h: q.high, l: q.low, c: q.close };
+async function fm(sym) {
+  try { const r = await fetch(`${FBASE}/stock/metric?symbol=${encodeURIComponent(sym)}&metric=all&token=${FKEY}`); return r.ok ? r.json() : {}; } catch { return {}; }
 }
 
 const fmt = {
   pct:   dp => dp == null || isNaN(dp) ? '—' : (dp >= 0 ? '+' : '') + dp.toFixed(2) + '%',
   price: c  => (!c || c === 0) ? '—' : '$' + c.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}),
   cap:   m  => !m ? '—' : m >= 1000 ? '$' + (m/1000).toFixed(1) + 'T' : '$' + m.toFixed(0) + 'B',
+  num:   n  => n == null ? '—' : n.toFixed(2),
 };
 
 const SIDS = ['s0','s1','s2','s3','s4'];
@@ -175,110 +182,52 @@ function resetSteps()    { SIDS.forEach(id=>{ const e=document.getElementById(id
 function showError(msg)  { const b=document.getElementById('errorBox'); b.innerHTML=msg; b.classList.add('visible'); }
 function clearError()    { const b=document.getElementById('errorBox'); b.innerHTML=''; b.classList.remove('visible'); }
 
-// ── Candlestick renderer ──────────────────────────────────────────────────
-function drawCandles(canvas, data) {
-  const dpr = window.devicePixelRatio || 1;
-  const W   = canvas.offsetWidth  || 680;
-  const H   = 165;
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
-  const { o, h, l, c, t } = data;
-  // Filter out nulls
-  const valid = o.map((_,i) => o[i]!=null && h[i]!=null && l[i]!=null && c[i]!=null ? i : -1).filter(i=>i>=0);
-  if (!valid.length) { ctx.fillStyle='#334155'; ctx.font='12px Inter'; ctx.fillText('No data', 10, H/2); return; }
-
-  const pad = { top:14, bottom:26, left:10, right:10 };
-  const chartW = W - pad.left - pad.right;
-  const chartH = H - pad.top  - pad.bottom;
-
-  const lows  = valid.map(i => l[i]);
-  const highs = valid.map(i => h[i]);
-  const minV  = Math.min(...lows);
-  const maxV  = Math.max(...highs);
-  const range = maxV - minV || 1;
-
-  const n       = valid.length;
-  const slotW   = chartW / n;
-  const bodyW   = Math.max(2, slotW * 0.6);
-
-  const toY = v => pad.top + chartH - ((v - minV) / range) * chartH;
-  const toX = i => pad.left + i * slotW + slotW / 2;
-
-  // Grid lines + price labels
-  for (let g = 0; g <= 3; g++) {
-    const y   = pad.top + (chartH / 3) * g;
-    const val = maxV - (range / 3) * g;
-    ctx.strokeStyle = '#1a2535';
-    ctx.lineWidth   = 0.5;
-    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
-    ctx.fillStyle = '#334155';
-    ctx.font      = '9px JetBrains Mono, monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText('$' + val.toFixed(0), pad.left + 2, y - 3);
-  }
-
-  // Candles
-  valid.forEach((idx, i) => {
-    const x     = toX(i);
-    const open  = toY(o[idx]);
-    const close = toY(c[idx]);
-    const high  = toY(h[idx]);
-    const low   = toY(l[idx]);
-    const up    = c[idx] >= o[idx];
-    const color = up ? '#22c55e' : '#f87171';
-
-    // Wick
-    ctx.strokeStyle = color;
-    ctx.lineWidth   = 1;
-    ctx.beginPath(); ctx.moveTo(x, high); ctx.lineTo(x, low); ctx.stroke();
-
-    // Body
-    const bTop = Math.min(open, close);
-    const bH   = Math.max(1.5, Math.abs(open - close));
-    ctx.fillStyle = up ? 'rgba(34,197,94,0.9)' : 'rgba(248,113,113,0.9)';
-    ctx.fillRect(x - bodyW/2, bTop, bodyW, bH);
-  });
-
-  // Date labels
-  ctx.fillStyle = '#334155';
-  ctx.font      = '9px JetBrains Mono, monospace';
-  ctx.textAlign = 'center';
-  [0, Math.floor(n/2), n-1].forEach(i => {
-    if (i < 0 || i >= valid.length) return;
-    const d = new Date(t[valid[i]] * 1000);
-    ctx.fillText(d.toLocaleDateString('en-US',{month:'short',day:'numeric'}), toX(i), H - 7);
-  });
-}
-
-// ── Chart hover ───────────────────────────────────────────────────────────
-const chartCache = {};
-
-function attachChartHover(card, sym) {
+// Attach blurb hover — loads profile + metrics on first hover
+function attachBlurb(card, sym, name, industry, logoUrl) {
   let loaded = false;
   card.addEventListener('mouseenter', async () => {
     if (loaded) return;
     loaded = true;
-    const status = card.querySelector('.chart-status');
-    const canvas  = card.querySelector('canvas.candle-chart');
-
-    if (chartCache[sym]) {
-      status.style.display = 'none';
-      canvas.style.display = 'block';
-      setTimeout(() => drawCandles(canvas, chartCache[sym]), 50);
-      return;
-    }
+    const blurbContent = card.querySelector('.blurb-content');
 
     try {
-      const data = await fetchCandles(sym);
-      chartCache[sym] = data;
-      status.style.display  = 'none';
-      canvas.style.display  = 'block';
-      setTimeout(() => drawCandles(canvas, data), 50);
-    } catch(e) {
-      status.textContent = 'Chart unavailable — ' + e.message;
+      const [profile, metrics] = await Promise.all([fp(sym), fm(sym)]);
+      const m = metrics?.metric || {};
+      const p = profile || {};
+
+      const description = p.weburl
+        ? `${p.name || name} is a ${p.finnhubIndustry || industry} company${p.country ? ' based in ' + p.country : ''}${p.exchange ? ', listed on ' + p.exchange : ''}. ${p.ipo ? 'IPO: ' + p.ipo + '.' : ''}`
+        : `${name} operates in the ${industry} sector as an S&P 500 component.`;
+
+      // Logo
+      const logoEl = card.querySelector('.blurb-logo');
+      if (p.logo) {
+        logoEl.innerHTML = `<img src="${p.logo}" alt="${name}" onerror="this.parentNode.textContent='${sym.slice(0,3)}'">`;
+      } else {
+        logoEl.textContent = sym.slice(0, 3);
+      }
+
+      blurbContent.querySelector('.blurb-name').textContent = p.name || name;
+      blurbContent.querySelector('.blurb-text').textContent = description;
+
+      const statsEl = blurbContent.querySelector('.blurb-stats');
+      const stats = [
+        { label: '52W High',  val: m['52WeekHigh']       ? '$' + m['52WeekHigh'].toFixed(2)  : '—' },
+        { label: '52W Low',   val: m['52WeekLow']        ? '$' + m['52WeekLow'].toFixed(2)   : '—' },
+        { label: 'P/E Ratio', val: m['peNormalizedAnnual'] ? m['peNormalizedAnnual'].toFixed(1) : '—' },
+        { label: 'EPS TTM',   val: m['epsTTM']           ? '$' + m['epsTTM'].toFixed(2)      : '—' },
+        { label: 'Beta',      val: m['beta']             ? m['beta'].toFixed(2)              : '—' },
+        { label: 'Div Yield', val: m['dividendYieldIndicatedAnnual'] ? (m['dividendYieldIndicatedAnnual']).toFixed(2) + '%' : '—' },
+      ];
+
+      statsEl.innerHTML = stats.map(s => `
+        <div class="blurb-stat">
+          <span class="blurb-stat-label">${s.label}</span>
+          <span class="blurb-stat-val">${s.val}</span>
+        </div>`).join('');
+
+    } catch {
+      blurbContent.querySelector('.blurb-text').textContent = `${name} is an S&P 500 company in the ${industry} sector.`;
     }
   });
 }
@@ -305,13 +254,13 @@ async function runScan() {
     completeStep(1);
 
     activateStep(2);
-    etfData.sort((a,b) => (b.dp??-999)-(a.dp??-999));
+    etfData.sort((a,b)=>(b.dp??-999)-(a.dp??-999));
     const best = etfData[0];
     await new Promise(r=>setTimeout(r,200));
     completeStep(2);
 
     activateStep(3);
-    const stockData = await Promise.all(best.stocks.map(sym => fq(sym).then(q=>({sym,dp:q.dp,c:q.c,pc:q.pc}))));
+    const stockData = await Promise.all(best.stocks.map(sym=>fq(sym).then(q=>({sym,dp:q.dp,c:q.c,pc:q.pc}))));
     stockData.sort((a,b)=>(b.dp??-999)-(a.dp??-999));
     const top3 = stockData.slice(0,3);
     const profiles = await Promise.all(top3.map(s=>fp(s.sym)));
@@ -321,16 +270,16 @@ async function runScan() {
     await new Promise(r=>setTimeout(r,280));
     completeStep(4);
 
-    // Render sector
+    // Sector
     document.getElementById('rSectorName').textContent = best.name;
     const gainEl = document.getElementById('rSectorGain');
     gainEl.textContent = fmt.pct(best.dp);
-    gainEl.style.color = best.dp>=0 ? '#22c55e' : '#f87171';
+    gainEl.style.color = best.dp>=0?'#22c55e':'#f87171';
     document.getElementById('rSectorTicker').textContent = best.etf;
     document.getElementById('rSectorReason').textContent =
-      `${best.name} is today's top-performing S&P 500 sector, with the ${best.etf} ETF ${best.dp>=0?'up':'down'} ${fmt.pct(best.dp)} today. Hover over each stock to see its 30-day candlestick chart.`;
+      `${best.name} is today's top-performing S&P 500 sector, with the ${best.etf} ETF ${best.dp>=0?'up':'down'} ${fmt.pct(best.dp)} today. Hover over each stock card to see company details and key stats.`;
 
-    // Render stocks
+    // Stocks
     const rankClass = ['rank-1','rank-2','rank-3'];
     const list = document.getElementById('stockList');
 
@@ -343,7 +292,7 @@ async function runScan() {
       const card = document.createElement('div');
       card.className = 'stock-card';
       card.innerHTML = `
-        <div class="stock-card-inner">
+        <div class="stock-top">
           <div class="rank-badge ${rankClass[i]}">#${i+1}</div>
           <div class="stock-body">
             <div class="stock-header">
@@ -363,23 +312,23 @@ async function runScan() {
               <span class="s-tag">${ind}</span>
               <span class="s-tag">S&amp;P 500</span>
               <span class="s-tag">${best.etf}</span>
-              <span class="s-tag" style="color:#818cf8;border-color:rgba(129,140,248,.3);">↓ hover for chart</span>
+              <span class="s-tag" style="color:#818cf8;border-color:rgba(129,140,248,.3);">↓ hover for details</span>
             </div>
           </div>
         </div>
-        <div class="chart-area">
-          <div class="chart-wrap">
-            <div class="chart-label">
-              <span>30-Day Candlestick · ${s.sym}</span>
-              <span style="color:#22c55e">■ Up &nbsp;</span><span style="color:#f87171">■ Down</span>
+        <div class="blurb-area">
+          <div class="blurb-inner">
+            <div class="blurb-logo">${s.sym.slice(0,3)}</div>
+            <div class="blurb-content">
+              <div class="blurb-name">${name}</div>
+              <div class="blurb-text">Loading company info…</div>
+              <div class="blurb-stats"></div>
             </div>
-            <div class="chart-status">Loading chart…</div>
-            <canvas class="candle-chart" style="display:none"></canvas>
           </div>
         </div>`;
 
       list.appendChild(card);
-      attachChartHover(card, s.sym);
+      attachBlurb(card, s.sym, name, ind, p.logo);
     });
 
     document.getElementById('stepBox').classList.remove('visible');
@@ -388,7 +337,7 @@ async function runScan() {
       'Live · ' + now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) +
       ' · ' + now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 
-    results.style.display = 'block';
+    results.style.display='block';
     results.classList.add('visible');
     setTimeout(()=>results.classList.add('shown'),30);
 
