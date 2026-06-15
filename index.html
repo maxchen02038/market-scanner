@@ -48,6 +48,23 @@
 
   .stocks-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #334155; text-transform: uppercase; margin-bottom: .7rem; }
 
+  /* Ticker wheel */
+  .ticker-wheel-wrap { margin-bottom: 1.15rem; background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; overflow: hidden; position: relative; }
+  .ticker-wheel-wrap::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 48px; background: linear-gradient(to right, #0d1220, transparent); z-index: 2; pointer-events: none; }
+  .ticker-wheel-wrap::after  { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 48px; background: linear-gradient(to left, #0d1220, transparent); z-index: 2; pointer-events: none; }
+  .ticker-wheel-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #4f46e5; text-transform: uppercase; padding: .6rem 1rem .4rem; border-bottom: 1px solid #1e2d4a; }
+  .ticker-track-outer { overflow: hidden; padding: .6rem 0; }
+  .ticker-track { display: flex; gap: .75rem; width: max-content; animation: tickerScroll 32s linear infinite; padding: 0 1rem; }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-chip { display: flex; align-items: center; gap: .55rem; background: #131b2e; border: 1px solid #1e2d4a; border-radius: 8px; padding: .38rem .75rem; white-space: nowrap; transition: border-color .15s, background .15s; flex-shrink: 0; cursor: default; }
+  .ticker-chip:hover { border-color: #4f46e5; background: #0f1525; }
+  .ticker-sym   { font-family: 'JetBrains Mono', monospace; font-size: .78rem; font-weight: 600; color: #e2e8f0; }
+  .ticker-price { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: #64748b; }
+  .ticker-pct   { font-family: 'JetBrains Mono', monospace; font-size: .75rem; font-weight: 700; padding: .08rem .3rem; border-radius: 4px; }
+  .ticker-pct.up   { color: #22c55e; background: rgba(34,197,94,.1); }
+  .ticker-pct.down { color: #f87171; background: rgba(248,113,113,.1); }
+  @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
   /* Stock card */
   .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; margin-bottom: .75rem; overflow: hidden; transition: border-color .18s, background .18s, box-shadow .18s; animation: fadeUp .4s both; }
   .stock-card:nth-child(1){animation-delay:.05s} .stock-card:nth-child(2){animation-delay:.13s} .stock-card:nth-child(3){animation-delay:.21s}
@@ -127,6 +144,12 @@
         <span class="badge badge-gray" id="rSectorTicker"></span>
       </div>
       <p class="sec-reason" id="rSectorReason"></p>
+    </div>
+    <div class="ticker-wheel-wrap" id="tickerWheel" style="display:none">
+      <div class="ticker-wheel-label" id="tickerWheelLabel">Sector Stocks · Scroll</div>
+      <div class="ticker-track-outer">
+        <div class="ticker-track" id="tickerTrack"></div>
+      </div>
     </div>
     <div class="stocks-label">Top 3 S&amp;P 500 Stocks · Hover for company info</div>
     <div id="stockList"></div>
@@ -270,6 +293,40 @@ function attachBlurb(card, sym, name, industry, logoUrl) {
   });
 }
 
+
+// ── Ticker Wheel ──────────────────────────────────────────────────────────
+async function buildTickerWheel(sector, allStockData) {
+  const wheel = document.getElementById('tickerWheel');
+  const track = document.getElementById('tickerTrack');
+  const label = document.getElementById('tickerWheelLabel');
+
+  label.textContent = `${sector.name} · All Stocks · Hover to pause`;
+  track.innerHTML = '';
+
+  // Sort all stocks by % change descending
+  const sorted = [...allStockData].sort((a,b)=>(b.dp??-999)-(a.dp??-999));
+
+  // Build chips — duplicate for seamless loop
+  const makeChip = (s) => {
+    const up  = (s.dp ?? 0) >= 0;
+    const pct = s.dp == null || isNaN(s.dp) ? '—' : (up?'+':'') + s.dp.toFixed(2) + '%';
+    const price = (!s.c || s.c===0) ? '—' : '$' + s.c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const chip = document.createElement('div');
+    chip.className = 'ticker-chip';
+    chip.innerHTML = `
+      <span class="ticker-sym">${s.sym}</span>
+      <span class="ticker-price">${price}</span>
+      <span class="ticker-pct ${up?'up':'down'}">${pct}</span>`;
+    return chip;
+  };
+
+  // Add chips twice for seamless infinite scroll
+  sorted.forEach(s => track.appendChild(makeChip(s)));
+  sorted.forEach(s => track.appendChild(makeChip(s)));
+
+  wheel.style.display = 'block';
+}
+
 // ── Main scan ─────────────────────────────────────────────────────────────
 async function runScan() {
   const btn = document.getElementById('scanBtn');
@@ -281,6 +338,8 @@ async function runScan() {
   results.classList.remove('visible','shown');
   results.style.display = 'none';
   document.getElementById('stockList').innerHTML = '';
+  document.getElementById('tickerWheel').style.display = 'none';
+  document.getElementById('tickerTrack').innerHTML = '';
 
   try {
     activateStep(0);
@@ -307,6 +366,9 @@ async function runScan() {
     activateStep(4);
     await new Promise(r=>setTimeout(r,280));
     completeStep(4);
+
+    // Build ticker wheel with all sector stocks
+    await buildTickerWheel(best, stockData);
 
     // Sector
     document.getElementById('rSectorName').textContent = best.name;
