@@ -160,7 +160,7 @@ async function runScan(){
 
     const res = await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({
         model:'claude-sonnet-4-6',
         max_tokens:1500,
