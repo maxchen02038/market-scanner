@@ -40,9 +40,12 @@
   .badge-purple { color: #818cf8; background: rgba(79,70,229,.1); border: 1px solid rgba(79,70,229,.2); }
   .sec-reason { font-size: .83rem; color: #64748b; line-height: 1.6; }
   .stocks-label { font-family: 'JetBrains Mono', monospace; font-size: .57rem; letter-spacing: .18em; color: #334155; text-transform: uppercase; margin-bottom: .7rem; }
-  .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; padding: 1.05rem 1.25rem; margin-bottom: .75rem; display: flex; align-items: flex-start; gap: .95rem; transition: border-color .18s, background .18s; animation: fadeUp .4s both; }
+
+  /* Stock card with chart */
+  .stock-card { background: #0d1220; border: 1px solid #1e2d4a; border-radius: 12px; margin-bottom: .75rem; transition: border-color .18s, background .18s, box-shadow .18s; animation: fadeUp .4s both; overflow: hidden; cursor: default; }
   .stock-card:nth-child(1){animation-delay:.05s} .stock-card:nth-child(2){animation-delay:.13s} .stock-card:nth-child(3){animation-delay:.21s}
-  .stock-card:hover { border-color: #4f46e5; background: #0f1525; }
+  .stock-card:hover { border-color: #4f46e5; background: #0f1525; box-shadow: 0 0 24px rgba(79,70,229,.2); }
+  .stock-card-inner { padding: 1.05rem 1.25rem; display: flex; align-items: flex-start; gap: .95rem; }
   .rank-badge { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: .76rem; flex-shrink: 0; }
   .rank-1 { background: rgba(251,191,36,.13); color: #fbbf24; border: 1px solid rgba(251,191,36,.35); }
   .rank-2 { background: rgba(148,163,184,.1);  color: #94a3b8; border: 1px solid rgba(148,163,184,.25); }
@@ -59,9 +62,19 @@
   .s-desc  { font-size: .81rem; color: #64748b; line-height: 1.58; }
   .s-tags  { display: flex; gap: .32rem; flex-wrap: wrap; margin-top: .5rem; }
   .s-tag   { font-family: 'JetBrains Mono', monospace; font-size: .61rem; background: #131b2e; border: 1px solid #1e2d4a; color: #475569; border-radius: 4px; padding: .08rem .4rem; }
+
+  /* Chart area */
+  .chart-area { max-height: 0; overflow: hidden; transition: max-height .35s ease, opacity .35s ease; opacity: 0; border-top: 1px solid transparent; }
+  .stock-card:hover .chart-area { max-height: 220px; opacity: 1; border-top-color: #1e2d4a; }
+  .chart-wrap { padding: .75rem 1rem 1rem; position: relative; }
+  .chart-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem; letter-spacing: .12em; color: #334155; text-transform: uppercase; margin-bottom: .5rem; }
+  .chart-loading { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: #334155; padding: .5rem 0; }
+  canvas.candle-chart { width: 100%; height: 160px; display: block; }
+
   .footer-row { display: flex; justify-content: space-between; align-items: center; margin-top: .6rem; flex-wrap: wrap; gap: .4rem; }
   .footer-row p    { font-size: .66rem; color: #334155; }
   .footer-row span { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: #334155; }
+
   @keyframes dotPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(1.7)} }
   @keyframes glow     { 0%,100%{box-shadow:0 0 18px rgba(99,102,241,.3)} 50%{box-shadow:0 0 36px rgba(99,102,241,.6)} }
   @keyframes spin     { to{transform:rotate(360deg)} }
@@ -73,7 +86,7 @@
   <div style="text-align:center;margin-bottom:1.5rem">
     <div class="pill"><span class="live-dot"></span><span class="pill-label">S&amp;P 500 · Live Data</span></div>
     <h1>Sector &amp; Stock<br>Performance Scanner</h1>
-    <p class="subtitle">Real-time data via Finnhub — updates every scan</p>
+    <p class="subtitle">Real-time data via Finnhub · Hover over stocks to see candlestick chart</p>
   </div>
 
   <button id="scanBtn" onclick="runScan()">
@@ -100,7 +113,7 @@
       </div>
       <p class="sec-reason" id="rSectorReason"></p>
     </div>
-    <div class="stocks-label">Top 3 S&amp;P 500 Stocks in Sector</div>
+    <div class="stocks-label">Top 3 S&amp;P 500 Stocks · Hover for chart</div>
     <div id="stockList"></div>
     <div class="footer-row">
       <p>⚠️ Educational purposes only. Not financial advice.</p>
@@ -110,7 +123,7 @@
 </div>
 
 <script>
-const KEY = 'd8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0';
+const KEY  = 'd8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0';
 const BASE = 'https://finnhub.io/api/v1';
 
 const SECTORS = [
@@ -132,12 +145,16 @@ async function fq(sym) {
   if (!r.ok) throw new Error(`Finnhub error ${r.status}`);
   return r.json();
 }
-
 async function fp(sym) {
-  try {
-    const r = await fetch(`${BASE}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${KEY}`);
-    return r.ok ? r.json() : {};
-  } catch { return {}; }
+  try { const r = await fetch(`${BASE}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${KEY}`); return r.ok ? r.json() : {}; } catch { return {}; }
+}
+async function fc(sym) {
+  const to   = Math.floor(Date.now() / 1000);
+  const from = to - 30 * 24 * 60 * 60; // 30 days
+  const r = await fetch(`${BASE}/stock/candle?symbol=${encodeURIComponent(sym)}&resolution=D&from=${from}&to=${to}&token=${KEY}`);
+  if (!r.ok) return null;
+  const d = await r.json();
+  return d.s === 'ok' ? d : null;
 }
 
 const fmt = {
@@ -153,6 +170,116 @@ function resetSteps()    { SIDS.forEach(id=>{ const e=document.getElementById(id
 function showError(msg)  { const b=document.getElementById('errorBox'); b.innerHTML=msg; b.classList.add('visible'); }
 function clearError()    { const b=document.getElementById('errorBox'); b.innerHTML=''; b.classList.remove('visible'); }
 
+// ── Candlestick renderer ──────────────────────────────────────────────────
+function drawCandles(canvas, data) {
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth;
+  const H = 160;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const { o, h, l, c, t } = data;
+  const n = o.length;
+  if (n === 0) return;
+
+  const pad = { top: 12, bottom: 24, left: 8, right: 8 };
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+
+  const allLow  = Math.min(...l);
+  const allHigh = Math.max(...h);
+  const range   = allHigh - allLow || 1;
+
+  const candleW = Math.max(2, Math.floor(chartW / n) - 2);
+  const spacing = chartW / n;
+
+  const toY = v => pad.top + chartH - ((v - allLow) / range) * chartH;
+  const toX = i => pad.left + i * spacing + spacing / 2;
+
+  // Grid lines
+  ctx.strokeStyle = '#1e2d4a';
+  ctx.lineWidth = 0.5;
+  for (let g = 0; g <= 4; g++) {
+    const y = pad.top + (chartH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+    const val = allHigh - (range / 4) * g;
+    ctx.fillStyle = '#334155';
+    ctx.font = `${9 * dpr / dpr}px 'JetBrains Mono', monospace`;
+    ctx.fillText('$' + val.toFixed(0), pad.left + 2, y - 3);
+  }
+
+  // Candles
+  for (let i = 0; i < n; i++) {
+    const x    = toX(i);
+    const open = toY(o[i]);
+    const close= toY(c[i]);
+    const high = toY(h[i]);
+    const low  = toY(l[i]);
+    const up   = c[i] >= o[i];
+    const color = up ? '#22c55e' : '#f87171';
+
+    // Wick
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, high);
+    ctx.lineTo(x, low);
+    ctx.stroke();
+
+    // Body
+    const bodyTop = Math.min(open, close);
+    const bodyH   = Math.max(1, Math.abs(open - close));
+    ctx.fillStyle = up ? 'rgba(34,197,94,0.85)' : 'rgba(248,113,113,0.85)';
+    ctx.fillRect(x - candleW / 2, bodyTop, candleW, bodyH);
+  }
+
+  // Date labels (first, middle, last)
+  const labelIdxs = [0, Math.floor(n/2), n-1];
+  ctx.fillStyle = '#334155';
+  ctx.font = `9px 'JetBrains Mono', monospace`;
+  ctx.textAlign = 'center';
+  labelIdxs.forEach(i => {
+    const d = new Date(t[i] * 1000);
+    const label = d.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    ctx.fillText(label, toX(i), H - 6);
+  });
+}
+
+// ── Chart hover logic ─────────────────────────────────────────────────────
+const chartCache = {};
+
+function attachChartHover(card, sym) {
+  let loaded = false;
+  card.addEventListener('mouseenter', async () => {
+    if (loaded) return;
+    loaded = true;
+    const wrap  = card.querySelector('.chart-wrap');
+    const canvas = card.querySelector('canvas.candle-chart');
+    const loading = card.querySelector('.chart-loading');
+
+    if (chartCache[sym]) {
+      loading.style.display = 'none';
+      canvas.style.display = 'block';
+      drawCandles(canvas, chartCache[sym]);
+      return;
+    }
+
+    try {
+      const data = await fc(sym);
+      if (!data) { loading.textContent = 'Chart data unavailable'; return; }
+      chartCache[sym] = data;
+      loading.style.display = 'none';
+      canvas.style.display = 'block';
+      drawCandles(canvas, data);
+    } catch {
+      loading.textContent = 'Could not load chart';
+    }
+  });
+}
+
+// ── Main scan ─────────────────────────────────────────────────────────────
 async function runScan() {
   const btn = document.getElementById('scanBtn');
   btn.disabled = true;
@@ -166,82 +293,87 @@ async function runScan() {
   document.getElementById('stockList').innerHTML = '';
 
   try {
-    // Step 0 — verify connection
     activateStep(0);
     await fq('SPY');
     completeStep(0);
 
-    // Step 1 — fetch all sector ETFs
     activateStep(1);
-    const etfData = await Promise.all(
-      SECTORS.map(s => fq(s.etf).then(q => ({ ...s, dp: q.dp, c: q.c })))
-    );
+    const etfData = await Promise.all(SECTORS.map(s => fq(s.etf).then(q => ({ ...s, dp: q.dp, c: q.c }))));
     completeStep(1);
 
-    // Step 2 — rank and pick best
     activateStep(2);
     etfData.sort((a, b) => (b.dp ?? -999) - (a.dp ?? -999));
     const best = etfData[0];
     await new Promise(r => setTimeout(r, 200));
     completeStep(2);
 
-    // Step 3 — fetch top stocks in best sector
     activateStep(3);
-    const stockData = await Promise.all(
-      best.stocks.map(sym => fq(sym).then(q => ({ sym, dp: q.dp, c: q.c, pc: q.pc })))
-    );
+    const stockData = await Promise.all(best.stocks.map(sym => fq(sym).then(q => ({ sym, dp: q.dp, c: q.c, pc: q.pc }))));
     stockData.sort((a, b) => (b.dp ?? -999) - (a.dp ?? -999));
     const top3 = stockData.slice(0, 3);
     const profiles = await Promise.all(top3.map(s => fp(s.sym)));
     completeStep(3);
 
-    // Step 4 — render
     activateStep(4);
     await new Promise(r => setTimeout(r, 280));
     completeStep(4);
 
-    // Sector card
+    // Sector
     document.getElementById('rSectorName').textContent = best.name;
     const gainEl = document.getElementById('rSectorGain');
     gainEl.textContent = fmt.pct(best.dp);
     gainEl.style.color = best.dp >= 0 ? '#22c55e' : '#f87171';
     document.getElementById('rSectorTicker').textContent = best.etf;
     document.getElementById('rSectorReason').textContent =
-      `${best.name} is today's top-performing S&P 500 sector, with the ${best.etf} ETF ${best.dp >= 0 ? 'up' : 'down'} ${fmt.pct(best.dp)} so far today. The top individual gainers within the sector are shown below.`;
+      `${best.name} is today's top-performing S&P 500 sector, with the ${best.etf} ETF ${best.dp >= 0 ? 'up' : 'down'} ${fmt.pct(best.dp)} today. Hover over each stock below to see its 30-day candlestick chart.`;
 
-    // Stock cards
+    // Stocks
     const rankClass = ['rank-1','rank-2','rank-3'];
     const list = document.getElementById('stockList');
+
     top3.forEach((s, i) => {
-      const p = profiles[i] || {};
+      const p    = profiles[i] || {};
       const name = p.name || s.sym;
       const ind  = p.finnhubIndustry || best.name;
       const up   = (s.dp ?? 0) >= 0;
+
       const card = document.createElement('div');
       card.className = 'stock-card';
       card.innerHTML = `
-        <div class="rank-badge ${rankClass[i]}">#${i+1}</div>
-        <div class="stock-body">
-          <div class="stock-header">
-            <span class="s-ticker">${s.sym}</span>
-            <span class="s-name">${name}</span>
-            <div class="s-pills">
-              <span class="${up ? 'pill-green' : 'pill-red'}">${fmt.pct(s.dp)}</span>
+        <div class="stock-card-inner">
+          <div class="rank-badge ${rankClass[i]}">#${i+1}</div>
+          <div class="stock-body">
+            <div class="stock-header">
+              <span class="s-ticker">${s.sym}</span>
+              <span class="s-name">${name}</span>
+              <div class="s-pills">
+                <span class="${up ? 'pill-green' : 'pill-red'}">${fmt.pct(s.dp)}</span>
+              </div>
+            </div>
+            <div class="s-meta">
+              <span>Price ${fmt.price(s.c)}</span>
+              <span>Prev Close ${fmt.price(s.pc)}</span>
+              <span>Mkt Cap ${fmt.cap(p.marketCapitalization)}</span>
+            </div>
+            <p class="s-desc">${name} is the #${i+1} gainer in ${best.name} today, ${up ? 'up' : 'down'} ${fmt.pct(s.dp)} from yesterday's close of ${fmt.price(s.pc)}.</p>
+            <div class="s-tags">
+              <span class="s-tag">${ind}</span>
+              <span class="s-tag">S&amp;P 500</span>
+              <span class="s-tag">${best.etf}</span>
+              <span class="s-tag" style="color:#4f46e5;border-color:#4f46e5">Hover for chart ↓</span>
             </div>
           </div>
-          <div class="s-meta">
-            <span>Price ${fmt.price(s.c)}</span>
-            <span>Prev Close ${fmt.price(s.pc)}</span>
-            <span>Mkt Cap ${fmt.cap(p.marketCapitalization)}</span>
-          </div>
-          <p class="s-desc">${name} is the #${i+1} gainer in ${best.name} today, ${up ? 'up' : 'down'} ${fmt.pct(s.dp)} from yesterday's close of ${fmt.price(s.pc)}.</p>
-          <div class="s-tags">
-            <span class="s-tag">${ind}</span>
-            <span class="s-tag">S&amp;P 500</span>
-            <span class="s-tag">${best.etf}</span>
+        </div>
+        <div class="chart-area">
+          <div class="chart-wrap">
+            <div class="chart-label">30-Day Candlestick · ${s.sym}</div>
+            <div class="chart-loading">Loading chart…</div>
+            <canvas class="candle-chart" style="display:none"></canvas>
           </div>
         </div>`;
+
       list.appendChild(card);
+      attachChartHover(card, s.sym);
     });
 
     document.getElementById('stepBox').classList.remove('visible');
