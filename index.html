@@ -117,6 +117,36 @@ h1 span{color:var(--gold)}
 .report-footer p{font-size:.63rem;color:var(--dim);font-weight:300}
 .report-footer span{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* Score section */
+  .score-hint{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--dim);font-weight:400;letter-spacing:.06em;margin-left:.5rem;text-transform:none}
+  .score-card{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;margin-bottom:1rem;overflow:hidden;transition:border-color .2s,box-shadow .2s;animation:fadeUp .4s both;position:relative}
+  .score-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--gold);opacity:.6;transition:opacity .2s}
+  .score-card:hover{border-color:var(--gold);box-shadow:0 0 20px rgba(201,168,76,.1)}
+  .score-card:hover::before{opacity:1}
+  .score-top{padding:1.1rem 1.4rem;display:flex;align-items:flex-start;gap:1rem}
+  .score-badge{width:48px;height:48px;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3)}
+  .score-badge-num{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;line-height:1;color:var(--gold)}
+  .score-badge-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+  .score-badge.high .score-badge-num{color:#22c55e}
+  .score-badge.high{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3)}
+  .score-badge.med .score-badge-num{color:var(--gold)}
+  .score-badge.low .score-badge-num{color:#ef4444}
+  .score-badge.low{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3)}
+  .score-body{flex:1;min-width:0}
+  .score-header{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.28rem}
+  .score-rank{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+  .score-ticker{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.9rem;color:var(--text);letter-spacing:.05em}
+  .score-name{font-size:.78rem;color:var(--dim);font-weight:300}
+  .score-pills{margin-left:auto;display:flex;gap:.35rem;flex-shrink:0}
+  .score-breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:.3rem;margin-top:.6rem}
+  .score-signal{background:var(--surf2);border:1px solid var(--bdr);border-radius:2px;padding:.22rem .3rem;text-align:center}
+  .score-signal-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;display:block}
+  .score-signal-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;color:var(--text);display:block;margin-top:.1rem}
+  .score-signal-max{font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--dim);display:block}
+  .score-meta{display:flex;gap:1rem;margin-bottom:.35rem}
+  .score-meta span{font-family:'JetBrains Mono',monospace;font-size:.64rem;color:var(--dim)}
+  .score-loading{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:1.2rem 1.4rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);letter-spacing:.06em;animation:fadeUp .3s both}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}</style>
 </head>
@@ -165,8 +195,16 @@ h1 span{color:var(--gold)}
       </div>
       <div class="ticker-clip"><div class="ticker-track-outer"><div class="ticker-track" id="tickerTrack"></div></div></div>
     </div>
-    <div class="section-label">Top Performers</div>
+    <div class="section-label">Top Performers &middot; Today</div>
     <div id="stockList"></div>
+
+    <div class="section-label" id="scoreSectionLabel" style="display:none;margin-top:1.5rem">
+      Momentum Score &middot; Top Ranked
+      <span class="score-hint">sector-adjusted 0&ndash;100</span>
+    </div>
+    <div id="scoreList"></div>
+    <div id="scoreLoading" style="display:none"></div>
+
     <div class="report-footer">
       <p>For educational purposes only. Not financial advice. Market data provided by Finnhub.</p>
       <span id="rTimestamp"></span>
@@ -298,6 +336,229 @@ function attachBlurb(card,sym,name,industry){
     }catch{bc.querySelector('.blurb-text').textContent=`${name} is an S&P 500 company in the ${industry} sector.`}
   });
 }
+// ── Sector-adjusted weight tables ─────────────────────────────────────────
+const SECTOR_WEIGHTS = {
+  'XLK': {beatMag:35,beatStreak:15,momentum:35,analyst:5, target:10},
+  'XLF': {beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},
+  'XLE': {beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},
+  'XLV': {beatMag:10,beatStreak:5, momentum:20,analyst:20,target:45},
+  'XLP': {beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},
+  'XLI': {beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},
+  'XLU': {beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},
+  'XLRE':{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},
+  'XLB': {beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},
+  'XLC': {beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},
+  'XLY': {beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10},
+};
+
+// Fetch earnings history for beat streak + magnitude
+async function fetchEarnings(sym){
+  try{
+    const r=await fetch(`${FBASE}/stock/earnings?symbol=${encodeURIComponent(sym)}&token=${FKEY}`);
+    return r.ok?r.json():[];
+  }catch{return []}
+}
+
+// Fetch analyst recommendation
+async function fetchRec(sym){
+  try{
+    const r=await fetch(`${FBASE}/stock/recommendation?symbol=${encodeURIComponent(sym)}&token=${FKEY}`);
+    if(!r.ok)return null;
+    const d=await r.json();
+    return d&&d.length?d[0]:null;
+  }catch{return null}
+}
+
+// Fetch price target
+async function fetchTarget(sym){
+  try{
+    const r=await fetch(`${FBASE}/stock/price-target?symbol=${encodeURIComponent(sym)}&token=${FKEY}`);
+    return r.ok?r.json():null;
+  }catch{return null}
+}
+
+// Calculate score for a single stock
+function calcScore(quote, earnings, rec, target, etf){
+  const W = SECTOR_WEIGHTS[etf] || {beatMag:30,beatStreak:15,momentum:35,analyst:10,target:10};
+  const result = {total:0, signals:{}};
+
+  // Signal 1: Beat Magnitude (avg surprise % over last 4 quarters)
+  const recent = (earnings||[]).slice(0,4).filter(e=>e.surprisePercent!=null);
+  let magScore = 0, avgSurprise = 0;
+  if(recent.length){
+    avgSurprise = recent.reduce((s,e)=>s+e.surprisePercent,0)/recent.length;
+    if(avgSurprise>15)      magScore = W.beatMag;
+    else if(avgSurprise>10) magScore = Math.round(W.beatMag*0.73);
+    else if(avgSurprise>5)  magScore = Math.round(W.beatMag*0.47);
+    else if(avgSurprise>0)  magScore = Math.round(W.beatMag*0.23);
+    else                    magScore = 0;
+  }
+  result.signals.beatMag = {score:magScore, max:W.beatMag, detail: recent.length?avgSurprise.toFixed(1)+'%':'—'};
+
+  // Signal 2: Beat Streak (consecutive beats)
+  let streak=0;
+  for(const e of (earnings||[]).slice(0,4)){
+    if(e.surprisePercent!=null&&e.surprisePercent>0) streak++;
+    else break;
+  }
+  let streakScore=0;
+  if(streak>=4)      streakScore=W.beatStreak;
+  else if(streak===3) streakScore=Math.round(W.beatStreak*0.67);
+  else if(streak===2) streakScore=Math.round(W.beatStreak*0.4);
+  else if(streak===1) streakScore=Math.round(W.beatStreak*0.2);
+  result.signals.beatStreak={score:streakScore,max:W.beatStreak,detail:streak+'Q'};
+
+  // Signal 3: Momentum (today's % change)
+  const dp=quote.dp||0;
+  let momScore=0;
+  if(dp>10)      momScore=W.momentum;
+  else if(dp>5)  momScore=Math.round(W.momentum*0.74);
+  else if(dp>1)  momScore=Math.round(W.momentum*0.46);
+  else if(dp>=0) momScore=Math.round(W.momentum*0.23);
+  result.signals.momentum={score:momScore,max:W.momentum,detail:(dp>=0?'+':'')+dp.toFixed(2)+'%'};
+
+  // Signal 4: Analyst Consensus
+  let analScore=0, analDetail='—';
+  if(rec){
+    const sb=rec.strongBuy||0,b=rec.buy||0,h=rec.hold||0,s=(rec.sell||0)+(rec.strongSell||0);
+    const total=sb+b+h+s||1;
+    const bullPct=(sb+b)/total;
+    if(bullPct>0.65&&sb>b)     {analScore=W.analyst;analDetail='Strong Buy';}
+    else if(bullPct>0.55)       {analScore=Math.round(W.analyst*0.7);analDetail='Buy';}
+    else if(h>sb+b)             {analScore=Math.round(W.analyst*0.3);analDetail='Hold';}
+    else                        {analScore=0;analDetail='Sell';}
+  }
+  result.signals.analyst={score:analScore,max:W.analyst,detail:analDetail};
+
+  // Signal 5: Price vs Target
+  let tgtScore=0, tgtDetail='—';
+  if(target&&target.targetMean&&quote.c){
+    const upside=((target.targetMean-quote.c)/quote.c)*100;
+    if(upside>20)      {tgtScore=W.target;tgtDetail='+'+upside.toFixed(0)+'%';}
+    else if(upside>10) {tgtScore=Math.round(W.target*0.7);tgtDetail='+'+upside.toFixed(0)+'%';}
+    else if(upside>5)  {tgtScore=Math.round(W.target*0.4);tgtDetail='+'+upside.toFixed(0)+'%';}
+    else if(upside>0)  {tgtScore=Math.round(W.target*0.2);tgtDetail='+'+upside.toFixed(0)+'%';}
+    else               {tgtScore=0;tgtDetail:upside.toFixed(0)+'%';}
+  }
+  result.signals.target={score:tgtScore,max:W.target,detail:tgtDetail};
+
+  result.total=magScore+streakScore+momScore+analScore+tgtScore;
+  return result;
+}
+
+// Score badge class
+function scoreBadgeClass(score){
+  if(score>=70) return 'high';
+  if(score>=40) return 'med';
+  return 'low';
+}
+
+// Build and render the top scored stocks section
+async function buildScoreSection(best, allStockData){
+  const label  = document.getElementById('scoreSectionLabel');
+  const list   = document.getElementById('scoreList');
+  const loading= document.getElementById('scoreLoading');
+  label.style.display='';
+  list.innerHTML='';
+  loading.style.display='block';
+  loading.innerHTML='<div class="score-loading">Calculating momentum scores&hellip;</div>';
+
+  try{
+    // Fetch scoring data for all stocks in parallel (batched to avoid rate limit)
+    const scored=[];
+    for(const s of allStockData){
+      const[earnings,rec,target]=await Promise.all([
+        fetchEarnings(s.sym),
+        fetchRec(s.sym),
+        fetchTarget(s.sym),
+      ]);
+      const scoreResult=calcScore(s,earnings,rec,target,best.etf);
+      const prof=await fp(s.sym);
+      scored.push({...s,scoreResult,profile:prof});
+    }
+
+    // Sort by score descending, take top 3
+    scored.sort((a,b)=>b.scoreResult.total-a.scoreResult.total);
+    const top3=scored.slice(0,3);
+
+    loading.style.display='none';
+
+    const rankClass=['rank-1','rank-2','rank-3'];
+    top3.forEach((s,i)=>{
+      const sc=s.scoreResult;
+      const name=s.profile?.name||s.sym;
+      const ind=s.profile?.finnhubIndustry||best.name;
+      const up=(s.dp??0)>=0;
+      const badgeCls=scoreBadgeClass(sc.total);
+      const priceStr=(!s.c||s.c===0)?'—':'$'+s.c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+      const capStr=!s.profile?.marketCapitalization?'—':s.profile.marketCapitalization>=1000?'$'+(s.profile.marketCapitalization/1000).toFixed(1)+'T':'$'+s.profile.marketCapitalization.toFixed(0)+'B';
+
+      const card=document.createElement('div');
+      card.className='score-card';
+      card.style.animationDelay=`${i*0.08}s`;
+      card.innerHTML=`
+        <div class="stock-top">
+          <div class="score-badge ${badgeCls}">
+            <span class="score-badge-num">${sc.total}</span>
+            <span class="score-badge-label">Score</span>
+          </div>
+          <div class="score-body">
+            <div class="score-header">
+              <span class="score-rank">#${i+1} Scored</span>
+              <span class="score-ticker">${s.sym}</span>
+              <span class="score-name">${name}</span>
+              <div class="score-pills">
+                <span class="${up?'pill-green':'pill-red'}">${(s.dp==null||isNaN(s.dp))?'—':(up?'+':'')+s.dp.toFixed(2)+'%'}</span>
+              </div>
+            </div>
+            <div class="score-meta">
+              <span>Price ${priceStr}</span>
+              <span>Mkt Cap ${capStr}</span>
+              <span>${best.etf} Sector Weights</span>
+            </div>
+            <div class="score-breakdown">
+              <div class="score-signal">
+                <span class="score-signal-label">Beat Mag</span>
+                <span class="score-signal-val">${sc.signals.beatMag.score}</span>
+                <span class="score-signal-max">/ ${sc.signals.beatMag.max} · ${sc.signals.beatMag.detail}</span>
+              </div>
+              <div class="score-signal">
+                <span class="score-signal-label">Streak</span>
+                <span class="score-signal-val">${sc.signals.beatStreak.score}</span>
+                <span class="score-signal-max">/ ${sc.signals.beatStreak.max} · ${sc.signals.beatStreak.detail}</span>
+              </div>
+              <div class="score-signal">
+                <span class="score-signal-label">Momentum</span>
+                <span class="score-signal-val">${sc.signals.momentum.score}</span>
+                <span class="score-signal-max">/ ${sc.signals.momentum.max} · ${sc.signals.momentum.detail}</span>
+              </div>
+              <div class="score-signal">
+                <span class="score-signal-label">Analyst</span>
+                <span class="score-signal-val">${sc.signals.analyst.score}</span>
+                <span class="score-signal-max">/ ${sc.signals.analyst.max} · ${sc.signals.analyst.detail}</span>
+              </div>
+              <div class="score-signal">
+                <span class="score-signal-label">Tgt Upside</span>
+                <span class="score-signal-val">${sc.signals.target.score}</span>
+                <span class="score-signal-max">/ ${sc.signals.target.max} · ${sc.signals.target.detail}</span>
+              </div>
+            </div>
+            <div class="s-tags" style="margin-top:.55rem">
+              <span class="s-tag">${ind}</span>
+              <span class="s-tag">S&amp;P 500</span>
+              <span class="s-tag">${best.etf}</span>
+              <span class="s-tag" style="color:var(--gold);border-color:rgba(201,168,76,.3)">Sector-Adjusted Score</span>
+            </div>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    });
+
+  }catch(err){
+    loading.innerHTML=`<div class="score-loading" style="color:#f87171">Score calculation failed: ${err.message}</div>`;
+  }
+}
+
 async function runScan(){
   const btn=document.getElementById('scanBtn');
   btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span>&nbsp;Retrieving Data&hellip;';
@@ -305,6 +566,9 @@ async function runScan(){
   document.getElementById('stepBox').classList.add('visible');
   document.getElementById('tickerWheel').style.display='none';
   document.getElementById('tickerTrack').innerHTML='';
+  document.getElementById('scoreSectionLabel').style.display='none';
+  document.getElementById('scoreList').innerHTML='';
+  document.getElementById('scoreLoading').style.display='none';
   const results=document.getElementById('results');
   results.classList.remove('visible','shown');results.style.display='none';
   document.getElementById('stockList').innerHTML='';
@@ -365,6 +629,9 @@ async function runScan(){
         </div>`;
       list.appendChild(card);attachBlurb(card,s.sym,name,ind);
     });
+    // Kick off score section asynchronously (doesn't block showing results)
+    buildScoreSection(best,stockData);
+
     document.getElementById('stepBox').classList.remove('visible');
     const now=new Date();
     document.getElementById('rTimestamp').textContent='Data retrieved '+now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' at '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
