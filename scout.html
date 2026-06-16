@@ -144,7 +144,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="page-header">
     <div class="page-eyebrow">Momentum Scoring</div>
     <h1 class="page-h1">Stock <span>Scout</span></h1>
-    <p class="page-sub">Find the top 5 highest-scored stocks across any S&amp;P 500 sector using our sector-adjusted momentum formula</p>
+    <p class="page-sub">Find the top 5 highest-scored stocks across any S&amp;P 500 sector using our sector-adjusted momentum formula &mdash; single sector scans complete in ~30s, all-sector scans take 1&ndash;2 min due to API rate limits</p>
   </div>
   <div class="divider"></div>
 
@@ -180,7 +180,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="step-box" id="stepBox">
     <div class="step-row" id="s0"><span class="si">&middot;</span>&nbsp;Connecting to Finnhub&hellip;</div>
     <div class="step-row" id="s1"><span class="si">&middot;</span>&nbsp;Fetching live quotes for sector stocks&hellip;</div>
-    <div class="step-row" id="s2"><span class="si">&middot;</span>&nbsp;Pulling earnings history &amp; analyst data&hellip;</div>
+    <div class="step-row" id="s2"><span class="si">&middot;</span>&nbsp;Pulling earnings &amp; analyst data&hellip; <span style="font-size:.6rem;color:var(--dim)">(may take 1&ndash;2 min for all sectors)</span></div>
     <div class="step-row" id="s3"><span class="si">&middot;</span>&nbsp;Calculating sector-adjusted momentum scores&hellip;</div>
     <div class="step-row" id="s4"><span class="si">&middot;</span>&nbsp;Ranking top performers&hellip;</div>
   </div>
@@ -356,17 +356,28 @@ async function runScoutScan(){
       selectedEtf==='ALL'?'· All Sectors':'· '+sectorsToScan[0]?.name;
 
     const allStocks=[];
+    // Fetch quotes sector by sector with small delay between sectors
     for(const sec of sectorsToScan){
       const quotes=await Promise.all(sec.stocks.map(sym=>fq(sym).then(q=>{return{sym,dp:q?.dp,c:q?.c,pc:q?.pc,etf:sec.etf,sectorName:sec.name}})));
       allStocks.push(...quotes.filter(s=>s.c));
+      if(sectorsToScan.length>1) await new Promise(r=>setTimeout(r,600));
     }
     complete(1);
 
     activate(2);
     const scored=[];
-    for(const s of allStocks){
-      const[earnings,rec,target,prof]=await Promise.all([fEarnings(s.sym),fRec(s.sym),fTarget(s.sym),fp(s.sym)]);
-      scored.push({...s,scoreResult:calcScore(s,earnings,rec,target,s.etf),profile:prof});
+    // Batch 3 stocks at a time with 1.2s delay to stay under 60 calls/min free tier
+    const BATCH=3, DELAY=1200;
+    for(let i=0;i<allStocks.length;i+=BATCH){
+      const batch=allStocks.slice(i,i+BATCH);
+      await Promise.all(batch.map(async s=>{
+        const[earnings,rec,target,prof]=await Promise.all([fEarnings(s.sym),fRec(s.sym),fTarget(s.sym),fp(s.sym)]);
+        scored.push({...s,scoreResult:calcScore(s,earnings,rec,target,s.etf),profile:prof});
+      }));
+      // Show progress in step indicator
+      const prog=Math.min(100,Math.round(((i+BATCH)/allStocks.length)*100));
+      document.getElementById('s2').querySelector('.si').textContent=prog+'%';
+      if(i+BATCH<allStocks.length) await new Promise(r=>setTimeout(r,DELAY));
     }
     complete(2);
 
