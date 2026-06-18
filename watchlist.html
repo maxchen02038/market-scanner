@@ -271,10 +271,18 @@ function renderWatchlist(){
   empty.style.display='none';footer.style.display='flex';
 
   // Sort by score descending
-  const sorted=[...wl].sort((a,b)=>(b.scoreTotal||0)-(a.scoreTotal||0));
+  const sorted=[...wl].sort((a,b)=>{
+    // Scored stocks first (by score desc), then unscored gainers (by % gain desc)
+    const aScore=a.scoreTotal,bScore=b.scoreTotal;
+    if(aScore!=null&&bScore!=null)return bScore-aScore;
+    if(aScore!=null)return -1;
+    if(bScore!=null)return 1;
+    return (b.dp||0)-(a.dp||0);
+  });
 
   // Stats bar
-  const avgScore=sorted.length?(sorted.reduce((s,x)=>s+(x.scoreTotal||0),0)/sorted.length).toFixed(0):0;
+  const scoredItems=sorted.filter(s=>s.scoreTotal!=null);
+  const avgScore=scoredItems.length?(scoredItems.reduce((s,x)=>s+x.scoreTotal,0)/scoredItems.length).toFixed(0):'—';
   const upCount=sorted.filter(s=>(s.dp||0)>0).length;
   stats.style.display='flex';
   stats.innerHTML=`
@@ -284,7 +292,7 @@ function renderWatchlist(){
     <div class="summary-divider"></div>
     <div class="summary-stat"><span class="summary-stat-label">Avg Score</span><span class="summary-stat-val" style="color:var(--gold)">${avgScore} / 100</span></div>
     <div class="summary-divider"></div>
-    <div class="summary-stat"><span class="summary-stat-label">Top Score</span><span class="summary-stat-val" style="color:var(--grn)">${sorted[0]?.scoreTotal||'—'} / 100</span></div>`;
+    <div class="summary-stat"><span class="summary-stat-label">Top Score</span><span class="summary-stat-val" style="color:var(--grn)">${scoredItems[0]?.scoreTotal!=null?scoredItems[0].scoreTotal+' / 100':'—'}</span></div>`;
 
   sorted.forEach((s,i)=>{
     // Reconstruct a score result from saved signals
@@ -294,6 +302,20 @@ function renderWatchlist(){
     }};
     const stockObj={sym:s.sym,dp:s.dp,c:s.c,pc:s.pc,scoreResult:sc,profile:{name:s.name,finnhubIndustry:s.ind,marketCapitalization:null}};
     const card=renderScoreCard(stockObj,i,s.etf||'—',s.sectorName||'—');
+
+    // If saved from Top Performers (no score), show a neutral badge instead of 0
+    if(s.scoreTotal==null){
+      const badge=card.querySelector('.score-badge');
+      if(badge){
+        badge.className='score-badge';
+        badge.style.background='var(--surf2)';
+        badge.style.border='1px solid var(--bdr)';
+        badge.innerHTML='<span class="score-badge-num" style="color:var(--gold);font-size:.85rem">★</span><span class="score-badge-label">Gainer</span>';
+      }
+      // Hide the empty score breakdown for unscored stocks
+      const bd=card.querySelector('.score-breakdown');
+      if(bd)bd.style.display='none';
+    }
 
     // Add remove button to the card
     const removeBtn=document.createElement('button');
