@@ -245,6 +245,19 @@ const fRec=async s=>{try{const d=await get('/stock/recommendation?symbol='+encod
 const fTarget=async s=>{try{return await get('/stock/price-target?symbol='+encodeURIComponent(s))||null}catch{return null}};
 const fEtfHoldings=async etf=>{try{return await get('/etf/holdings?symbol='+encodeURIComponent(etf))||null}catch{return null}};
 
+const SECTORS=[
+  {etf:'XLK',name:'Information Technology',stocks:['NVDA','AAPL','MSFT','AVGO','WDC','MU','STX','AMAT','KLAC','LRCX','AMD','INTC','QCOM','TXN','ADI']},
+  {etf:'XLF',name:'Financials',stocks:['BRK.B','JPM','V','MA','BAC','WFC','GS','MS','BLK','SPGI','AXP','C','USB','PNC','TFC']},
+  {etf:'XLE',name:'Energy',stocks:['XOM','CVX','COP','EOG','SLB','MPC','PSX','VLO','OXY','HAL','DVN','FANG','HES','BKR','MRO']},
+  {etf:'XLV',name:'Health Care',stocks:['LLY','JNJ','UNH','ABBV','MRK','TMO','ABT','DHR','AMGN','PFE','MDT','BMY','ISRG','SYK','VRTX']},
+  {etf:'XLP',name:'Consumer Staples',stocks:['PG','KO','PEP','COST','WMT','PM','MO','CL','MDLZ','KHC','STZ','GIS','HSY','MKC','CHD']},
+  {etf:'XLI',name:'Industrials',stocks:['GE','RTX','CAT','HON','UPS','BA','LMT','MMM','DE','EMR','ETN','ITW','PH','GD','NOC']},
+  {etf:'XLY',name:'Consumer Discretionary',stocks:['AMZN','TSLA','HD','MCD','NKE','LOW','SBUX','BKNG','TJX','ORLY','MAR','GM','F','ROST','YUM']},
+  {etf:'XLB',name:'Materials',stocks:['LIN','APD','SHW','FCX','NEM','NUE','VMC','MLM','ALB','IFF','ECL','PPG','DD','CE','CF']},
+  {etf:'XLRE',name:'Real Estate',stocks:['PLD','AMT','EQIX','CCI','PSA','SPG','DLR','O','WELL','AVB','EQR','ARE','WY','VTR','BXP']},
+  {etf:'XLU',name:'Utilities',stocks:['NEE','DUK','SO','D','AEP','EXC','SRE','ED','XEL','ES','PEG','ETR','FE','PPL','DTE']},
+  {etf:'XLC',name:'Communication Services',stocks:['META','GOOGL','NFLX','DIS','CMCSA','VZ','T','TMUS','EA','OMC','WBD','PARA','LYV','TTWO','IPG']},
+];
 const WEIGHTS={XLK:{beatMag:35,beatStreak:15,momentum:35,analyst:5,target:10},XLF:{beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},XLE:{beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},XLV:{beatMag:10,beatStreak:5,momentum:20,analyst:20,target:45},XLP:{beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},XLI:{beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},XLU:{beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},XLRE:{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},XLB:{beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},XLC:{beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},XLY:{beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10}};
 const SECTOR_ETFS=['XLK','XLF','XLE','XLV','XLP','XLI','XLU','XLRE','XLB','XLC','XLY'];
 const SECTOR_NAMES={XLK:'Information Technology',XLF:'Financials',XLE:'Energy',XLV:'Health Care',XLP:'Consumer Staples',XLI:'Industrials',XLU:'Utilities',XLRE:'Real Estate',XLB:'Materials',XLC:'Communication Services',XLY:'Consumer Discretionary'};
@@ -268,7 +281,7 @@ function calcScore(q,earnings,rec,target,etf){
 }
 
 const pct=d=>d==null||isNaN(d)?'—':(d>=0?'+':'')+d.toFixed(2)+'%';
-const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const price=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
 const badgeCls=s=>s>=70?'high':s>=40?'med':'low';
 
@@ -308,7 +321,7 @@ function renderScoreCard(s,rank,etf,sectorName){
           <div class="s-pills"><span class="${up?'pill-green':'pill-red'}">${pct(s.dp)}</span><span class="save-slot"></span></div>
         </div>
         <div class="score-meta">
-          <span>Price ${priceF(s.c)}</span><span>Mkt Cap ${mcap(s.profile?.marketCapitalization)}</span>
+          <span>Price ${price(s.c)}</span><span>Mkt Cap ${mcap(s.profile?.marketCapitalization)}</span>
           <span>${sectorName}</span><span style="color:var(--gold)">${etf} Weights</span>
         </div>
         <div class="score-breakdown">
@@ -331,18 +344,13 @@ function renderScoreCard(s,rank,etf,sectorName){
 document.addEventListener('DOMContentLoaded',updateWlBadge);
 
 
+// ── Steps ─────────────────────────────────────────────────────────────────────
 const SIDS=['s0','s1','s2','s3','s4'];
 const activate=i=>{const e=document.getElementById(SIDS[i]);e.classList.add('active');e.querySelector('.si').textContent='›';};
 const complete=i=>{const e=document.getElementById(SIDS[i]);e.classList.remove('active');e.classList.add('done');e.querySelector('.si').textContent='✓';};
 const resetSteps=()=>SIDS.forEach(id=>{const e=document.getElementById(id);e.classList.remove('done','active');e.querySelector('.si').textContent='·';});
 const showErr=m=>{const b=document.getElementById('errorBox');b.innerHTML=m;b.classList.add('visible');};
 const clearErr=()=>{const b=document.getElementById('errorBox');b.innerHTML='';b.classList.remove('visible');};
-
-// ── Steps ─────────────────────────────────────────────────────────────────────
-const SIDS=['s0','s1','s2','s3','s4'];
-const activate=i=>{const e=document.getElementById(SIDS[i]);e.classList.add('active');e.querySelector('.si').textContent='›';};
-const complete=i=>{const e=document.getElementById(SIDS[i]);e.classList.remove('active');e.classList.add('done');e.querySelector('.si').textContent='✓';};
-const resetSteps=()=>SIDS.forEach(id=>{const e=document.getElementById(id);e.classList.remove('done','active');e.querySelector('.si').textContent='·';});
 
 // ── Float tooltip ─────────────────────────────────────────────────────────────
 const floatTT=document.getElementById('floatTooltip');
