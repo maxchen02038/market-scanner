@@ -105,7 +105,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div style="margin-bottom:2rem">
     <div class="page-eyebrow">Momentum Scoring</div>
     <h1 class="page-h1">Stock <span>Scout</span></h1>
-    <p class="page-sub">Live S&P 500 constituent data pulled directly from ETF holdings &mdash; scored using our sector-adjusted formula. Single sector ~30s, all sectors 2&ndash;3 min.</p>
+    <p class="page-sub">S&P 500 constituents scored using our sector-adjusted formula &mdash; scored using our sector-adjusted formula. Single sector ~30s, all sectors 2&ndash;3 min.</p>
   </div>
   <div class="divider"></div>
 
@@ -137,7 +137,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 
   <div class="step-box" id="stepBox">
     <div class="step-row" id="s0"><span class="si">&middot;</span>&nbsp;Connecting to Finnhub&hellip;</div>
-    <div class="step-row" id="s1"><span class="si">&middot;</span>&nbsp;Fetching live ETF constituent list&hellip;</div>
+    <div class="step-row" id="s1"><span class="si">&middot;</span>&nbsp;Building sector constituent list&hellip;</div>
     <div class="step-row" id="s2"><span class="si">&middot;</span>&nbsp;Fetching quotes &amp; pre-filtering&hellip;</div>
     <div class="step-row" id="s3"><span class="si">&middot;</span>&nbsp;Pulling earnings &amp; analyst data&hellip; <span id="scoreProgress" style="font-size:.6rem;color:var(--dim)"></span></div>
     <div class="step-row" id="s4"><span class="si">&middot;</span>&nbsp;Ranking top performers&hellip;</div>
@@ -168,6 +168,20 @@ const fTarget=async s=>{try{return await get('/stock/price-target?symbol='+encod
 const fEtfHoldings=async etf=>{try{return await get('/etf/holdings?symbol='+encodeURIComponent(etf))||null}catch{return null}};
 
 const WEIGHTS={XLK:{beatMag:35,beatStreak:15,momentum:35,analyst:5,target:10},XLF:{beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},XLE:{beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},XLV:{beatMag:10,beatStreak:5,momentum:20,analyst:20,target:45},XLP:{beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},XLI:{beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},XLU:{beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},XLRE:{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},XLB:{beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},XLC:{beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},XLY:{beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10}};
+
+const SECTORS=[
+  {etf:'XLK',name:'Information Technology',stocks:['NVDA','AAPL','MSFT','AVGO','ORCL','CRM','CSCO','AMD','ACN','ADBE','INTU','QCOM','TXN','NOW','AMAT','ANET','MU','LRCX','KLAC','ADI','APH','CDNS','SNPS','MSI','INTC','GLW','MCHP','NXPI','FTNT','TEL','HPQ','HPE','WDC','STX','SMCI','ON','CTSH','IT','TYL']},
+  {etf:'XLF',name:'Financials',stocks:['BRK.B','JPM','V','MA','BAC','WFC','GS','MS','AXP','SPGI','BLK','C','SCHW','CB','PGR','MMC','BX','ICE','CME','PNC','USB','AON','TFC','COF','MET','AIG','BK','AFL','TRV','ALL','PRU','AMP','MSCI','DFS','FIS','HIG','ACGL','KKR','NDAQ','WTW']},
+  {etf:'XLE',name:'Energy',stocks:['XOM','CVX','COP','WMB','EOG','KMI','OKE','SLB','PSX','MPC','VLO','OXY','HES','FANG','BKR','HAL','DVN','TRGP','EQT','CTRA','APA','OVV','MRO']},
+  {etf:'XLV',name:'Health Care',stocks:['LLY','UNH','JNJ','ABBV','MRK','TMO','ABT','ISRG','DHR','AMGN','PFE','SYK','BSX','BMY','MDT','GILD','VRTX','CI','ELV','CVS','MCK','ZTS','REGN','BDX','HCA','EW','IQV','A','IDXX','GEHC','CNC','HUM','DXCM','BIIB','MRNA','RMD','COR','CAH','WST','ZBH']},
+  {etf:'XLP',name:'Consumer Staples',stocks:['COST','WMT','PG','KO','PEP','PM','MO','MDLZ','CL','TGT','KMB','GIS','MNST','KVUE','SYY','KDP','STZ','KHC','HSY','KR','ADM','MKC','CHD','CLX','TSN','K','HRL','SJM','CAG','CPB','BG','TAP','LW']},
+  {etf:'XLI',name:'Industrials',stocks:['GE','CAT','RTX','UNP','HON','ETN','BA','LMT','UPS','DE','ADP','TT','PH','GD','MMM','EMR','ITW','CSX','NSC','FDX','NOC','WM','GEV','CARR','PCAR','JCI','CMI','PWR','URI','RSG','OTIS','CTAS','PAYX','FAST','AME','ROK','DAL','LHX','VRSK','IR']},
+  {etf:'XLY',name:'Consumer Discretionary',stocks:['AMZN','TSLA','HD','MCD','BKNG','LOW','TJX','SBUX','NKE','ORLY','CMG','MAR','GM','HLT','F','AZO','ROST','YUM','DHI','LEN','RCL','LVS','GRMN','TSCO','EBAY','APTV','PHM','DRI','EXPE','CCL','ULTA','BBY','POOL','KMX','DPZ','NVR','TPR','GPC','LKQ','HAS']},
+  {etf:'XLB',name:'Materials',stocks:['LIN','SHW','APD','ECL','FCX','NEM','CTVA','DOW','NUE','DD','VMC','MLM','PPG','IFF','ALB','LYB','STLD','CF','BALL','AMCR','AVY','PKG','IP','CE','EMN','MOS','FMC','RPM','SW']},
+  {etf:'XLRE',name:'Real Estate',stocks:['PLD','AMT','EQIX','WELL','SPG','PSA','O','CCI','DLR','CBRE','EXR','VICI','AVB','IRM','EQR','SBAC','VTR','WY','INVH','ARE','MAA','ESS','DOC','KIM','UDR','HST','REG','CPT','BXP','FRT']},
+  {etf:'XLU',name:'Utilities',stocks:['NEE','SO','DUK','CEG','AEP','D','SRE','EXC','XEL','PEG','ED','VST','EIX','WEC','ETR','AWK','DTE','PPL','AEE','FE','ATO','CMS','CNP','NRG','ES','PCG','LNT','EVRG','NI','PNW']},
+  {etf:'XLC',name:'Communication Services',stocks:['META','GOOGL','GOOG','NFLX','TMUS','DIS','T','VZ','CMCSA','CHTR','EA','TTWO','OMC','WBD','LYV','IPG','MTCH','NWSA','FOXA','PARA','TKO','NWS','FOX']},
+];
 const SECTOR_ETFS=['XLK','XLF','XLE','XLV','XLP','XLI','XLU','XLRE','XLB','XLC','XLY'];
 const SECTOR_NAMES={XLK:'Information Technology',XLF:'Financials',XLE:'Energy',XLV:'Health Care',XLP:'Consumer Staples',XLI:'Industrials',XLU:'Utilities',XLRE:'Real Estate',XLB:'Materials',XLC:'Communication Services',XLY:'Consumer Discretionary'};
 
@@ -278,25 +292,17 @@ async function runScoutScan(){
     if(!await fq('SPY'))throw new Error('Cannot connect to Finnhub. Check your API key.');
     complete(0);
 
-    // Step 1: fetch live ETF constituents
+    // Step 1: build constituent list from sector stock lists
     activate(1);
-    const etfsToScan=sel==='ALL'?SECTOR_ETFS:[sel];
-    document.getElementById('sectorLabel').textContent=sel==='ALL'?'· Live ETF Holdings — All 11 Sectors':'· '+SECTOR_NAMES[sel];
+    const sectorsToScan=sel==='ALL'?SECTORS:SECTORS.filter(s=>s.etf===sel);
+    document.getElementById('sectorLabel').textContent=sel==='ALL'?'· All Sectors — '+SECTORS.reduce((n,s)=>n+s.stocks.length,0)+' Constituents':'· '+SECTOR_NAMES[sel];
 
     const allStocks=[];
-    for(const etf of etfsToScan){
-      const holdings=await fEtfHoldings(etf);
-      if(holdings?.holdings){
-        // ETF holdings endpoint returns array of {symbol, percent, ...}
-        const syms=holdings.holdings
-          .filter(h=>h.symbol&&!h.symbol.includes('.'))  // filter out non-US
-          .map(h=>h.symbol);
-        syms.forEach(sym=>allStocks.push({sym,etf,sectorName:SECTOR_NAMES[etf]}));
-      }
-      if(etfsToScan.length>1)await new Promise(r=>setTimeout(r,300));
+    for(const sec of sectorsToScan){
+      sec.stocks.forEach(sym=>allStocks.push({sym,etf:sec.etf,sectorName:sec.name}));
     }
 
-    if(!allStocks.length)throw new Error('No holdings returned from Finnhub ETF endpoint. Try a single sector.');
+    if(!allStocks.length)throw new Error('No stocks to scan for the selected sector.');
     complete(1);
 
     // Step 2: fetch quotes + pre-filter (only keep stocks up today to save API calls)
