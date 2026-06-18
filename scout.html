@@ -105,7 +105,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div style="margin-bottom:2rem">
     <div class="page-eyebrow">Momentum Scoring</div>
     <h1 class="page-h1">Stock <span>Scout</span></h1>
-    <p class="page-sub">Live S&P 500 constituent data pulled directly from ETF holdings &mdash; scored using our sector-adjusted formula. Single sector ~30s, all sectors 2&ndash;3 min.</p>
+    <p class="page-sub">S&P 500 sector constituents scored using our sector-adjusted formula. Single sector ~30s, all sectors 2&ndash;3 min.</p>
   </div>
   <div class="divider"></div>
 
@@ -115,7 +115,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
       <div style="display:flex;flex-direction:column;gap:.3rem;flex:1;min-width:140px">
         <label style="font-family:'JetBrains Mono',monospace;font-size:.57rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase">Sector</label>
         <select id="scoutSector" style="background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.5rem .75rem;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.75rem;outline:none;cursor:pointer;-webkit-appearance:none">
-          <option value="ALL">All Sectors &mdash; Live ETF Holdings</option>
+          <option value="ALL">All Sectors &mdash; Sector Constituents</option>
           <option value="XLK">Information Technology (XLK)</option>
           <option value="XLF">Financials (XLF)</option>
           <option value="XLE">Energy (XLE)</option>
@@ -137,7 +137,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 
   <div class="step-box" id="stepBox">
     <div class="step-row" id="s0"><span class="si">&middot;</span>&nbsp;Connecting to Finnhub&hellip;</div>
-    <div class="step-row" id="s1"><span class="si">&middot;</span>&nbsp;Fetching live ETF constituent list&hellip;</div>
+    <div class="step-row" id="s1"><span class="si">&middot;</span>&nbsp;Building sector constituent list&hellip;</div>
     <div class="step-row" id="s2"><span class="si">&middot;</span>&nbsp;Fetching quotes &amp; pre-filtering&hellip;</div>
     <div class="step-row" id="s3"><span class="si">&middot;</span>&nbsp;Pulling earnings &amp; analyst data&hellip; <span id="scoreProgress" style="font-size:.6rem;color:var(--dim)"></span></div>
     <div class="step-row" id="s4"><span class="si">&middot;</span>&nbsp;Ranking top performers&hellip;</div>
@@ -165,11 +165,25 @@ const fm=async s=>{try{return await get('/stock/metric?symbol='+encodeURICompone
 const fEarnings=async s=>{try{return await get('/stock/earnings?symbol='+encodeURIComponent(s))||[]}catch{return []}};
 const fRec=async s=>{try{const d=await get('/stock/recommendation?symbol='+encodeURIComponent(s));return d&&d.length?d[0]:null}catch{return null}};
 const fTarget=async s=>{try{return await get('/stock/price-target?symbol='+encodeURIComponent(s))||null}catch{return null}};
-const fEtfHoldings=async etf=>{try{return await get('/etf/holdings?symbol='+encodeURIComponent(etf))||null}catch{return null}};
 
 const WEIGHTS={XLK:{beatMag:35,beatStreak:15,momentum:35,analyst:5,target:10},XLF:{beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},XLE:{beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},XLV:{beatMag:10,beatStreak:5,momentum:20,analyst:20,target:45},XLP:{beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},XLI:{beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},XLU:{beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},XLRE:{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},XLB:{beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},XLC:{beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},XLY:{beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10}};
 const SECTOR_ETFS=['XLK','XLF','XLE','XLV','XLP','XLI','XLU','XLRE','XLB','XLC','XLY'];
 const SECTOR_NAMES={XLK:'Information Technology',XLF:'Financials',XLE:'Energy',XLV:'Health Care',XLP:'Consumer Staples',XLI:'Industrials',XLU:'Utilities',XLRE:'Real Estate',XLB:'Materials',XLC:'Communication Services',XLY:'Consumer Discretionary'};
+// Static sector constituent lists. Finnhub's /etf/holdings endpoint requires a paid plan
+// and returns no data on a free API key, so we maintain this list ourselves instead.
+const SECTOR_STOCKS={
+  XLK:['NVDA','AAPL','MSFT','AVGO','WDC','MU','STX','AMAT','KLAC','LRCX','AMD','INTC','QCOM','TXN','ADI'],
+  XLF:['BRK.B','JPM','V','MA','BAC','WFC','GS','MS','BLK','SPGI','AXP','C','USB','PNC','TFC'],
+  XLE:['XOM','CVX','COP','EOG','SLB','MPC','PSX','VLO','OXY','HAL','DVN','FANG','HES','BKR','MRO'],
+  XLV:['LLY','JNJ','UNH','ABBV','MRK','TMO','ABT','DHR','AMGN','PFE','MDT','BMY','ISRG','SYK','VRTX'],
+  XLP:['PG','KO','PEP','COST','WMT','PM','MO','CL','MDLZ','KHC','STZ','GIS','HSY','MKC','CHD'],
+  XLI:['GE','RTX','CAT','HON','UPS','BA','LMT','MMM','DE','EMR','ETN','ITW','PH','GD','NOC'],
+  XLY:['AMZN','TSLA','HD','MCD','NKE','LOW','SBUX','BKNG','TJX','ORLY','MAR','GM','F','ROST','YUM'],
+  XLB:['LIN','APD','SHW','FCX','NEM','NUE','VMC','MLM','ALB','IFF','ECL','PPG','DD','CE','CF'],
+  XLRE:['PLD','AMT','EQIX','CCI','PSA','SPG','DLR','O','WELL','AVB','EQR','ARE','WY','VTR','BXP'],
+  XLU:['NEE','DUK','SO','D','AEP','EXC','SRE','ED','XEL','ES','PEG','ETR','FE','PPL','DTE'],
+  XLC:['META','GOOGL','NFLX','DIS','CMCSA','VZ','T','TMUS','EA','OMC','WBD','PARA','LYV','TTWO','IPG'],
+};
 
 function calcScore(q,earnings,rec,target,etf){
   const W=WEIGHTS[etf]||{beatMag:30,beatStreak:15,momentum:35,analyst:10,target:10};
@@ -278,25 +292,18 @@ async function runScoutScan(){
     if(!await fq('SPY'))throw new Error('Cannot connect to Finnhub. Check your API key.');
     complete(0);
 
-    // Step 1: fetch live ETF constituents
+    // Step 1: build sector constituent list
     activate(1);
     const etfsToScan=sel==='ALL'?SECTOR_ETFS:[sel];
-    document.getElementById('sectorLabel').textContent=sel==='ALL'?'· Live ETF Holdings — All 11 Sectors':'· '+SECTOR_NAMES[sel];
+    document.getElementById('sectorLabel').textContent=sel==='ALL'?'· Sector Constituents — All 11 Sectors':'· '+SECTOR_NAMES[sel];
 
     const allStocks=[];
     for(const etf of etfsToScan){
-      const holdings=await fEtfHoldings(etf);
-      if(holdings?.holdings){
-        // ETF holdings endpoint returns array of {symbol, percent, ...}
-        const syms=holdings.holdings
-          .filter(h=>h.symbol&&!h.symbol.includes('.'))  // filter out non-US
-          .map(h=>h.symbol);
-        syms.forEach(sym=>allStocks.push({sym,etf,sectorName:SECTOR_NAMES[etf]}));
-      }
-      if(etfsToScan.length>1)await new Promise(r=>setTimeout(r,300));
+      const syms=SECTOR_STOCKS[etf]||[];
+      syms.forEach(sym=>allStocks.push({sym,etf,sectorName:SECTOR_NAMES[etf]}));
     }
 
-    if(!allStocks.length)throw new Error('No holdings returned from Finnhub ETF endpoint. Try a single sector.');
+    if(!allStocks.length)throw new Error('No constituents found for the selected sector.');
     complete(1);
 
     // Step 2: fetch quotes + pre-filter (only keep stocks up today to save API calls)
