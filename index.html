@@ -245,19 +245,6 @@ const fRec=async s=>{try{const d=await get('/stock/recommendation?symbol='+encod
 const fTarget=async s=>{try{return await get('/stock/price-target?symbol='+encodeURIComponent(s))||null}catch{return null}};
 const fEtfHoldings=async etf=>{try{return await get('/etf/holdings?symbol='+encodeURIComponent(etf))||null}catch{return null}};
 
-const SECTORS=[
-  {etf:'XLK',name:'Information Technology',stocks:['NVDA','AAPL','MSFT','AVGO','WDC','MU','STX','AMAT','KLAC','LRCX','AMD','INTC','QCOM','TXN','ADI']},
-  {etf:'XLF',name:'Financials',stocks:['BRK.B','JPM','V','MA','BAC','WFC','GS','MS','BLK','SPGI','AXP','C','USB','PNC','TFC']},
-  {etf:'XLE',name:'Energy',stocks:['XOM','CVX','COP','EOG','SLB','MPC','PSX','VLO','OXY','HAL','DVN','FANG','HES','BKR','MRO']},
-  {etf:'XLV',name:'Health Care',stocks:['LLY','JNJ','UNH','ABBV','MRK','TMO','ABT','DHR','AMGN','PFE','MDT','BMY','ISRG','SYK','VRTX']},
-  {etf:'XLP',name:'Consumer Staples',stocks:['PG','KO','PEP','COST','WMT','PM','MO','CL','MDLZ','KHC','STZ','GIS','HSY','MKC','CHD']},
-  {etf:'XLI',name:'Industrials',stocks:['GE','RTX','CAT','HON','UPS','BA','LMT','MMM','DE','EMR','ETN','ITW','PH','GD','NOC']},
-  {etf:'XLY',name:'Consumer Discretionary',stocks:['AMZN','TSLA','HD','MCD','NKE','LOW','SBUX','BKNG','TJX','ORLY','MAR','GM','F','ROST','YUM']},
-  {etf:'XLB',name:'Materials',stocks:['LIN','APD','SHW','FCX','NEM','NUE','VMC','MLM','ALB','IFF','ECL','PPG','DD','CE','CF']},
-  {etf:'XLRE',name:'Real Estate',stocks:['PLD','AMT','EQIX','CCI','PSA','SPG','DLR','O','WELL','AVB','EQR','ARE','WY','VTR','BXP']},
-  {etf:'XLU',name:'Utilities',stocks:['NEE','DUK','SO','D','AEP','EXC','SRE','ED','XEL','ES','PEG','ETR','FE','PPL','DTE']},
-  {etf:'XLC',name:'Communication Services',stocks:['META','GOOGL','NFLX','DIS','CMCSA','VZ','T','TMUS','EA','OMC','WBD','PARA','LYV','TTWO','IPG']},
-];
 const WEIGHTS={XLK:{beatMag:35,beatStreak:15,momentum:35,analyst:5,target:10},XLF:{beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},XLE:{beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},XLV:{beatMag:10,beatStreak:5,momentum:20,analyst:20,target:45},XLP:{beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},XLI:{beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},XLU:{beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},XLRE:{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},XLB:{beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},XLC:{beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},XLY:{beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10}};
 const SECTOR_ETFS=['XLK','XLF','XLE','XLV','XLP','XLI','XLU','XLRE','XLB','XLC','XLY'];
 const SECTOR_NAMES={XLK:'Information Technology',XLF:'Financials',XLE:'Energy',XLV:'Health Care',XLP:'Consumer Staples',XLI:'Industrials',XLU:'Utilities',XLRE:'Real Estate',XLB:'Materials',XLC:'Communication Services',XLY:'Consumer Discretionary'};
@@ -281,7 +268,8 @@ function calcScore(q,earnings,rec,target,etf){
 }
 
 const pct=d=>d==null||isNaN(d)?'—':(d>=0?'+':'')+d.toFixed(2)+'%';
-const price=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const price=priceF;
 const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
 const badgeCls=s=>s>=70?'high':s>=40?'med':'low';
 
@@ -321,7 +309,7 @@ function renderScoreCard(s,rank,etf,sectorName){
           <div class="s-pills"><span class="${up?'pill-green':'pill-red'}">${pct(s.dp)}</span><span class="save-slot"></span></div>
         </div>
         <div class="score-meta">
-          <span>Price ${price(s.c)}</span><span>Mkt Cap ${mcap(s.profile?.marketCapitalization)}</span>
+          <span>Price ${priceF(s.c)}</span><span>Mkt Cap ${mcap(s.profile?.marketCapitalization)}</span>
           <span>${sectorName}</span><span style="color:var(--gold)">${etf} Weights</span>
         </div>
         <div class="score-breakdown">
@@ -344,7 +332,6 @@ function renderScoreCard(s,rank,etf,sectorName){
 document.addEventListener('DOMContentLoaded',updateWlBadge);
 
 
-// ── Steps ─────────────────────────────────────────────────────────────────────
 const SIDS=['s0','s1','s2','s3','s4'];
 const activate=i=>{const e=document.getElementById(SIDS[i]);e.classList.add('active');e.querySelector('.si').textContent='›';};
 const complete=i=>{const e=document.getElementById(SIDS[i]);e.classList.remove('active');e.classList.add('done');e.querySelector('.si').textContent='✓';};
@@ -352,6 +339,7 @@ const resetSteps=()=>SIDS.forEach(id=>{const e=document.getElementById(id);e.cla
 const showErr=m=>{const b=document.getElementById('errorBox');b.innerHTML=m;b.classList.add('visible');};
 const clearErr=()=>{const b=document.getElementById('errorBox');b.innerHTML='';b.classList.remove('visible');};
 
+// ── Steps ─────────────────────────────────────────────────────────────────────
 // ── Float tooltip ─────────────────────────────────────────────────────────────
 const floatTT=document.getElementById('floatTooltip');
 function positionTT(chip){const r=chip.getBoundingClientRect(),w=240;let l=r.left+r.width/2-w/2;if(l<8)l=8;if(l+w>window.innerWidth-8)l=window.innerWidth-w-8;floatTT.style.left=l+'px';floatTT.style.top=(r.top-floatTT.offsetHeight-12+window.scrollY)+'px';}
@@ -419,48 +407,6 @@ function attachBlurb(card,sym,name,industry){
   });
 }
 
-// ── Score card ────────────────────────────────────────────────────────────────
-function renderScoreCard(s,i,etf,sectorName){
-  const sc=s.scoreResult,name=s.profile?.name||s.sym,ind=s.profile?.finnhubIndustry||sectorName;
-  const up=(s.dp??0)>=0;
-  const card=document.createElement('div');
-  card.className='score-card';
-  card.style.animationDelay=`${i*0.08}s`;
-  card.innerHTML=`
-    <div class="stock-top">
-      <div class="score-badge ${badgeCls(sc.total)}">
-        <span class="score-badge-num">${sc.total}</span>
-        <span class="score-badge-label">/ 100</span>
-      </div>
-      <div class="score-body">
-        <div class="stock-header">
-          <span class="score-rank">#${i+1}</span>
-          <span class="s-ticker">${s.sym}</span>
-          <span class="s-name">${name}</span>
-          <div class="s-pills"><span class="${up?'pill-green':'pill-red'}">${pct(s.dp)}</span></div>
-        </div>
-        <div class="score-meta">
-          <span>Price ${price(s.c)}</span>
-          <span>Mkt Cap ${mcap(s.profile?.marketCapitalization)}</span>
-          <span style="color:var(--gold)">${etf} Weights</span>
-        </div>
-        <div class="score-breakdown">
-          <div class="score-signal"><span class="score-signal-label">Beat Mag</span><span class="score-signal-val">${sc.signals.beatMag.score}</span><span class="score-signal-max">/${sc.signals.beatMag.max} &middot; ${sc.signals.beatMag.detail}</span></div>
-          <div class="score-signal"><span class="score-signal-label">Streak</span><span class="score-signal-val">${sc.signals.beatStreak.score}</span><span class="score-signal-max">/${sc.signals.beatStreak.max} &middot; ${sc.signals.beatStreak.detail}</span></div>
-          <div class="score-signal"><span class="score-signal-label">Momentum</span><span class="score-signal-val">${sc.signals.momentum.score}</span><span class="score-signal-max">/${sc.signals.momentum.max} &middot; ${sc.signals.momentum.detail}</span></div>
-          <div class="score-signal"><span class="score-signal-label">Analyst</span><span class="score-signal-val">${sc.signals.analyst.score}</span><span class="score-signal-max">/${sc.signals.analyst.max} &middot; ${sc.signals.analyst.detail}</span></div>
-          <div class="score-signal"><span class="score-signal-label">Tgt Upside</span><span class="score-signal-val">${sc.signals.target.score}</span><span class="score-signal-max">/${sc.signals.target.max} &middot; ${sc.signals.target.detail}</span></div>
-        </div>
-        <div class="s-tags" style="margin-top:.5rem">
-          <span class="s-tag">${ind}</span><span class="s-tag">S&amp;P 500</span><span class="s-tag">${etf}</span>
-          <span class="s-tag" style="color:var(--gold);border-color:rgba(201,168,76,.3)">Sector-Adjusted Score</span>
-        </div>
-      </div>
-    </div>`;
-  return card;
-}
-
-// ── Score section (async, loads after top 3) ──────────────────────────────────
 async function buildScoreSection(best,allStockData){
   const label=document.getElementById('scoreSectionLabel');
   const list=document.getElementById('scoreList');
