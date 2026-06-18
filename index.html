@@ -159,6 +159,10 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 .report-footer{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
 .report-footer p{font-size:.63rem;color:var(--dim);font-weight:300}
 .report-footer span{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim)}
+.save-btn{display:flex;align-items:center;gap:.35rem;background:transparent;border:1px solid var(--bdr);border-radius:3px;padding:.28rem .55rem;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.06em;color:var(--dim);cursor:pointer;transition:all .15s;flex-shrink:0;text-transform:uppercase}
+.save-btn:hover{border-color:var(--gold);color:var(--gold)}
+.save-btn.saved{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.save-btn svg{width:10px;height:10px;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -498,13 +502,15 @@ async function runScan(){
         <div class="stock-top">
           <div class="rank-badge ${rankClass[i]}">#${i+1}</div>
           <div class="stock-body">
-            <div class="stock-header"><span class="s-ticker">${s.sym}</span><span class="s-name">${name}</span><div class="s-pills"><span class="${up?'pill-green':'pill-red'}">${pct(s.dp)}</span></div></div>
+            <div class="stock-header"><span class="s-ticker">${s.sym}</span><span class="s-name">${name}</span><div class="s-pills"><span class="${up?'pill-green':'pill-red'}">${pct(s.dp)}</span><span class="save-slot"></span></div></div>
             <div class="s-meta"><span>Price ${price(s.c)}</span><span>Prev Close ${price(s.pc)}</span><span>Mkt Cap ${mcap(p.marketCapitalization)}</span></div>
             <p class="s-desc">${name} is the #${i+1} gainer in ${best.name} today, ${up?'up':'down'} ${pct(s.dp)} from the prior session.</p>
             <div class="s-tags"><span class="s-tag">${ind}</span><span class="s-tag">S&amp;P 500</span><span class="s-tag">${best.etf}</span><span class="s-tag" style="color:var(--dim)">&darr; hover for analysis</span></div>
           </div>
         </div>
         <div class="blurb-area"><div class="blurb-inner"><div class="blurb-logo">${s.sym.slice(0,3)}</div><div class="blurb-content"><div class="blurb-name">${name}</div><div class="blurb-text">Loading&hellip;</div><div class="blurb-stats"></div></div></div></div>`;
+      const saveData={dp:s.dp,c:s.c,scoreTotal:null,sectorName:best.name,etf:best.etf,name,ind};
+      card.querySelector('.save-slot').appendChild(makeSaveBtn(s.sym,saveData));
       list.appendChild(card);attachBlurb(card,s.sym,name,ind);
     });
 
