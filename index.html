@@ -171,6 +171,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 <nav class="nav">
   <a class="nav-item active" href="index.html"><span class="nav-dot"></span>Sector Scanner</a>
   <a class="nav-item" href="scout.html"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item" href="watchlist.html"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
 </nav>
 
 <div id="floatTooltip">
@@ -235,84 +236,107 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 
 <script>
 const FKEY='d8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0',FBASE='https://finnhub.io/api/v1';
+const get=async p=>{const r=await fetch(FBASE+p+'&token='+FKEY);return r.ok?r.json():null};
+const fq=s=>get('/quote?symbol='+encodeURIComponent(s));
+const fp=async s=>{try{return await get('/stock/profile2?symbol='+encodeURIComponent(s))||{}}catch{return {}}};
+const fm=async s=>{try{return await get('/stock/metric?symbol='+encodeURIComponent(s)+'&metric=all')||{}}catch{return {}}};
+const fEarnings=async s=>{try{return await get('/stock/earnings?symbol='+encodeURIComponent(s))||[]}catch{return []}};
+const fRec=async s=>{try{const d=await get('/stock/recommendation?symbol='+encodeURIComponent(s));return d&&d.length?d[0]:null}catch{return null}};
+const fTarget=async s=>{try{return await get('/stock/price-target?symbol='+encodeURIComponent(s))||null}catch{return null}};
+const fEtfHoldings=async etf=>{try{return await get('/etf/holdings?symbol='+encodeURIComponent(etf))||null}catch{return null}};
 
-const SECTORS=[
-  {etf:'XLK',name:'Information Technology',stocks:['NVDA','AAPL','MSFT','AVGO','WDC','MU','STX','AMAT','KLAC','LRCX','AMD','INTC','QCOM','TXN','ADI']},
-  {etf:'XLF',name:'Financials',stocks:['BRK.B','JPM','V','MA','BAC','WFC','GS','MS','BLK','SPGI','AXP','C','USB','PNC','TFC']},
-  {etf:'XLE',name:'Energy',stocks:['XOM','CVX','COP','EOG','SLB','MPC','PSX','VLO','OXY','HAL','DVN','FANG','HES','BKR','MRO']},
-  {etf:'XLV',name:'Health Care',stocks:['LLY','JNJ','UNH','ABBV','MRK','TMO','ABT','DHR','AMGN','PFE','MDT','BMY','ISRG','SYK','VRTX']},
-  {etf:'XLP',name:'Consumer Staples',stocks:['PG','KO','PEP','COST','WMT','PM','MO','CL','MDLZ','KHC','STZ','GIS','HSY','MKC','CHD']},
-  {etf:'XLI',name:'Industrials',stocks:['GE','RTX','CAT','HON','UPS','BA','LMT','MMM','DE','EMR','ETN','ITW','PH','GD','NOC']},
-  {etf:'XLY',name:'Consumer Discretionary',stocks:['AMZN','TSLA','HD','MCD','NKE','LOW','SBUX','BKNG','TJX','ORLY','MAR','GM','F','ROST','YUM']},
-  {etf:'XLB',name:'Materials',stocks:['LIN','APD','SHW','FCX','NEM','NUE','VMC','MLM','ALB','IFF','ECL','PPG','DD','CE','CF']},
-  {etf:'XLRE',name:'Real Estate',stocks:['PLD','AMT','EQIX','CCI','PSA','SPG','DLR','O','WELL','AVB','EQR','ARE','WY','VTR','BXP']},
-  {etf:'XLU',name:'Utilities',stocks:['NEE','DUK','SO','D','AEP','EXC','SRE','ED','XEL','ES','PEG','ETR','FE','PPL','DTE']},
-  {etf:'XLC',name:'Communication Services',stocks:['META','GOOGL','NFLX','DIS','CMCSA','VZ','T','TMUS','EA','OMC','WBD','PARA','LYV','TTWO','IPG']},
-];
+const WEIGHTS={XLK:{beatMag:35,beatStreak:15,momentum:35,analyst:5,target:10},XLF:{beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},XLE:{beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},XLV:{beatMag:10,beatStreak:5,momentum:20,analyst:20,target:45},XLP:{beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},XLI:{beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},XLU:{beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},XLRE:{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},XLB:{beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},XLC:{beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},XLY:{beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10}};
+const SECTOR_ETFS=['XLK','XLF','XLE','XLV','XLP','XLI','XLU','XLRE','XLB','XLC','XLY'];
+const SECTOR_NAMES={XLK:'Information Technology',XLF:'Financials',XLE:'Energy',XLV:'Health Care',XLP:'Consumer Staples',XLI:'Industrials',XLU:'Utilities',XLRE:'Real Estate',XLB:'Materials',XLC:'Communication Services',XLY:'Consumer Discretionary'};
 
-const WEIGHTS={
-  XLK:{beatMag:35,beatStreak:15,momentum:35,analyst:5, target:10},
-  XLF:{beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},
-  XLE:{beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},
-  XLV:{beatMag:10,beatStreak:5, momentum:20,analyst:20,target:45},
-  XLP:{beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},
-  XLI:{beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},
-  XLU:{beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},
-  XLRE:{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},
-  XLB:{beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},
-  XLC:{beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},
-  XLY:{beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10},
-};
-
-// ── API ───────────────────────────────────────────────────────────────────────
-const get=async p=>{const r=await fetch(`${FBASE}${p}&token=${FKEY}`);return r.ok?r.json():null};
-const fq=sym=>get(`/quote?symbol=${encodeURIComponent(sym)}`);
-const fp=async sym=>{try{return await get(`/stock/profile2?symbol=${encodeURIComponent(sym)}`)||{}}catch{return {}}};
-const fm=async sym=>{try{return await get(`/stock/metric?symbol=${encodeURIComponent(sym)}&metric=all`)||{}}catch{return {}}};
-const fEarnings=async sym=>{try{return await get(`/stock/earnings?symbol=${encodeURIComponent(sym)}`)||[]}catch{return []}};
-const fRec=async sym=>{try{const d=await get(`/stock/recommendation?symbol=${encodeURIComponent(sym)}`);return d&&d.length?d[0]:null}catch{return null}};
-const fTarget=async sym=>{try{return await get(`/stock/price-target?symbol=${encodeURIComponent(sym)}`)||null}catch{return null}};
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-const pct=d=>d==null||isNaN(d)?'—':(d>=0?'+':'')+d.toFixed(2)+'%';
-const price=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
-const badgeCls=s=>s>=70?'high':s>=40?'med':'low';
-
-// ── Scoring ───────────────────────────────────────────────────────────────────
 function calcScore(q,earnings,rec,target,etf){
   const W=WEIGHTS[etf]||{beatMag:30,beatStreak:15,momentum:35,analyst:10,target:10};
   const recent=(earnings||[]).slice(0,4).filter(e=>e.surprisePercent!=null);
   const avgSurp=recent.length?recent.reduce((s,e)=>s+e.surprisePercent,0)/recent.length:null;
   const magScore=avgSurp===null?0:avgSurp>15?W.beatMag:avgSurp>10?Math.round(W.beatMag*.73):avgSurp>5?Math.round(W.beatMag*.47):avgSurp>0?Math.round(W.beatMag*.23):0;
   let streak=0;for(const e of(earnings||[]).slice(0,4)){if((e.surprisePercent??-1)>0)streak++;else break;}
-  const streakScore=streak>=4?W.beatStreak:streak===3?Math.round(W.beatStreak*.67):streak===2?Math.round(W.beatStreak*.4):streak===1?Math.round(W.beatStreak*.2):0;
+  const ss=streak>=4?W.beatStreak:streak===3?Math.round(W.beatStreak*.67):streak===2?Math.round(W.beatStreak*.4):streak===1?Math.round(W.beatStreak*.2):0;
   const dp=q?.dp||0;
-  const momScore=dp>10?W.momentum:dp>5?Math.round(W.momentum*.74):dp>1?Math.round(W.momentum*.46):dp>=0?Math.round(W.momentum*.23):0;
-  let analScore=0,analDetail='—';
+  const ms=dp>10?W.momentum:dp>5?Math.round(W.momentum*.74):dp>1?Math.round(W.momentum*.46):dp>=0?Math.round(W.momentum*.23):0;
+  let as2=0,ad='—';
   if(rec){const sb=rec.strongBuy||0,b=rec.buy||0,h=rec.hold||0,s=(rec.sell||0)+(rec.strongSell||0),tot=sb+b+h+s||1,bull=(sb+b)/tot;
-    if(bull>.65&&sb>b){analScore=W.analyst;analDetail='Strong Buy';}
-    else if(bull>.55){analScore=Math.round(W.analyst*.7);analDetail='Buy';}
-    else if(h>sb+b){analScore=Math.round(W.analyst*.3);analDetail='Hold';}
-    else{analDetail='Sell';}
+    if(bull>.65&&sb>b){as2=W.analyst;ad='Strong Buy';}else if(bull>.55){as2=Math.round(W.analyst*.7);ad='Buy';}else if(h>sb+b){as2=Math.round(W.analyst*.3);ad='Hold';}else{ad='Sell';}
   }
-  let tgtScore=0,tgtDetail='—';
-  if(target?.targetMean&&q?.c){
-    const up=((target.targetMean-q.c)/q.c)*100;
-    tgtDetail=(up>=0?'+':'')+up.toFixed(0)+'%';
-    tgtScore=up>20?W.target:up>10?Math.round(W.target*.7):up>5?Math.round(W.target*.4):up>0?Math.round(W.target*.2):0;
-  }
-  return{
-    total:magScore+streakScore+momScore+analScore+tgtScore,
-    signals:{
-      beatMag:{score:magScore,max:W.beatMag,detail:avgSurp!==null?avgSurp.toFixed(1)+'%':'—'},
-      beatStreak:{score:streakScore,max:W.beatStreak,detail:streak+'Q'},
-      momentum:{score:momScore,max:W.momentum,detail:(dp>=0?'+':'')+dp.toFixed(2)+'%'},
-      analyst:{score:analScore,max:W.analyst,detail:analDetail},
-      target:{score:tgtScore,max:W.target,detail:tgtDetail},
-    }
-  };
+  let ts=0,td='—';
+  if(target?.targetMean&&q?.c){const up=((target.targetMean-q.c)/q.c)*100;td=(up>=0?'+':'')+up.toFixed(0)+'%';ts=up>20?W.target:up>10?Math.round(W.target*.7):up>5?Math.round(W.target*.4):up>0?Math.round(W.target*.2):0;}
+  return{total:magScore+ss+ms+as2+ts,signals:{beatMag:{score:magScore,max:W.beatMag,detail:avgSurp!==null?avgSurp.toFixed(1)+'%':'—'},beatStreak:{score:ss,max:W.beatStreak,detail:streak+'Q'},momentum:{score:ms,max:W.momentum,detail:(dp>=0?'+':'')+dp.toFixed(2)+'%'},analyst:{score:as2,max:W.analyst,detail:ad},target:{score:ts,max:W.target,detail:td}}};
 }
+
+const pct=d=>d==null||isNaN(d)?'—':(d>=0?'+':'')+d.toFixed(2)+'%';
+const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
+const badgeCls=s=>s>=70?'high':s>=40?'med':'low';
+
+function getWatchlist(){try{return JSON.parse(localStorage.getItem('sp500_wl')||'[]')}catch{return []}}
+function saveWatchlist(wl){localStorage.setItem('sp500_wl',JSON.stringify(wl))}
+function isWatched(sym){return getWatchlist().some(s=>s.sym===sym)}
+function toggleWatch(sym,data){
+  let wl=getWatchlist();
+  if(isWatched(sym))wl=wl.filter(s=>s.sym!==sym);
+  else wl.push({sym,...data,savedAt:Date.now()});
+  saveWatchlist(wl);updateWlBadge();return isWatched(sym);
+}
+function updateWlBadge(){
+  const b=document.getElementById('wl-badge');if(!b)return;
+  const n=getWatchlist().length;b.textContent=n;b.classList.toggle('visible',n>0);
+}
+function bEmpty(){return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Save</span>';}
+function bFilled(){return'<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Saved</span>';}
+function makeSaveBtn(sym,saveData){
+  const btn=document.createElement('button');
+  btn.className='save-btn'+(isWatched(sym)?' saved':'');
+  btn.innerHTML=isWatched(sym)?bFilled():bEmpty();
+  btn.onclick=e=>{e.stopPropagation();const saved=toggleWatch(sym,saveData);btn.className='save-btn'+(saved?' saved':'');btn.innerHTML=saved?bFilled():bEmpty();};
+  return btn;
+}
+function renderScoreCard(s,rank,etf,sectorName){
+  const sc=s.scoreResult,name=s.profile?.name||s.sym,ind=s.profile?.finnhubIndustry||sectorName,up=(s.dp??0)>=0;
+  const card=document.createElement('div');card.className='score-card';card.style.animationDelay=rank*.08+'s';
+  card.innerHTML=`
+    <div class="stock-top">
+      <div class="score-badge ${badgeCls(sc.total)}"><span class="score-badge-num">${sc.total}</span><span class="score-badge-label">/ 100</span></div>
+      <div class="score-body">
+        <div class="stock-header">
+          <span class="score-rank">#${rank+1}</span>
+          <span class="s-ticker">${s.sym}</span>
+          <span class="s-name">${name}</span>
+          <div class="s-pills"><span class="${up?'pill-green':'pill-red'}">${pct(s.dp)}</span><span class="save-slot"></span></div>
+        </div>
+        <div class="score-meta">
+          <span>Price ${priceF(s.c)}</span><span>Mkt Cap ${mcap(s.profile?.marketCapitalization)}</span>
+          <span>${sectorName}</span><span style="color:var(--gold)">${etf} Weights</span>
+        </div>
+        <div class="score-breakdown">
+          <div class="score-signal"><span class="score-signal-label">Beat Mag</span><span class="score-signal-val">${sc.signals.beatMag.score}</span><span class="score-signal-max">/${sc.signals.beatMag.max} &middot; ${sc.signals.beatMag.detail}</span></div>
+          <div class="score-signal"><span class="score-signal-label">Streak</span><span class="score-signal-val">${sc.signals.beatStreak.score}</span><span class="score-signal-max">/${sc.signals.beatStreak.max} &middot; ${sc.signals.beatStreak.detail}</span></div>
+          <div class="score-signal"><span class="score-signal-label">Momentum</span><span class="score-signal-val">${sc.signals.momentum.score}</span><span class="score-signal-max">/${sc.signals.momentum.max} &middot; ${sc.signals.momentum.detail}</span></div>
+          <div class="score-signal"><span class="score-signal-label">Analyst</span><span class="score-signal-val">${sc.signals.analyst.score}</span><span class="score-signal-max">/${sc.signals.analyst.max} &middot; ${sc.signals.analyst.detail}</span></div>
+          <div class="score-signal"><span class="score-signal-label">Tgt Upside</span><span class="score-signal-val">${sc.signals.target.score}</span><span class="score-signal-max">/${sc.signals.target.max} &middot; ${sc.signals.target.detail}</span></div>
+        </div>
+        <div class="s-tags" style="margin-top:.5rem">
+          <span class="s-tag">${ind}</span><span class="s-tag">S&amp;P 500</span><span class="s-tag">${etf}</span>
+          <span class="s-tag" style="color:var(--gold);border-color:rgba(201,168,76,.3)">Sector-Adjusted Score</span>
+        </div>
+      </div>
+    </div>`;
+  const saveData={dp:s.dp,c:s.c,scoreTotal:sc.total,sectorName,etf,name,ind,signals:sc.signals};
+  card.querySelector('.save-slot').appendChild(makeSaveBtn(s.sym,saveData));
+  return card;
+}
+document.addEventListener('DOMContentLoaded',updateWlBadge);
+
+
+const SIDS=['s0','s1','s2','s3','s4'];
+const activate=i=>{const e=document.getElementById(SIDS[i]);e.classList.add('active');e.querySelector('.si').textContent='›';};
+const complete=i=>{const e=document.getElementById(SIDS[i]);e.classList.remove('active');e.classList.add('done');e.querySelector('.si').textContent='✓';};
+const resetSteps=()=>SIDS.forEach(id=>{const e=document.getElementById(id);e.classList.remove('done','active');e.querySelector('.si').textContent='·';});
+const showErr=m=>{const b=document.getElementById('errorBox');b.innerHTML=m;b.classList.add('visible');};
+const clearErr=()=>{const b=document.getElementById('errorBox');b.innerHTML='';b.classList.remove('visible');};
 
 // ── Steps ─────────────────────────────────────────────────────────────────────
 const SIDS=['s0','s1','s2','s3','s4'];
