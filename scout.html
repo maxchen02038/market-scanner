@@ -100,10 +100,10 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="topbar-right"><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v7"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item active" href="scout.html?v7"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item" href="watchlist.html?v7"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item" href="assistant.html?v7"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="index.html?v8"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item active" href="scout.html?v8"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item" href="watchlist.html?v8"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item" href="assistant.html?v8"><span class="nav-dot"></span>Assistant</a>
 </nav>
 <div class="main">
   <div style="margin-bottom:2rem">
@@ -137,7 +137,23 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
         <button class="scan-btn" id="scoutBtn" onclick="runScoutScan()"><span class="btn-dot"></span>&nbsp;Find Top 5</button>
       </div>
     </div>
+
+    <div style="height:1px;background:var(--bdr);margin:1.1rem 0"></div>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem">&#128269;&nbsp; Quick Ticker Lookup</div>
+    <div style="display:flex;gap:.8rem;align-items:flex-end;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;gap:.3rem;flex:1;min-width:140px">
+        <label style="font-family:'JetBrains Mono',monospace;font-size:.57rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase">Ticker Symbol</label>
+        <input id="tickerInput" placeholder="e.g. NVDA, AAPL, TSLA" autocomplete="off" style="background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.5rem .75rem;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.75rem;outline:none;text-transform:uppercase;letter-spacing:.05em">
+      </div>
+      <div style="flex:0">
+        <button class="scan-btn" id="lookupBtn" onclick="runLookup()"><span class="btn-dot"></span>&nbsp;Get Score</button>
+      </div>
+    </div>
   </div>
+
+  <div class="error-box" id="lookupError"></div>
+  <div id="lookupResult"></div>
 
   <div class="step-box" id="stepBox">
     <div class="step-row" id="s0"><span class="si">&middot;</span>&nbsp;Connecting to Finnhub&hellip;</div>
@@ -192,6 +208,33 @@ const SECTORS=[
 ];
 const SECTOR_ETFS=['XLK','XLF','XLE','XLV','XLP','XLI','XLU','XLRE','XLB','XLC','XLY'];
 const SECTOR_NAMES={XLK:'Information Technology',XLF:'Financials',XLE:'Energy',XLV:'Health Care',XLP:'Consumer Staples',XLI:'Industrials',XLU:'Utilities',XLRE:'Real Estate',XLB:'Materials',XLC:'Communication Services',XLY:'Consumer Discretionary'};
+
+// Build ticker -> ETF lookup from SECTORS, plus a finnhubIndustry -> ETF fallback map
+const TICKER_SECTOR={};
+SECTORS.forEach(sec=>sec.stocks.forEach(sym=>TICKER_SECTOR[sym]=sec.etf));
+// Map Finnhub industry strings to our sector ETFs (best-effort for off-list tickers)
+const INDUSTRY_ETF={
+  'Technology':'XLK','Semiconductors':'XLK','Software':'XLK','Hardware':'XLK','Electronic Equipment':'XLK',
+  'Financial Services':'XLF','Banking':'XLF','Insurance':'XLF','Bank':'XLF',
+  'Energy':'XLE','Oil & Gas':'XLE','Oil, Gas & Consumable Fuels':'XLE',
+  'Health Care':'XLV','Healthcare':'XLV','Pharmaceuticals':'XLV','Biotechnology':'XLV','Life Sciences Tools & Services':'XLV',
+  'Consumer Staples':'XLP','Food Products':'XLP','Beverages':'XLP','Household Products':'XLP',
+  'Industrials':'XLI','Aerospace & Defense':'XLI','Machinery':'XLI','Road & Rail':'XLI',
+  'Consumer Discretionary':'XLY','Retail':'XLY','Automobiles':'XLY','Hotels, Restaurants & Leisure':'XLY','Textiles, Apparel & Luxury Goods':'XLY',
+  'Materials':'XLB','Chemicals':'XLB','Metals & Mining':'XLB',
+  'Real Estate':'XLRE','Equity Real Estate Investment Trusts (REITs)':'XLRE',
+  'Utilities':'XLU','Electric Utilities':'XLU',
+  'Communication Services':'XLC','Media':'XLC','Telecommunication':'XLC','Interactive Media & Services':'XLC',
+};
+function resolveSector(sym,profile){
+  if(TICKER_SECTOR[sym])return{etf:TICKER_SECTOR[sym],inUniverse:true};
+  const ind=profile?.finnhubIndustry||'';
+  for(const key in INDUSTRY_ETF){
+    if(ind.toLowerCase().includes(key.toLowerCase()))return{etf:INDUSTRY_ETF[key],inUniverse:false};
+  }
+  return{etf:'XLK',inUniverse:false}; // default to universal-ish baseline
+}
+
 
 function calcScore(q,earnings,rec,target,etf){
   const W=WEIGHTS[etf]||{beatMag:30,beatStreak:15,momentum:35,analyst:10,target:10};
@@ -281,6 +324,58 @@ const complete=i=>{const e=document.getElementById(SIDS[i]);e.classList.remove('
 const resetSteps=()=>SIDS.forEach(id=>{const e=document.getElementById(id);e.classList.remove('done','active');e.querySelector('.si').textContent='·';});
 const showErr=m=>{const b=document.getElementById('errorBox');b.innerHTML=m;b.classList.add('visible');};
 const clearErr=()=>{const b=document.getElementById('errorBox');b.innerHTML='';b.classList.remove('visible');};
+
+async function runLookup(){
+  const btn=document.getElementById('lookupBtn');
+  const input=document.getElementById('tickerInput');
+  const sym=(input.value||'').trim().toUpperCase();
+  const errEl=document.getElementById('lookupError');
+  const resultEl=document.getElementById('lookupResult');
+  errEl.classList.remove('visible');errEl.innerHTML='';
+
+  if(!sym){errEl.innerHTML='<strong>Enter a ticker symbol</strong> to look up (e.g. NVDA).';errEl.classList.add('visible');return;}
+
+  btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span>&nbsp;Looking up&hellip;';
+  resultEl.innerHTML='<div style="background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:1.2rem 1.4rem;text-align:center;font-family:JetBrains Mono,monospace;font-size:.72rem;color:var(--dim);letter-spacing:.06em">Fetching data for '+sym+'&hellip;</div>';
+
+  try{
+    const[q,prof]=await Promise.all([fq(sym),fp(sym)]);
+    if(!q||!q.c){
+      resultEl.innerHTML='';
+      errEl.innerHTML='<strong>No data found for '+sym+'.</strong> Check the symbol — it may be invalid, delisted, or a non-US listing not covered by the free Finnhub tier.';
+      errEl.classList.add('visible');
+      btn.disabled=false;btn.innerHTML='<span class="btn-dot"></span>&nbsp;Get Score';
+      return;
+    }
+    const{etf,inUniverse}=resolveSector(sym,prof);
+    const[earnings,rec,target]=await Promise.all([fEarnings(sym),fRec(sym),fTarget(sym)]);
+    const scoreResult=calcScore(q,earnings,rec,target,etf);
+    const stockObj={sym,dp:q.dp,c:q.c,pc:q.pc,scoreResult,profile:prof};
+
+    resultEl.innerHTML='';
+    // Section label
+    const label=document.createElement('div');
+    label.className='section-label';
+    label.innerHTML='Ticker Lookup Result <span class="section-hint">'+(inUniverse?'in S&P 500 sector universe':'sector estimated from industry')+'</span>';
+    resultEl.appendChild(label);
+
+    const card=renderScoreCard(stockObj,0,etf,SECTOR_NAMES[etf]||'Unknown');
+    resultEl.appendChild(card);
+
+    // Note for off-universe tickers
+    if(!inUniverse){
+      const note=document.createElement('p');
+      note.style.cssText='font-size:.72rem;color:var(--dim);margin-top:.5rem;line-height:1.6';
+      note.innerHTML='Note: <strong style="color:var(--gold)">'+sym+'</strong> isn\'t in our curated S&P 500 sector lists. The score uses '+etf+' sector weights estimated from its industry ('+(prof?.finnhubIndustry||'unknown')+'), so treat it as a rough approximation. Not financial advice.';
+      resultEl.appendChild(note);
+    }
+  }catch(err){
+    resultEl.innerHTML='';
+    errEl.innerHTML='<strong>Lookup failed:</strong> '+err.message+'. This is often a rate limit — wait a moment and try again.';
+    errEl.classList.add('visible');
+  }
+  btn.disabled=false;btn.innerHTML='<span class="btn-dot"></span>&nbsp;Get Score';
+}
 
 async function runScoutScan(){
   const btn=document.getElementById('scoutBtn');
@@ -380,5 +475,10 @@ async function runScoutScan(){
   }
   btn.disabled=false;btn.innerHTML='<span class="btn-dot"></span>&nbsp;Find Top 5';
 }
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const ti=document.getElementById('tickerInput');
+  if(ti)ti.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runLookup();}});
+});
 </script>
 </body></html>
