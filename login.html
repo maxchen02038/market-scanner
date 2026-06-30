@@ -85,7 +85,7 @@ h1 span{color:var(--gold)}
 
 <div class="foot">For educational purposes only. Not financial advice.</div>
 
-<script src="supabase-config.js?v8"></script>
+<script src="supabase-config.js?v9"></script>
 <script>
 let mode='signin'; // or 'signup'
 
@@ -132,11 +132,11 @@ async function submitAuth(){
         return;
       }
       // Auto signed in
-      window.location.href='watchlist.html?v8';
+      window.location.href='watchlist.html?v9';
     }else{
       const { data, error } = await sb.auth.signInWithPassword({ email, password });
       if(error)throw error;
-      window.location.href='watchlist.html?v8';
+      window.location.href='watchlist.html?v9';
     }
   }catch(err){
     showMsg(err.message||'Authentication failed. Please try again.','error');
@@ -160,7 +160,7 @@ async function signInGoogle(){
 // If already logged in, skip straight to the app
 (async()=>{
   const { data } = await sb.auth.getUser();
-  if(data?.user) window.location.href='watchlist.html?v8';
+  if(data?.user) window.location.href='watchlist.html?v9';
   // Enter key submits
   document.getElementById('password').addEventListener('keydown',e=>{if(e.key==='Enter')submitAuth();});
   document.getElementById('email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('password').focus();});
