@@ -93,11 +93,13 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js?v9"></script>
 </head>
 <body>
 <div class="topbar">
   <div class="topbar-brand">S&P 500 Intelligence Platform</div>
-  <div class="topbar-right"><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
+  <div class="topbar-right"><span id="authStatus" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;margin-right:1rem"></span><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
   <a class="nav-item" href="index.html?v9"><span class="nav-dot"></span>Sector Scanner</a>
@@ -260,26 +262,21 @@ const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionD
 const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
 const badgeCls=s=>s>=70?'high':s>=40?'med':'low';
 
-function getWatchlist(){try{return JSON.parse(localStorage.getItem('sp500_wl')||'[]')}catch{return []}}
-function saveWatchlist(wl){localStorage.setItem('sp500_wl',JSON.stringify(wl))}
-function isWatched(sym){return getWatchlist().some(s=>s.sym===sym)}
-function toggleWatch(sym,data){
-  let wl=getWatchlist();
-  if(isWatched(sym))wl=wl.filter(s=>s.sym!==sym);
-  else wl.push({sym,...data,savedAt:Date.now()});
-  saveWatchlist(wl);updateWlBadge();return isWatched(sym);
-}
-function updateWlBadge(){
-  const b=document.getElementById('wl-badge');if(!b)return;
-  const n=getWatchlist().length;b.textContent=n;b.classList.toggle('visible',n>0);
-}
+// Watchlist functions (getWatchlist, isWatched, toggleWatch, updateWlBadge) come from supabase-config.js
 function bEmpty(){return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Save</span>';}
 function bFilled(){return'<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Saved</span>';}
 function makeSaveBtn(sym,saveData){
   const btn=document.createElement('button');
   btn.className='save-btn'+(isWatched(sym)?' saved':'');
   btn.innerHTML=isWatched(sym)?bFilled():bEmpty();
-  btn.onclick=e=>{e.stopPropagation();const saved=toggleWatch(sym,saveData);btn.className='save-btn'+(saved?' saved':'');btn.innerHTML=saved?bFilled():bEmpty();};
+  btn.onclick=async e=>{
+    e.stopPropagation();
+    btn.disabled=true;
+    const saved=await toggleWatch(sym,saveData);
+    btn.disabled=false;
+    btn.className='save-btn'+(saved?' saved':'');
+    btn.innerHTML=saved?bFilled():bEmpty();
+  };
   return btn;
 }
 function renderScoreCard(s,rank,etf,sectorName){
@@ -316,7 +313,7 @@ function renderScoreCard(s,rank,etf,sectorName){
   card.querySelector('.save-slot').appendChild(makeSaveBtn(s.sym,saveData));
   return card;
 }
-document.addEventListener('DOMContentLoaded',updateWlBadge);
+document.addEventListener('DOMContentLoaded',initAuthUI);
 
 
 const SIDS=['s0','s1','s2','s3','s4'];
