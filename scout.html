@@ -100,11 +100,11 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="topbar-right"><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v8"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item active" href="scout.html?v8"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item" href="watchlist.html?v8"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item" href="assistant.html?v8"><span class="nav-dot"></span>Assistant</a>
-  <a class="nav-item" href="report.html?v8"><span class="nav-dot"></span>Daily Report</a>
+  <a class="nav-item" href="index.html?v9"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item active" href="scout.html?v9"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item" href="watchlist.html?v9"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item" href="assistant.html?v9"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="report.html?v9"><span class="nav-dot"></span>Daily Report</a>
 </nav>
 <div class="main">
   <div style="margin-bottom:2rem">
@@ -178,7 +178,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 
 <script>
 
-const FKEY='d8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0',FBASE='https://finnhub.io/api/v1';
+const FKEY='d91vqchr01qqnh2j96v0d91vqchr01qqnh2j96vg',FBASE='https://finnhub.io/api/v1';
 const get=async p=>{
   const r=await fetch(FBASE+p+'&token='+FKEY);
   if(r.status===429){await new Promise(x=>setTimeout(x,2000));const r2=await fetch(FBASE+p+'&token='+FKEY);return r2.ok?r2.json():null;}
