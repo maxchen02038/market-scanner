@@ -69,6 +69,14 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 .sector-chip-dp{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600}
 .loading,.empty{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:2.5rem 1.4rem;text-align:center;color:var(--dim)}
 .loading-spinner{width:24px;height:24px;border:2px solid var(--bdr);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
+.refresh-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--gold);border:1px solid var(--gold);border-radius:3px;padding:.6rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.refresh-btn::before{content:'';position:absolute;inset:0;background:var(--gold-dim);opacity:0;transition:opacity .2s}
+.refresh-btn:hover:not(:disabled)::before{opacity:1}
+.refresh-btn:hover:not(:disabled){box-shadow:0 0 20px rgba(201,168,76,.2)}
+.refresh-btn:disabled{opacity:.5;cursor:not-allowed}
+.refresh-btn svg{width:12px;height:12px}
+.refresh-spinner{width:12px;height:12px;border:1.5px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;display:inline-block;animation:spin .7s linear infinite}
+.header-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .report-footer{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
 .report-footer p{font-size:.63rem;color:var(--dim);font-weight:300}
 .report-footer span{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim)}
@@ -91,14 +99,24 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 </nav>
 
 <div class="main">
-  <div class="page-eyebrow">Automated Daily Brief</div>
-  <h1 class="page-h1">Daily <span>Signal Report</span></h1>
-  <p class="page-sub">Generated automatically each weekday at 11:00 AM ET by our market scanner</p>
+  <div class="header-row">
+    <div>
+      <div class="page-eyebrow">Automated Daily Brief</div>
+      <h1 class="page-h1">Daily <span>Signal Report</span></h1>
+      <p class="page-sub">Generated automatically each weekday at 11:00 AM ET by our market scanner</p>
+    </div>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadReport(true)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      Refresh
+    </button>
+  </div>
   <div class="divider"></div>
 
   <div class="disclaimer">
     <strong>Read first:</strong> This report shows <strong>momentum signal rankings</strong> based on historical patterns &mdash; which stocks our formula scores highest today. These are <strong>not predictions</strong> of future performance and <strong>not financial advice</strong>. Scores reflect tendencies observed in past data, which never guarantee future results. Always do your own research and consult a licensed advisor before investing.
   </div>
+
+  <p style="font-size:.68rem;color:var(--dim);margin-bottom:1.2rem;line-height:1.5"><strong style="color:var(--gold)">Refresh</strong> pulls the latest report the scanner has generated. A brand-new report is built automatically each weekday at 11:00 AM ET (or whenever the GitHub Action runs) &mdash; the button fetches the most recent one, it doesn't re-run the scan itself.</p>
 
   <div id="content">
     <div class="loading">
@@ -120,9 +138,14 @@ const pct=d=>d==null||isNaN(d)?'—':(d>=0?'+':'')+d.toFixed(2)+'%';
 const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
 const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-async function loadReport(){
+async function loadReport(isManual){
   updateWlBadge();
   const content=document.getElementById('content');
+  const btn=document.getElementById('refreshBtn');
+  if(isManual&&btn){
+    btn.disabled=true;
+    btn.innerHTML='<span class="refresh-spinner"></span>&nbsp;Refreshing';
+  }
   try{
     // Cache-bust so we always get the freshest committed report
     const res=await fetch('report.json?t='+Date.now());
@@ -135,6 +158,10 @@ async function loadReport(){
       <div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:.5rem">No report available yet</div>
       <p style="font-size:.82rem;color:var(--dim);font-weight:300;line-height:1.6">The daily report is generated automatically each weekday at 11:00 AM ET.<br>Once the first one runs, it'll appear here. (If you just set this up, trigger the GitHub Action manually to generate the first report.)</p>
     </div>`;
+  }
+  if(btn){
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>&nbsp;Refresh';
   }
 }
 
@@ -224,7 +251,7 @@ function describeTop(sig){
   return top2.join(' and ');
 }
 
-loadReport();
+loadReport(false);
 </script>
 </body>
 </html>
