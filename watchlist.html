@@ -92,6 +92,25 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.live-dot-off{width:7px;height:7px;border-radius:50%;background:var(--dim);display:inline-block}
+.live-dot-on{width:7px;height:7px;border-radius:50%;background:var(--grn);display:inline-block;animation:livePulse 1.4s ease-in-out infinite;box-shadow:0 0 6px var(--grn)}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.3}}
+#liveBtn.active{border-color:var(--grn);color:var(--grn)}
+#liveBtn.active::before{background:rgba(34,197,94,.12)}
+.market-status{display:inline-flex;align-items:center;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.05em;padding:.4rem .8rem;border-radius:3px;border:1px solid var(--bdr);background:var(--surf)}
+.market-status .ms-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.market-status.open .ms-dot{background:var(--grn);animation:livePulse 2s ease-in-out infinite}
+.market-status.closed .ms-dot{background:var(--red)}
+.market-status .ms-text{color:var(--mid)}
+.live-meta{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.04em;margin-top:.3rem}
+@keyframes flashGreen{0%{background:rgba(34,197,94,.35)}100%{background:transparent}}
+@keyframes flashRed{0%{background:rgba(239,68,68,.35)}100%{background:transparent}}
+.flash-up{animation:flashGreen 1s ease-out}
+.flash-down{animation:flashRed 1s ease-out}
+.budget-warn{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-left:2px solid var(--red);border-radius:3px;padding:.6rem .9rem;margin-bottom:1rem;font-size:.74rem;color:#f87171;display:none}
+.budget-warn.visible{display:block}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js?v9"></script>
@@ -115,12 +134,21 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
       <h1 class="page-h1">My <span>Watchlist</span></h1>
       <p class="page-sub">Stocks you&rsquo;ve saved from the Sector Scanner and Stock Scout</p>
     </div>
-    <div style="display:flex;gap:.6rem;align-items:flex-end">
+    <div style="display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap">
+      <button class="scan-btn" id="liveBtn" onclick="toggleLive()"><span class="live-dot-off" id="liveDot"></span>&nbsp;<span id="liveLabel">Live: Off</span></button>
       <button class="scan-btn" id="refreshBtn" onclick="refreshAll()"><span class="btn-dot"></span>&nbsp;Refresh Quotes</button>
       <button onclick="clearAll()" style="display:flex;align-items:center;gap:.4rem;background:transparent;border:1px solid var(--bdr);border-radius:3px;padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--dim);cursor:pointer;transition:all .2s;text-transform:uppercase" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)';this.style.color='var(--dim)'">&#10005;&nbsp;Clear All</button>
     </div>
   </div>
   <div class="divider"></div>
+
+  <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap">
+    <div class="market-status closed" id="marketStatus">
+      <span class="ms-dot"></span><span class="ms-text" id="marketText">Checking market…</span>
+    </div>
+    <span class="live-meta" id="liveMeta"></span>
+  </div>
+  <div class="budget-warn" id="budgetWarn"></div>
 
   <div id="emptyState" style="display:none;text-align:center;padding:4rem 2rem">
     <div style="font-size:2rem;margin-bottom:1rem;opacity:.3">&#9875;</div>
@@ -245,13 +273,17 @@ async function refreshAll(){
     const user=await getUser();
     for(const s of wl){
       const q=await fq(s.sym);
+      if(typeof addCalls==='function')addCalls(1);
       if(q){
         s.dp=q.dp;s.c=q.c;s.pc=q.pc;
+        if(typeof flashPrice==='function')flashPrice(s.sym,q.c);
+        if(typeof lastPrices==='object')lastPrices[s.sym]=q.c;
         if(user)await sb.from('watchlist').update({dp:q.dp,c:q.c}).eq('user_id',user.id).eq('sym',s.sym);
       }
       await new Promise(r=>setTimeout(r,250));
     }
     renderWatchlist(wl);
+    if(typeof setLiveMeta==='function')setLiveMeta('Manually refreshed · '+callsRemaining()+' calls left today');
   }catch(e){alert('Refresh failed: '+e.message);}
   btn.disabled=false;btn.innerHTML='<span class="btn-dot"></span>&nbsp;Refresh Quotes';
 }
@@ -347,12 +379,185 @@ async function renderWatchlist(preWl){
   document.getElementById('wlTimestamp').textContent='Last rendered '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIVE AUTO-REFRESH SYSTEM (Option 1, watchlist-only, 5 guardrails)
+   ═══════════════════════════════════════════════════════════════════════════ */
+const LIVE_INTERVAL_MS = 90000;   // Guardrail 5: 90-second interval
+const DAILY_CALL_CAP    = 250;    // Guardrail 4: hard daily budget
+let liveOn = false;               // Guardrail 1: off by default
+let liveTimer = null;
+let lastPrices = {};              // for price-flash comparison
+
+// ── Guardrail 4: daily call budget tracked in localStorage ──────────────────
+function getCallBudget(){
+  const today = new Date().toDateString();
+  let b;
+  try{ b = JSON.parse(localStorage.getItem('sp500_callbudget')||'{}'); }catch{ b={}; }
+  if(b.date !== today){ b = {date: today, count: 0}; localStorage.setItem('sp500_callbudget', JSON.stringify(b)); }
+  return b;
+}
+function addCalls(n){
+  const b = getCallBudget();
+  b.count += n;
+  localStorage.setItem('sp500_callbudget', JSON.stringify(b));
+  return b.count;
+}
+function callsRemaining(){ return Math.max(0, DAILY_CALL_CAP - getCallBudget().count); }
+
+// ── Guardrail 2: US market hours check (Eastern Time) ───────────────────────
+function marketStatus(){
+  const now = new Date();
+  // Convert to ET regardless of user's timezone
+  const et = new Date(now.toLocaleString('en-US', {timeZone:'America/New_York'}));
+  const day = et.getDay();           // 0=Sun, 6=Sat
+  const mins = et.getHours()*60 + et.getMinutes();
+  const open = 9*60+30, close = 16*60;
+  const isWeekday = day>=1 && day<=5;
+  const isOpen = isWeekday && mins>=open && mins<close;
+  let label;
+  if(isOpen){
+    const toClose = close - mins;
+    label = 'Market Open · closes in '+Math.floor(toClose/60)+'h '+(toClose%60)+'m';
+  } else if(isWeekday && mins<open){
+    const toOpen = open - mins;
+    label = 'Market Closed · opens in '+Math.floor(toOpen/60)+'h '+(toOpen%60)+'m';
+  } else {
+    label = 'Market Closed';
+  }
+  return {isOpen, label};
+}
+function renderMarketStatus(){
+  const {isOpen, label} = marketStatus();
+  const el = document.getElementById('marketStatus');
+  const txt = document.getElementById('marketText');
+  if(el){ el.className = 'market-status '+(isOpen?'open':'closed'); }
+  if(txt){ txt.textContent = label; }
+  return isOpen;
+}
+
+// ── The live tick: re-fetch ONLY watchlist quotes, update in place ──────────
+async function liveTick(){
+  if(!liveOn) return;
+
+  // Guardrail 2: stop if market closed
+  if(!renderMarketStatus()){
+    setLiveMeta('Paused — market closed');
+    return;
+  }
+  // Guardrail 3: stop if tab not visible
+  if(document.hidden){
+    setLiveMeta('Paused — tab not active');
+    return;
+  }
+  // Guardrail 4: stop if daily budget exhausted
+  const wl = await getWatchlist();
+  if(callsRemaining() < wl.length){
+    stopLive();
+    const warn = document.getElementById('budgetWarn');
+    warn.textContent = 'Live updates paused — daily API budget ('+DAILY_CALL_CAP+' calls) reached. Resets tomorrow. You can still refresh manually a few times.';
+    warn.classList.add('visible');
+    return;
+  }
+
+  // Fetch fresh quotes for each watched stock
+  const user = await getUser();
+  let updated = 0;
+  for(const s of wl){
+    const q = await fq(s.sym);
+    addCalls(1);
+    if(q && q.c){
+      flashPrice(s.sym, q.c);       // price-flash animation
+      lastPrices[s.sym] = q.c;
+      // light DB update so other devices see fresh numbers (best-effort)
+      if(user) sb.from('watchlist').update({dp:q.dp, c:q.c}).eq('user_id',user.id).eq('sym',s.sym);
+      s.dp=q.dp; s.c=q.c; s.pc=q.pc;
+      updated++;
+    }
+    await new Promise(r=>setTimeout(r,150));
+  }
+  await renderWatchlist(wl);
+  const t = new Date();
+  setLiveMeta('Updated '+t.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' · '+callsRemaining()+' calls left today');
+}
+
+function flashPrice(sym, newPrice){
+  const old = lastPrices[sym];
+  if(old==null || old===newPrice) return;
+  // Find the card for this symbol and flash its price pill
+  document.querySelectorAll('.score-card').forEach(card=>{
+    const tick = card.querySelector('.s-ticker');
+    if(tick && tick.textContent===sym){
+      const pill = card.querySelector('.pill-green, .pill-red');
+      if(pill){
+        pill.classList.remove('flash-up','flash-down');
+        void pill.offsetWidth; // restart animation
+        pill.classList.add(newPrice>old?'flash-up':'flash-down');
+      }
+    }
+  });
+}
+
+function setLiveMeta(text){
+  const el = document.getElementById('liveMeta');
+  if(el) el.textContent = text;
+}
+
+function startLive(){
+  liveOn = true;
+  document.getElementById('liveBtn').classList.add('active');
+  document.getElementById('liveDot').className = 'live-dot-on';
+  document.getElementById('liveLabel').textContent = 'Live: On';
+  liveTick();                        // immediate first tick
+  liveTimer = setInterval(liveTick, LIVE_INTERVAL_MS);
+}
+function stopLive(){
+  liveOn = false;
+  if(liveTimer){ clearInterval(liveTimer); liveTimer = null; }
+  const btn = document.getElementById('liveBtn');
+  if(btn) btn.classList.remove('active');
+  const dot = document.getElementById('liveDot');
+  if(dot) dot.className = 'live-dot-off';
+  const lbl = document.getElementById('liveLabel');
+  if(lbl) lbl.textContent = 'Live: Off';
+}
+function toggleLive(){
+  if(liveOn){ stopLive(); setLiveMeta('Live updates off'); }
+  else {
+    // Guardrail 1: only start on explicit click; check budget first
+    if(callsRemaining() < 1){
+      const warn = document.getElementById('budgetWarn');
+      warn.textContent = 'Daily API budget reached — live updates unavailable until tomorrow.';
+      warn.classList.add('visible');
+      return;
+    }
+    if(!renderMarketStatus()){
+      setLiveMeta('Market is closed — live updates will show no movement, but you can still enable them.');
+    }
+    startLive();
+  }
+}
+
+// Guardrail 3: pause/resume on tab visibility change
+document.addEventListener('visibilitychange', ()=>{
+  if(liveOn && !document.hidden){ liveTick(); }   // catch up when returning
+});
+
+// Keep the market clock ticking even when live is off (free, no API calls)
+setInterval(renderMarketStatus, 30000);
+
+
 // On load: require login, set up auth UI, then render the watchlist
 (async()=>{
   const user=await requireAuth();   // redirects to login.html if not signed in
   if(!user)return;
   await initAuthUI();               // populates badge + email/sign-out
+  renderMarketStatus();             // show market open/closed clock
+  setLiveMeta('Live updates off · '+callsRemaining()+' calls left today');
   await renderWatchlist();
+  // seed lastPrices so the first flash has a baseline
+  const wl0=await getWatchlist();
+  wl0.forEach(s=>{ if(s.c!=null) lastPrices[s.sym]=s.c; });
 })();
 </script>
 </body></html>
