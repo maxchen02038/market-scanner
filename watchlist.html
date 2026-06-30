@@ -100,11 +100,11 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="topbar-right"><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v8"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item" href="scout.html?v8"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item active" href="watchlist.html?v8"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item" href="assistant.html?v8"><span class="nav-dot"></span>Assistant</a>
-  <a class="nav-item" href="report.html?v8"><span class="nav-dot"></span>Daily Report</a>
+  <a class="nav-item" href="index.html?v9"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item" href="scout.html?v9"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item active" href="watchlist.html?v9"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item" href="assistant.html?v9"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="report.html?v9"><span class="nav-dot"></span>Daily Report</a>
 </nav>
 <div class="main">
   <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
@@ -125,8 +125,8 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
     <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--text);margin-bottom:.5rem">No saved stocks yet</div>
     <p style="font-size:.84rem;color:var(--dim);font-weight:300">Click the <strong style="color:var(--gold)">Save</strong> button on any stock card in the Sector Scanner or Stock Scout to add it here.</p>
     <div style="margin-top:1.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
-      <a href="index.html?v8" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Sector Scanner</a>
-      <a href="scout.html?v8" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Stock Scout</a>
+      <a href="index.html?v9" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Sector Scanner</a>
+      <a href="scout.html?v9" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Stock Scout</a>
     </div>
   </div>
 
@@ -142,7 +142,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 
 <script>
 
-const FKEY='d8o6p2hr01qrbffjrqdgd8o6p2hr01qrbffjrqe0',FBASE='https://finnhub.io/api/v1';
+const FKEY='d91vqchr01qqnh2j96v0d91vqchr01qqnh2j96vg',FBASE='https://finnhub.io/api/v1';
 const get=async p=>{const r=await fetch(FBASE+p+'&token='+FKEY);return r.ok?r.json():null};
 const fq=s=>get('/quote?symbol='+encodeURIComponent(s));
 const fp=async s=>{try{return await get('/stock/profile2?symbol='+encodeURIComponent(s))||{}}catch{return {}}};
