@@ -88,11 +88,13 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;display:fle
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js?v9"></script>
 </head>
 <body>
 <div class="topbar">
   <div class="topbar-brand">S&P 500 Intelligence Platform</div>
-  <div class="topbar-right"><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
+  <div class="topbar-right"><span id="authStatus" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;margin-right:1rem"></span><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
   <a class="nav-item" href="index.html?v9"><span class="nav-dot"></span>Sector Scanner</a>
@@ -182,8 +184,7 @@ const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionD
 const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
 const badgeCls=s=>s>=70?'high':s>=40?'med':'low';
 
-function getWatchlist(){try{return JSON.parse(localStorage.getItem('sp500_wl')||'[]')}catch{return []}}
-function updateWlBadge(){const b=document.getElementById('wl-badge');if(!b)return;const n=getWatchlist().length;b.textContent=n;b.classList.toggle('visible',n>0);}
+// getWatchlist + updateWlBadge come from supabase-config.js
 
 /* ── KNOWLEDGE BASE ─────────────────────────────────────────────────────── */
 const KB={
@@ -318,7 +319,7 @@ async function handleMessage(text){
 
   // Watchlist query
   if(lower.includes('watchlist')||lower.includes('saved')||lower.includes('my stocks')){
-    const wl=getWatchlist();
+    const wl=await getWatchlist();
     if(!wl.length)return `Your watchlist is empty. Save stocks by clicking the <strong>Save</strong> button on any stock card, then they'll appear on your <a href="watchlist.html?v9">Watchlist</a>.`;
     const sorted=[...wl].sort((a,b)=>(b.scoreTotal||0)-(a.scoreTotal||0));
     let html=`You have <strong>${wl.length}</strong> saved stock${wl.length>1?'s':''}:<ul>`;
@@ -372,7 +373,7 @@ async function send(text){
 function chip(text){send(text);}
 
 document.addEventListener('DOMContentLoaded',()=>{
-  updateWlBadge();
+  initAuthUI();
   document.getElementById('chatInput').addEventListener('keydown',e=>{
     if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}
   });
