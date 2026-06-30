@@ -95,10 +95,11 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;display:fle
   <div class="topbar-right"><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v7"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item" href="scout.html?v7"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item" href="watchlist.html?v7"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item active" href="assistant.html?v7"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="index.html?v8"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item" href="scout.html?v8"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item" href="watchlist.html?v8"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item active" href="assistant.html?v8"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="report.html?v8"><span class="nav-dot"></span>Daily Report</a>
 </nav>
 
 <div class="chat-wrap">
@@ -194,7 +195,7 @@ const KB={
   target:`<strong>Price vs Target</strong> measures how far a stock trades below its average analyst price target — the implied upside. It only really predicts returns when implying genuine undervaluation, so it's weighted heaviest in valuation-driven sectors like Energy (40%) and Health Care (45%).`,
   sectors:`Each sector has a <strong>different primary driver</strong>, so weights shift:<ul><li><strong>Tech / Comm / Discretionary</strong> — momentum & beat magnitude dominate</li><li><strong>Energy / Real Estate</strong> — price vs target dominates (macro-driven)</li><li><strong>Health Care</strong> — price vs target (pipeline-driven, 45%)</li><li><strong>Consumer Staples</strong> — beat streak (consistency matters)</li><li><strong>Utilities</strong> — analyst consensus & target (bond proxies)</li></ul>`,
   bands:`Score interpretation:<ul><li><strong>80–100</strong> — Strong positive alignment</li><li><strong>60–79</strong> — Moderate positive</li><li><strong>40–59</strong> — Mixed / neutral</li><li><strong>20–39</strong> — Weak / negative lean</li><li><strong>0–19</strong> — Strong negative alignment</li></ul>Remember: this is pattern recognition based on historical tendencies, not a guarantee. Not financial advice.`,
-  save:`To save a stock: click the <strong>Save</strong> button (bookmark icon) on any stock card in the Sector Scanner or Stock Scout. Saved stocks appear on your <a href="watchlist.html?v7">Watchlist</a> page, and the gold badge on the Watchlist tab shows your count.`,
+  save:`To save a stock: click the <strong>Save</strong> button (bookmark icon) on any stock card in the Sector Scanner or Stock Scout. Saved stocks appear on your <a href="watchlist.html?v8">Watchlist</a> page, and the gold badge on the Watchlist tab shows your count.`,
   help:`I can help you with:<ul><li><strong>Score a stock</strong> — "score NVDA" or "how does AAPL score?"</li><li><strong>Live quotes</strong> — "what's TSLA trading at?"</li><li><strong>Compare stocks</strong> — "compare AMD and INTC"</li><li><strong>Today's top sector</strong> — "what's the leading sector?"</li><li><strong>Explain the formula</strong> — "what is beat streak?"</li><li><strong>My watchlist</strong> — "what's in my watchlist?"</li></ul>`
 };
 
@@ -311,18 +312,18 @@ async function handleMessage(text){
     let html=`Today's <strong>leading sector</strong> is <strong>${best.name}</strong> (${best.etf}), ${best.dp>=0?'up':'down'} <span class="mono" style="color:${best.dp>=0?'var(--grn)':'var(--red)'}">${pct(best.dp)}</span>.`;
     html+=`<p style="margin-top:.4rem;font-size:.8rem">Other movers: `;
     html+=data.slice(1,4).map(d=>`${d.etf} ${pct(d.dp)}`).join(' · ');
-    html+=`</p><p style="font-size:.8rem"><a href="index.html?v7">Open the Sector Scanner →</a></p>`;
+    html+=`</p><p style="font-size:.8rem"><a href="index.html?v8">Open the Sector Scanner →</a></p>`;
     return html;
   }
 
   // Watchlist query
   if(lower.includes('watchlist')||lower.includes('saved')||lower.includes('my stocks')){
     const wl=getWatchlist();
-    if(!wl.length)return `Your watchlist is empty. Save stocks by clicking the <strong>Save</strong> button on any stock card, then they'll appear on your <a href="watchlist.html?v7">Watchlist</a>.`;
+    if(!wl.length)return `Your watchlist is empty. Save stocks by clicking the <strong>Save</strong> button on any stock card, then they'll appear on your <a href="watchlist.html?v8">Watchlist</a>.`;
     const sorted=[...wl].sort((a,b)=>(b.scoreTotal||0)-(a.scoreTotal||0));
     let html=`You have <strong>${wl.length}</strong> saved stock${wl.length>1?'s':''}:<ul>`;
     sorted.slice(0,10).forEach(s=>{html+=`<li><span class="mono">${s.sym}</span> — ${s.name||s.sym}${s.scoreTotal!=null?` · <strong>${s.scoreTotal}/100</strong>`:' · ★ gainer'}</li>`;});
-    html+=`</ul><p style="font-size:.8rem"><a href="watchlist.html?v7">Open Watchlist →</a></p>`;
+    html+=`</ul><p style="font-size:.8rem"><a href="watchlist.html?v8">Open Watchlist →</a></p>`;
     return html;
   }
 
