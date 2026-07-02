@@ -112,7 +112,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v9"></script>
+<script src="supabase-config.js?v11"></script>
 </head>
 <body>
 <div class="topbar">
@@ -120,11 +120,11 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="topbar-right"><span id="authStatus" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;margin-right:1rem"></span><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v9"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item" href="scout.html?v9"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item" href="watchlist.html?v9"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item" href="assistant.html?v9"><span class="nav-dot"></span>Assistant</a>
-  <a class="nav-item active" href="report.html?v9"><span class="nav-dot"></span>Daily Report</a>
+  <a class="nav-item" href="index.html?v11"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item" href="scout.html?v11"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item" href="watchlist.html?v11"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item" href="assistant.html?v11"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item active" href="report.html?v11"><span class="nav-dot"></span>Daily Report</a>
 </nav>
 
 <div class="main">
@@ -296,11 +296,46 @@ async function updateWlTabCount(){
 }
 
 // ── Personalized watchlist report (browser-generated, cached per day) ────────
+// ── Snapshot helpers for cross-device daily-baseline comparison ─────────────
+// Returns today's date in ET as YYYY-MM-DD (the baseline is anchored to ET day)
+function etDateString(){
+  const et = new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+  const y = et.getFullYear(), m = String(et.getMonth()+1).padStart(2,'0'), d = String(et.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+d;
+}
+
+// Load today's baseline snapshot from Supabase → returns {sym: {score,dp,c,signals}}
+async function loadBaseline(userId, snapDate){
+  try{
+    const { data, error } = await sb.from('watchlist_snapshots')
+      .select('sym,score_total,dp,c,signals')
+      .eq('user_id', userId).eq('snap_date', snapDate);
+    if(error){ console.error('loadBaseline:', error); return {}; }
+    const map = {};
+    (data||[]).forEach(r => { map[r.sym] = { score:r.score_total, dp:r.dp, c:r.c, signals:r.signals }; });
+    return map;
+  }catch(e){ console.error('loadBaseline:', e); return {}; }
+}
+
+// Save today's baseline (first-open-of-day snapshot) to Supabase
+async function saveBaseline(userId, snapDate, scoredStocks){
+  try{
+    const rows = scoredStocks.map(s => ({
+      user_id: userId, snap_date: snapDate, sym: s.sym,
+      score_total: s.score, dp: s.dp, c: s.c, signals: s.signals,
+    }));
+    if(rows.length){
+      const { error } = await sb.from('watchlist_snapshots').upsert(rows, { onConflict: 'user_id,snap_date,sym' });
+      if(error) console.error('saveBaseline:', error);
+    }
+  }catch(e){ console.error('saveBaseline:', e); }
+}
+
 async function loadWatchlistReport(forceRegen){
   const content = document.getElementById('content');
   const user = await getUser();
   if(!user){
-    content.innerHTML = `<div class="empty"><div style="font-size:1.6rem;margin-bottom:.8rem;opacity:.3">&#128274;</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:.5rem">Sign in for your personal report</div><p style="font-size:.82rem;color:var(--dim);font-weight:300">Your watchlist report is tied to your account. <a href="login.html?v9" style="color:var(--gold)">Sign in</a> to see a rundown of your saved stocks.</p></div>`;
+    content.innerHTML = `<div class="empty"><div style="font-size:1.6rem;margin-bottom:.8rem;opacity:.3">&#128274;</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:.5rem">Sign in for your personal report</div><p style="font-size:.82rem;color:var(--dim);font-weight:300">Your watchlist report is tied to your account. <a href="login.html?v11" style="color:var(--gold)">Sign in</a> to see a rundown of your saved stocks.</p></div>`;
     return;
   }
 
@@ -310,15 +345,21 @@ async function loadWatchlistReport(forceRegen){
     return;
   }
 
-  // Check daily cache (per user, per day)
-  const today = new Date().toDateString();
+  // Short freshness window: reuse the report only if it was generated in the
+  // last 5 minutes AND the watchlist hasn't changed. This avoids a double-fetch
+  // when clicking between tabs, but otherwise pulls FRESH data every visit so
+  // prices/scores are current.
+  const FRESH_MS = 5 * 60 * 1000;
   const cacheKey = 'wl_report_' + user.id;
   if(!forceRegen){
     try{
       const cached = JSON.parse(localStorage.getItem(cacheKey)||'null');
-      if(cached && cached.date === today && cached.wlSize === wl.length){
-        renderWatchlistReport(cached.report, true);
-        return;
+      if(cached && cached.report && cached.wlSize === wl.length){
+        const age = Date.now() - new Date(cached.report.generatedAt).getTime();
+        if(age < FRESH_MS){
+          renderWatchlistReport(cached.report, true);
+          return;
+        }
       }
     }catch{}
   }
@@ -328,6 +369,10 @@ async function loadWatchlistReport(forceRegen){
   const status = t => { const el = document.getElementById('wlGenStatus'); if(el) el.textContent = t; };
 
   try{
+    // Load today's baseline snapshot from Supabase (captured on first open today)
+    const todayET = etDateString();
+    const baseline = await loadBaseline(user.id, todayET);   // {sym: {score,dp,c,signals}}
+
     const scored = [];
     for(let i=0;i<wl.length;i+=3){
       const batch = wl.slice(i, i+3);
@@ -336,15 +381,27 @@ async function loadWatchlistReport(forceRegen){
         if(!q || !q.c){ scored.push({...s, _noData:true}); return; }
         const etf = s.etf || 'XLK';
         const sc = calcScore(q, e, rec, tgt, etf);
+        const base = baseline[s.sym];
         scored.push({
           sym: s.sym, name: s.name||s.sym, dp: q.dp, c: q.c, etf,
           sectorName: s.sectorName||'—',
           score: sc.total, signals: sc.signals,
-          savedScore: s.scoreTotal,   // score when they saved it (may be null)
+          savedScore: s.scoreTotal,
+          // Baseline comparison (null if no baseline yet today)
+          baseScore: base ? base.score : null,
+          baseDp: base ? base.dp : null,
+          baseC: base ? base.c : null,
+          baseSignals: base ? base.signals : null,
         });
       }));
       status('Scored '+Math.min(i+3, wl.length)+' of '+wl.length+'…');
       if(i+3 < wl.length) await new Promise(r=>setTimeout(r,1200));
+    }
+
+    // If no baseline existed for today, THIS becomes today's baseline — save it.
+    if(Object.keys(baseline).length === 0){
+      status('Saving today\'s baseline…');
+      await saveBaseline(user.id, todayET, scored.filter(s=>!s._noData));
     }
 
     scored.sort((a,b)=>(b.score??-1)-(a.score??-1));
@@ -364,8 +421,8 @@ async function loadWatchlistReport(forceRegen){
       },
     };
 
-    // Cache it
-    try{ localStorage.setItem(cacheKey, JSON.stringify({date:today, wlSize:wl.length, report})); }catch{}
+    // Cache it (with a timestamp so we know how fresh it is)
+    try{ localStorage.setItem(cacheKey, JSON.stringify({wlSize:wl.length, report})); }catch{}
 
     renderWatchlistReport(report, false);
   }catch(err){
@@ -376,7 +433,9 @@ async function loadWatchlistReport(forceRegen){
 function renderWatchlistReport(r, fromCache){
   const content = document.getElementById('content');
   const gen = new Date(r.generatedAt);
-  document.getElementById('genTime').textContent = (fromCache?'Cached ':'Generated ')+gen.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' · '+gen.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const ageMin = Math.round((Date.now()-gen.getTime())/60000);
+  const freshLabel = ageMin < 1 ? 'just now' : ageMin+' min ago';
+  document.getElementById('genTime').textContent = 'Data as of '+gen.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})+' ('+freshLabel+')';
 
   let html = '';
 
@@ -392,7 +451,25 @@ function renderWatchlistReport(r, fromCache){
     <div class="summary-stat"><span class="summary-stat-label">Best Mover</span><span class="summary-stat-val" style="font-size:.72rem">${s.bestMover ? s.bestMover.sym+' '+pct(s.bestMover.dp) : '—'}</span></div>
   </div>`;
 
-  html += `<div class="section-label">Your Watchlist Rundown <span class="section-hint">ranked by current momentum score</span></div>`;
+  // Aggregate change vs baseline
+  const withBase = r.stocks.filter(s=>!s._noData && s.baseScore!=null);
+  let baselineNote = '';
+  if(withBase.length){
+    const avgScoreDelta = Math.round(withBase.reduce((a,s)=>a+(s.score-s.baseScore),0)/withBase.length);
+    const improved = withBase.filter(s=>s.score>s.baseScore).length;
+    const declined = withBase.filter(s=>s.score<s.baseScore).length;
+    const dcol = avgScoreDelta>0?'var(--grn)':avgScoreDelta<0?'var(--red)':'var(--dim)';
+    baselineNote = `<div style="background:var(--surf);border:1px solid var(--bdr);border-left:2px solid var(--gold);border-radius:4px;padding:.8rem 1.1rem;margin-bottom:1.2rem;font-size:.78rem;color:var(--mid);line-height:1.6">
+      <strong style="color:var(--gold)">Since this morning's baseline:</strong> your watchlist's average score has moved <strong style="color:${dcol}">${avgScoreDelta>0?'+':''}${avgScoreDelta}</strong> points · <span style="color:var(--grn)">${improved} improved</span> · <span style="color:var(--red)">${declined} declined</span>. Deltas below compare current data to the first snapshot captured today.
+    </div>`;
+  } else {
+    baselineNote = `<div style="background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:.8rem 1.1rem;margin-bottom:1.2rem;font-size:.76rem;color:var(--dim);line-height:1.6">
+      <strong style="color:var(--gold)">Baseline captured.</strong> This is today's first snapshot — it becomes your reference point. Open the report again later today (e.g. after market open) to see how your stocks have moved since now.
+    </div>`;
+  }
+  html += baselineNote;
+
+  html += `<div class="section-label">Your Watchlist Rundown <span class="section-hint">ranked by current momentum score · deltas vs AM baseline</span></div>`;
 
   r.stocks.forEach(st=>{
     if(st._noData){
@@ -400,13 +477,48 @@ function renderWatchlistReport(r, fromCache){
       return;
     }
     const cls = st.score>=70?'high':st.score>=40?'med':'low';
-    // Score drift since save
-    let driftHtml = '';
-    if(st.savedScore!=null){
-      const d = st.score - st.savedScore;
+
+    // ── Change vs today's baseline (the 9 AM / first-open snapshot) ──
+    const hasBase = st.baseScore != null;
+    let scoreDelta = '';
+    if(hasBase){
+      const d = st.score - st.baseScore;
       const dc = d>0?'drift-up':d<0?'drift-down':'drift-flat';
-      driftHtml = `<span class="wl-rs-drift ${dc}">${d>0?'▲':d<0?'▼':'='} ${d>0?'+':''}${d} vs saved</span>`;
+      scoreDelta = `<span class="wl-rs-drift ${dc}">${d>0?'▲':d<0?'▼':'='} ${d>0?'+':''}${d} today</span>`;
+    } else {
+      scoreDelta = `<span class="wl-rs-drift drift-flat" style="opacity:.6">baseline set</span>`;
     }
+
+    // Price change since baseline
+    let priceDeltaHtml = '';
+    if(hasBase && st.baseC){
+      const pd = ((st.c - st.baseC)/st.baseC)*100;
+      const pc = pd>0.01?'var(--grn)':pd<-0.01?'var(--red)':'var(--dim)';
+      const arrow = pd>0.01?'▲':pd<-0.01?'▼':'=';
+      priceDeltaHtml = `<span style="color:${pc};font-size:.6rem;font-family:'JetBrains Mono',monospace"> ${arrow} ${pd>0?'+':''}${pd.toFixed(2)}% since AM</span>`;
+    }
+
+    // Signal-level changes vs baseline (which signals moved)
+    let sigChangeHtml = '';
+    if(hasBase && st.baseSignals){
+      const changes = [];
+      const sigLabels = {beatMag:'earnings beat',beatStreak:'streak',momentum:'momentum',analyst:'analyst',target:'target'};
+      for(const k in sigLabels){
+        const now = st.signals[k]?.score ?? 0;
+        const was = st.baseSignals[k]?.score ?? 0;
+        const diff = now - was;
+        if(diff !== 0){
+          const col = diff>0?'var(--grn)':'var(--red)';
+          changes.push(`<span style="color:${col}">${sigLabels[k]} ${diff>0?'+':''}${diff}</span>`);
+        }
+      }
+      if(changes.length){
+        sigChangeHtml = `<div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim);margin-top:.35rem">Since AM baseline: ${changes.join(' · ')}</div>`;
+      } else {
+        sigChangeHtml = `<div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dim);margin-top:.35rem">No signal changes since AM baseline</div>`;
+      }
+    }
+
     // Honest signal summary
     const sig = st.signals;
     const items = [
@@ -421,12 +533,12 @@ function renderWatchlistReport(r, fromCache){
       <div class="wl-rs-top">
         <div class="wl-rs-badge ${cls}"><span class="wl-rs-num">${st.score}</span><span class="wl-rs-lbl">/100</span></div>
         <div class="wl-rs-info">
-          <div class="wl-rs-sym">${st.sym} ${driftHtml}</div>
+          <div class="wl-rs-sym">${st.sym} ${scoreDelta}</div>
           <div class="wl-rs-name">${st.name} · ${st.sectorName}</div>
         </div>
-        <div class="wl-rs-dp" style="color:${(st.dp??0)>=0?'var(--grn)':'var(--red)'}">${pct(st.dp)}<br><span style="font-size:.62rem;color:var(--dim);font-weight:400">${priceF(st.c)}</span></div>
+        <div class="wl-rs-dp" style="color:${(st.dp??0)>=0?'var(--grn)':'var(--red)'}">${pct(st.dp)}<br><span style="font-size:.62rem;color:var(--dim);font-weight:400">${priceF(st.c)}${priceDeltaHtml}</span></div>
       </div>
-      <div class="wl-rs-note">${driverText} <span style="color:var(--dim)">Signal ranking, not a prediction.</span></div>
+      <div class="wl-rs-note">${driverText}${sigChangeHtml} <span style="color:var(--dim)">Signal ranking, not a prediction.</span></div>
     </div>`;
   });
 
