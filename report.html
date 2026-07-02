@@ -83,6 +83,33 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.report-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--bdr)}
+.report-tab{background:transparent;border:none;border-bottom:2px solid transparent;padding:.6rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:all .2s;margin-bottom:-1px}
+.report-tab:hover{color:var(--text)}
+.report-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.report-tab .tab-count{background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);color:var(--gold);border-radius:999px;padding:.05rem .4rem;font-size:.56rem;margin-left:.4rem}
+.wl-report-stock{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;margin-bottom:.7rem;overflow:hidden;transition:border-color .2s}
+.wl-report-stock:hover{border-color:var(--gold)}
+.wl-rs-top{display:flex;align-items:center;gap:1rem;padding:.9rem 1.1rem}
+.wl-rs-badge{width:48px;height:48px;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.wl-rs-badge.high{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3)}
+.wl-rs-badge.med{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3)}
+.wl-rs-badge.low{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3)}
+.wl-rs-badge.none{background:var(--surf2);border:1px solid var(--bdr)}
+.wl-rs-num{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;line-height:1}
+.wl-rs-badge.high .wl-rs-num{color:var(--grn)}.wl-rs-badge.med .wl-rs-num{color:var(--gold)}.wl-rs-badge.low .wl-rs-num{color:var(--red)}.wl-rs-badge.none .wl-rs-num{color:var(--gold)}
+.wl-rs-lbl{font-family:'JetBrains Mono',monospace;font-size:.44rem;color:var(--dim);text-transform:uppercase;margin-top:1px}
+.wl-rs-info{flex:1;min-width:0}
+.wl-rs-sym{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.86rem;color:var(--text)}
+.wl-rs-name{font-size:.72rem;color:var(--dim);font-weight:300}
+.wl-rs-dp{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;flex-shrink:0;text-align:right}
+.wl-rs-note{font-size:.72rem;color:var(--mid);line-height:1.5;padding:0 1.1rem .8rem;border-top:1px solid var(--bdr);padding-top:.7rem}
+.wl-rs-drift{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:.1rem .4rem;border-radius:2px;margin-left:.4rem}
+.drift-up{background:var(--grn-dim);color:var(--grn)}
+.drift-down{background:var(--red-dim);color:var(--red)}
+.drift-flat{background:var(--surf2);color:var(--dim)}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js?v9"></script>
@@ -107,7 +134,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
       <h1 class="page-h1">Daily <span>Signal Report</span></h1>
       <p class="page-sub">Generated automatically each weekday at 9:00 AM ET by our market scanner</p>
     </div>
-    <button class="refresh-btn" id="refreshBtn" onclick="loadReport(true)">
+    <button class="refresh-btn" id="refreshBtn" onclick="refreshCurrentTab()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
       Refresh
     </button>
@@ -119,6 +146,11 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   </div>
 
   <p style="font-size:.68rem;color:var(--dim);margin-bottom:1.2rem;line-height:1.5"><strong style="color:var(--gold)">Refresh</strong> pulls the latest report the scanner has generated. A brand-new report is built automatically each weekday at 9:00 AM ET (or whenever the GitHub Action runs) &mdash; the button fetches the most recent one, it doesn't re-run the scan itself.</p>
+
+  <div class="report-tabs">
+    <button class="report-tab active" id="tabMarket" onclick="switchTab('market')">Market Report</button>
+    <button class="report-tab" id="tabWatchlist" onclick="switchTab('watchlist')">My Watchlist<span class="tab-count" id="wlTabCount" style="display:none">0</span></button>
+  </div>
 
   <div id="content">
     <div class="loading">
@@ -234,6 +266,172 @@ async function generateLiveReport(){
 const pct=d=>d==null||isNaN(d)?'—':(d>=0?'+':'')+d.toFixed(2)+'%';
 const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
 const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+let currentTab = 'market';
+
+function refreshCurrentTab(){
+  if(currentTab==='market') loadReport(true);
+  else loadWatchlistReport(true);   // force regenerate the personal report
+}
+
+
+function switchTab(tab){
+  currentTab = tab;
+  document.getElementById('tabMarket').classList.toggle('active', tab==='market');
+  document.getElementById('tabWatchlist').classList.toggle('active', tab==='watchlist');
+  if(tab==='market'){
+    loadReport(false);
+  } else {
+    loadWatchlistReport(false);
+  }
+}
+
+// Update the watchlist tab count badge
+async function updateWlTabCount(){
+  try{
+    const wl = await getWatchlist();
+    const badge = document.getElementById('wlTabCount');
+    if(badge){ badge.textContent = wl.length; badge.style.display = wl.length ? 'inline' : 'none'; }
+  }catch{}
+}
+
+// ── Personalized watchlist report (browser-generated, cached per day) ────────
+async function loadWatchlistReport(forceRegen){
+  const content = document.getElementById('content');
+  const user = await getUser();
+  if(!user){
+    content.innerHTML = `<div class="empty"><div style="font-size:1.6rem;margin-bottom:.8rem;opacity:.3">&#128274;</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:.5rem">Sign in for your personal report</div><p style="font-size:.82rem;color:var(--dim);font-weight:300">Your watchlist report is tied to your account. <a href="login.html?v9" style="color:var(--gold)">Sign in</a> to see a rundown of your saved stocks.</p></div>`;
+    return;
+  }
+
+  const wl = await getWatchlist();
+  if(!wl.length){
+    content.innerHTML = `<div class="empty"><div style="font-size:1.6rem;margin-bottom:.8rem;opacity:.3">&#9875;</div><div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:.5rem">Your watchlist is empty</div><p style="font-size:.82rem;color:var(--dim);font-weight:300">Save stocks from the Scanner or Scout, then come back for a personalized rundown.</p></div>`;
+    return;
+  }
+
+  // Check daily cache (per user, per day)
+  const today = new Date().toDateString();
+  const cacheKey = 'wl_report_' + user.id;
+  if(!forceRegen){
+    try{
+      const cached = JSON.parse(localStorage.getItem(cacheKey)||'null');
+      if(cached && cached.date === today && cached.wlSize === wl.length){
+        renderWatchlistReport(cached.report, true);
+        return;
+      }
+    }catch{}
+  }
+
+  // Generate fresh
+  content.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div style="font-family:JetBrains Mono,monospace;font-size:.75rem;letter-spacing:.05em" id="wlGenStatus">Scoring your '+wl.length+' saved stocks…</div></div>';
+  const status = t => { const el = document.getElementById('wlGenStatus'); if(el) el.textContent = t; };
+
+  try{
+    const scored = [];
+    for(let i=0;i<wl.length;i+=3){
+      const batch = wl.slice(i, i+3);
+      await Promise.all(batch.map(async s=>{
+        const [q, e, rec, tgt] = await Promise.all([fq(s.sym), fEarnings(s.sym), fRec(s.sym), fTarget(s.sym)]);
+        if(!q || !q.c){ scored.push({...s, _noData:true}); return; }
+        const etf = s.etf || 'XLK';
+        const sc = calcScore(q, e, rec, tgt, etf);
+        scored.push({
+          sym: s.sym, name: s.name||s.sym, dp: q.dp, c: q.c, etf,
+          sectorName: s.sectorName||'—',
+          score: sc.total, signals: sc.signals,
+          savedScore: s.scoreTotal,   // score when they saved it (may be null)
+        });
+      }));
+      status('Scored '+Math.min(i+3, wl.length)+' of '+wl.length+'…');
+      if(i+3 < wl.length) await new Promise(r=>setTimeout(r,1200));
+    }
+
+    scored.sort((a,b)=>(b.score??-1)-(a.score??-1));
+
+    const valid = scored.filter(s=>!s._noData);
+    const report = {
+      generatedAt: new Date().toISOString(),
+      stocks: scored,
+      summary: {
+        count: wl.length,
+        upToday: valid.filter(s=>(s.dp??0)>0).length,
+        avgScore: valid.length ? Math.round(valid.reduce((a,s)=>a+(s.score||0),0)/valid.length) : null,
+        topSym: valid[0]?.sym || null,
+        topScore: valid[0]?.score ?? null,
+        bestMover: valid.length ? valid.reduce((a,b)=>(b.dp??-999)>(a.dp??-999)?b:a) : null,
+        worstMover: valid.length ? valid.reduce((a,b)=>(b.dp??999)<(a.dp??999)?b:a) : null,
+      },
+    };
+
+    // Cache it
+    try{ localStorage.setItem(cacheKey, JSON.stringify({date:today, wlSize:wl.length, report})); }catch{}
+
+    renderWatchlistReport(report, false);
+  }catch(err){
+    content.innerHTML = '<div class="empty"><p style="color:#f87171">Couldn\'t build your report: '+err.message+'. Often a rate limit — wait and try again.</p></div>';
+  }
+}
+
+function renderWatchlistReport(r, fromCache){
+  const content = document.getElementById('content');
+  const gen = new Date(r.generatedAt);
+  document.getElementById('genTime').textContent = (fromCache?'Cached ':'Generated ')+gen.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' · '+gen.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+
+  let html = '';
+
+  // Summary bar
+  const s = r.summary;
+  html += `<div class="summary-bar">
+    <div class="summary-stat"><span class="summary-stat-label">Saved Stocks</span><span class="summary-stat-val">${s.count}</span></div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat"><span class="summary-stat-label">Up Today</span><span class="summary-stat-val" style="color:var(--grn)">${s.upToday} / ${s.count}</span></div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat"><span class="summary-stat-label">Avg Score</span><span class="summary-stat-val" style="color:var(--gold)">${s.avgScore ?? '—'} / 100</span></div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat"><span class="summary-stat-label">Best Mover</span><span class="summary-stat-val" style="font-size:.72rem">${s.bestMover ? s.bestMover.sym+' '+pct(s.bestMover.dp) : '—'}</span></div>
+  </div>`;
+
+  html += `<div class="section-label">Your Watchlist Rundown <span class="section-hint">ranked by current momentum score</span></div>`;
+
+  r.stocks.forEach(st=>{
+    if(st._noData){
+      html += `<div class="wl-report-stock"><div class="wl-rs-top"><div class="wl-rs-badge none"><span class="wl-rs-num">?</span><span class="wl-rs-lbl">n/a</span></div><div class="wl-rs-info"><div class="wl-rs-sym">${st.sym}</div><div class="wl-rs-name">No live data available</div></div></div></div>`;
+      return;
+    }
+    const cls = st.score>=70?'high':st.score>=40?'med':'low';
+    // Score drift since save
+    let driftHtml = '';
+    if(st.savedScore!=null){
+      const d = st.score - st.savedScore;
+      const dc = d>0?'drift-up':d<0?'drift-down':'drift-flat';
+      driftHtml = `<span class="wl-rs-drift ${dc}">${d>0?'▲':d<0?'▼':'='} ${d>0?'+':''}${d} vs saved</span>`;
+    }
+    // Honest signal summary
+    const sig = st.signals;
+    const items = [
+      {k:'momentum',label:'price momentum'},{k:'beatMag',label:'earnings beats'},
+      {k:'beatStreak',label:'beat streak'},{k:'analyst',label:'analyst ratings'},{k:'target',label:'target upside'}
+    ];
+    items.sort((a,b)=>(sig[b.k].score/sig[b.k].max)-(sig[a.k].score/sig[a.k].max));
+    const drivers = items.slice(0,2).filter(x=>sig[x.k].score>0).map(x=>x.label);
+    const driverText = drivers.length ? 'Strongest signals: '+drivers.join(' and ')+'.' : 'Mostly neutral signals right now.';
+
+    html += `<div class="wl-report-stock">
+      <div class="wl-rs-top">
+        <div class="wl-rs-badge ${cls}"><span class="wl-rs-num">${st.score}</span><span class="wl-rs-lbl">/100</span></div>
+        <div class="wl-rs-info">
+          <div class="wl-rs-sym">${st.sym} ${driftHtml}</div>
+          <div class="wl-rs-name">${st.name} · ${st.sectorName}</div>
+        </div>
+        <div class="wl-rs-dp" style="color:${(st.dp??0)>=0?'var(--grn)':'var(--red)'}">${pct(st.dp)}<br><span style="font-size:.62rem;color:var(--dim);font-weight:400">${priceF(st.c)}</span></div>
+      </div>
+      <div class="wl-rs-note">${driverText} <span style="color:var(--dim)">Signal ranking, not a prediction.</span></div>
+    </div>`;
+  });
+
+  content.innerHTML = html;
+}
 
 async function loadReport(isManual){
   initAuthUI();
@@ -353,6 +551,7 @@ function describeTop(sig){
   return top2.join(' and ');
 }
 
+updateWlTabCount();
 loadReport(false);
 </script>
 </body>
