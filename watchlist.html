@@ -113,7 +113,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v9"></script>
+<script src="supabase-config.js?v10"></script>
 </head>
 <body>
 <div class="topbar">
@@ -121,11 +121,11 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="topbar-right"><span id="authStatus" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;margin-right:1rem"></span><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v9"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item" href="scout.html?v9"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item active" href="watchlist.html?v9"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item" href="assistant.html?v9"><span class="nav-dot"></span>Assistant</a>
-  <a class="nav-item" href="report.html?v9"><span class="nav-dot"></span>Daily Report</a>
+  <a class="nav-item" href="index.html?v10"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item" href="scout.html?v10"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item active" href="watchlist.html?v10"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item" href="assistant.html?v10"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="report.html?v10"><span class="nav-dot"></span>Daily Report</a>
 </nav>
 <div class="main">
   <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
@@ -136,7 +136,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
     </div>
     <div style="display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap">
       <button class="scan-btn" id="liveBtn" onclick="toggleLive()"><span class="live-dot-off" id="liveDot"></span>&nbsp;<span id="liveLabel">Live: Off</span></button>
-      <button class="scan-btn" id="refreshBtn" onclick="refreshAll()"><span class="btn-dot"></span>&nbsp;Refresh Quotes</button>
+      <button class="scan-btn" id="refreshBtn" onclick="refreshAll()"><span class="btn-dot"></span>&nbsp;Re-score All</button>
       <button onclick="clearAll()" style="display:flex;align-items:center;gap:.4rem;background:transparent;border:1px solid var(--bdr);border-radius:3px;padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--dim);cursor:pointer;transition:all .2s;text-transform:uppercase" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)';this.style.color='var(--dim)'">&#10005;&nbsp;Clear All</button>
     </div>
   </div>
@@ -155,8 +155,8 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
     <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--text);margin-bottom:.5rem">No saved stocks yet</div>
     <p style="font-size:.84rem;color:var(--dim);font-weight:300">Click the <strong style="color:var(--gold)">Save</strong> button on any stock card in the Sector Scanner or Stock Scout to add it here.</p>
     <div style="margin-top:1.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
-      <a href="index.html?v9" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Sector Scanner</a>
-      <a href="scout.html?v9" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Stock Scout</a>
+      <a href="index.html?v10" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Sector Scanner</a>
+      <a href="scout.html?v10" class="scan-btn" style="text-decoration:none"><span class="nav-dot" style="background:var(--gold)"></span>&nbsp;Go to Stock Scout</a>
     </div>
   </div>
 
@@ -267,25 +267,52 @@ async function clearAll(){
 async function refreshAll(){
   const wl=await getWatchlist();if(!wl.length)return;
   const btn=document.getElementById('refreshBtn');
-  btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span>&nbsp;Refreshing&hellip;';
+
+  // Full re-score costs ~4 calls per stock. Check budget first.
+  const needed = wl.length * 4;
+  if(callsRemaining() < needed){
+    const warn=document.getElementById('budgetWarn');
+    if(warn){warn.textContent='Full re-score needs ~'+needed+' API calls but only '+callsRemaining()+' remain today. Showing current data instead — try again tomorrow, or it will update prices only.';warn.classList.add('visible');}
+  }
+
+  btn.disabled=true;btn.innerHTML='<span class="btn-spinner"></span>&nbsp;Re-scoring&hellip;';
   try{
-    // Fetch fresh quotes and update the stored rows
     const user=await getUser();
+    let done=0;
     for(const s of wl){
-      const q=await fq(s.sym);
-      if(typeof addCalls==='function')addCalls(1);
-      if(q){
-        s.dp=q.dp;s.c=q.c;s.pc=q.pc;
-        if(typeof flashPrice==='function')flashPrice(s.sym,q.c);
-        if(typeof lastPrices==='object')lastPrices[s.sym]=q.c;
-        if(user)await sb.from('watchlist').update({dp:q.dp,c:q.c}).eq('user_id',user.id).eq('sym',s.sym);
+      // If budget is tight, fall back to quote-only for remaining stocks
+      const fullScore = callsRemaining() >= 4;
+      if(fullScore){
+        const [q,earnings,rec,target]=await Promise.all([fq(s.sym),fEarnings(s.sym),fRec(s.sym),fTarget(s.sym)]);
+        if(typeof addCalls==='function')addCalls(4);
+        if(q&&q.c){
+          const etf=s.etf||'XLK';
+          const sc=calcScore(q,earnings,rec,target,etf);
+          if(typeof flashPrice==='function')flashPrice(s.sym,q.c);
+          if(typeof lastPrices==='object')lastPrices[s.sym]=q.c;
+          s.dp=q.dp;s.c=q.c;s.pc=q.pc;
+          s.scoreTotal=sc.total;s.signals=sc.signals;
+          if(user)await sb.from('watchlist').update({dp:q.dp,c:q.c,score_total:sc.total,signals:sc.signals}).eq('user_id',user.id).eq('sym',s.sym);
+        }
+      } else {
+        // budget exhausted mid-way: quote only
+        const q=await fq(s.sym);
+        if(typeof addCalls==='function')addCalls(1);
+        if(q&&q.c){
+          if(typeof flashPrice==='function')flashPrice(s.sym,q.c);
+          if(typeof lastPrices==='object')lastPrices[s.sym]=q.c;
+          s.dp=q.dp;s.c=q.c;s.pc=q.pc;
+          if(user)await sb.from('watchlist').update({dp:q.dp,c:q.c}).eq('user_id',user.id).eq('sym',s.sym);
+        }
       }
-      await new Promise(r=>setTimeout(r,250));
+      done++;
+      btn.innerHTML='<span class="btn-spinner"></span>&nbsp;Re-scoring '+done+'/'+wl.length+'&hellip;';
+      await new Promise(r=>setTimeout(r,1000));  // rate-limit spacing for the heavier calls
     }
     renderWatchlist(wl);
-    if(typeof setLiveMeta==='function')setLiveMeta('Manually refreshed · '+callsRemaining()+' calls left today');
+    if(typeof setLiveMeta==='function')setLiveMeta('Re-scored '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})+' · '+callsRemaining()+' calls left today');
   }catch(e){alert('Refresh failed: '+e.message);}
-  btn.disabled=false;btn.innerHTML='<span class="btn-dot"></span>&nbsp;Refresh Quotes';
+  btn.disabled=false;btn.innerHTML='<span class="btn-dot"></span>&nbsp;Re-score All';
 }
 
 async function renderWatchlist(preWl){
@@ -547,17 +574,54 @@ document.addEventListener('visibilitychange', ()=>{
 setInterval(renderMarketStatus, 30000);
 
 
-// On load: require login, set up auth UI, then render the watchlist
+// On load: require login, set up auth UI, render, then auto-refresh quotes
 (async()=>{
   const user=await requireAuth();   // redirects to login.html if not signed in
   if(!user)return;
   await initAuthUI();               // populates badge + email/sign-out
   renderMarketStatus();             // show market open/closed clock
-  setLiveMeta('Live updates off · '+callsRemaining()+' calls left today');
+
+  // First render immediately with stored values so the page isn't blank
   await renderWatchlist();
   // seed lastPrices so the first flash has a baseline
   const wl0=await getWatchlist();
   wl0.forEach(s=>{ if(s.c!=null) lastPrices[s.sym]=s.c; });
+
+  // Then auto-fetch fresh quotes once on open, so data is current without a manual click.
+  // Guardrails: only if there are stocks, and only if the daily budget allows it.
+  if(wl0.length && callsRemaining() >= wl0.length){
+    setLiveMeta('Updating quotes…');
+    await autoRefreshOnLoad();
+  } else if(wl0.length){
+    setLiveMeta('Showing saved data · daily API budget low — refresh manually if needed');
+  } else {
+    setLiveMeta('Live updates off · '+callsRemaining()+' calls left today');
+  }
 })();
+
+// Lightweight one-shot refresh used on page open (quotes only, updates prices/%)
+async function autoRefreshOnLoad(){
+  const wl = await getWatchlist();
+  if(!wl.length) return;
+  const user = await getUser();
+  try{
+    for(const s of wl){
+      const q = await fq(s.sym);
+      if(typeof addCalls==='function') addCalls(1);
+      if(q && q.c){
+        if(typeof flashPrice==='function') flashPrice(s.sym, q.c);
+        lastPrices[s.sym] = q.c;
+        s.dp=q.dp; s.c=q.c; s.pc=q.pc;
+        if(user) sb.from('watchlist').update({dp:q.dp, c:q.c}).eq('user_id',user.id).eq('sym',s.sym);
+      }
+      await new Promise(r=>setTimeout(r,150));
+    }
+    await renderWatchlist(wl);
+    const t = new Date();
+    setLiveMeta('Updated '+t.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})+' · '+callsRemaining()+' calls left today');
+  }catch(e){
+    setLiveMeta('Couldn\'t auto-update — showing saved data. Try Re-score All.');
+  }
+}
 </script>
 </body></html>
