@@ -587,13 +587,12 @@ setInterval(renderMarketStatus, 30000);
   const wl0=await getWatchlist();
   wl0.forEach(s=>{ if(s.c!=null) lastPrices[s.sym]=s.c; });
 
-  // Then auto-fetch fresh quotes once on open, so data is current without a manual click.
-  // Guardrails: only if there are stocks, and only if the daily budget allows it.
-  if(wl0.length && callsRemaining() >= wl0.length){
-    setLiveMeta('Updating quotes…');
-    await autoRefreshOnLoad();
-  } else if(wl0.length){
-    setLiveMeta('Showing saved data · daily API budget low — refresh manually if needed');
+  // Then auto RE-SCORE on open so scores + prices are fully current without a click.
+  // This costs ~4 calls per stock. The budget guardrail inside refreshAll() will
+  // fall back to quote-only (or saved data) if the daily API budget is low.
+  if(wl0.length){
+    setLiveMeta('Re-scoring your watchlist…');
+    await refreshAll();   // full re-score (quote + earnings + analyst + target)
   } else {
     setLiveMeta('Live updates off · '+callsRemaining()+' calls left today');
   }
