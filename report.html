@@ -105,7 +105,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
     <div>
       <div class="page-eyebrow">Automated Daily Brief</div>
       <h1 class="page-h1">Daily <span>Signal Report</span></h1>
-      <p class="page-sub">Generated automatically each weekday at 11:00 AM ET by our market scanner</p>
+      <p class="page-sub">Generated automatically each weekday at 9:00 AM ET by our market scanner</p>
     </div>
     <button class="refresh-btn" id="refreshBtn" onclick="loadReport(true)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
@@ -118,7 +118,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
     <strong>Read first:</strong> This report shows <strong>momentum signal rankings</strong> based on historical patterns &mdash; which stocks our formula scores highest today. These are <strong>not predictions</strong> of future performance and <strong>not financial advice</strong>. Scores reflect tendencies observed in past data, which never guarantee future results. Always do your own research and consult a licensed advisor before investing.
   </div>
 
-  <p style="font-size:.68rem;color:var(--dim);margin-bottom:1.2rem;line-height:1.5"><strong style="color:var(--gold)">Refresh</strong> pulls the latest report the scanner has generated. A brand-new report is built automatically each weekday at 11:00 AM ET (or whenever the GitHub Action runs) &mdash; the button fetches the most recent one, it doesn't re-run the scan itself.</p>
+  <p style="font-size:.68rem;color:var(--dim);margin-bottom:1.2rem;line-height:1.5"><strong style="color:var(--gold)">Refresh</strong> pulls the latest report the scanner has generated. A brand-new report is built automatically each weekday at 9:00 AM ET (or whenever the GitHub Action runs) &mdash; the button fetches the most recent one, it doesn't re-run the scan itself.</p>
 
   <div id="content">
     <div class="loading">
@@ -134,6 +134,103 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 </div>
 
 <script>
+/* ── Live-generate fallback: scan in-browser when no server report exists ── */
+const FKEY='d91vqchr01qqnh2j96v0d91vqchr01qqnh2j96vg',FBASE='https://finnhub.io/api/v1';
+const get=async p=>{const r=await fetch(FBASE+p+'&token='+FKEY);if(r.status===429){await new Promise(x=>setTimeout(x,2000));const r2=await fetch(FBASE+p+'&token='+FKEY);return r2.ok?r2.json():null;}return r.ok?r.json():null;};
+const fq=s=>get('/quote?symbol='+encodeURIComponent(s));
+const fp=async s=>{try{return await get('/stock/profile2?symbol='+encodeURIComponent(s))||{}}catch{return {}}};
+const fEarnings=async s=>{try{return await get('/stock/earnings?symbol='+encodeURIComponent(s))||[]}catch{return []}};
+const fRec=async s=>{try{const d=await get('/stock/recommendation?symbol='+encodeURIComponent(s));return d&&d.length?d[0]:null}catch{return null}};
+const fTarget=async s=>{try{return await get('/stock/price-target?symbol='+encodeURIComponent(s))||null}catch{return null}};
+const WEIGHTS={XLK:{beatMag:35,beatStreak:15,momentum:35,analyst:5,target:10},XLF:{beatMag:20,beatStreak:15,momentum:30,analyst:15,target:20},XLE:{beatMag:10,beatStreak:10,momentum:20,analyst:20,target:40},XLV:{beatMag:10,beatStreak:5,momentum:20,analyst:20,target:45},XLP:{beatMag:25,beatStreak:20,momentum:20,analyst:20,target:15},XLI:{beatMag:20,beatStreak:15,momentum:30,analyst:20,target:15},XLU:{beatMag:10,beatStreak:15,momentum:15,analyst:30,target:30},XLRE:{beatMag:10,beatStreak:10,momentum:20,analyst:25,target:35},XLB:{beatMag:15,beatStreak:10,momentum:35,analyst:20,target:20},XLC:{beatMag:30,beatStreak:15,momentum:30,analyst:15,target:10},XLY:{beatMag:25,beatStreak:15,momentum:35,analyst:15,target:10}};
+const SECTOR_NAMES={XLK:'Information Technology',XLF:'Financials',XLE:'Energy',XLV:'Health Care',XLP:'Consumer Staples',XLI:'Industrials',XLU:'Utilities',XLRE:'Real Estate',XLB:'Materials',XLC:'Communication Services',XLY:'Consumer Discretionary'};
+const SECTORS=[
+  {etf:'XLK',name:'Information Technology',stocks:['NVDA','AAPL','MSFT','AVGO','ORCL','CRM','CSCO','AMD','ACN','ADBE','INTU','QCOM','TXN','NOW','AMAT','ANET','MU','LRCX','KLAC','ADI','APH','CDNS','SNPS','MSI','INTC','GLW','MCHP','NXPI','FTNT','TEL','HPQ','HPE','WDC','STX','SMCI','ON','CTSH','IT','TYL']},
+  {etf:'XLF',name:'Financials',stocks:['BRK.B','JPM','V','MA','BAC','WFC','GS','MS','AXP','SPGI','BLK','C','SCHW','CB','PGR','MMC','BX','ICE','CME','PNC','USB','AON','TFC','COF','MET','AIG','BK','AFL','TRV','ALL','PRU','AMP','MSCI','DFS','FIS','HIG','ACGL','KKR','NDAQ','WTW']},
+  {etf:'XLE',name:'Energy',stocks:['XOM','CVX','COP','WMB','EOG','KMI','OKE','SLB','PSX','MPC','VLO','OXY','HES','FANG','BKR','HAL','DVN','TRGP','EQT','CTRA','APA','OVV','MRO']},
+  {etf:'XLV',name:'Health Care',stocks:['LLY','UNH','JNJ','ABBV','MRK','TMO','ABT','ISRG','DHR','AMGN','PFE','SYK','BSX','BMY','MDT','GILD','VRTX','CI','ELV','CVS','MCK','ZTS','REGN','BDX','HCA','EW','IQV','A','IDXX','GEHC','CNC','HUM','DXCM','BIIB','MRNA','RMD','COR','CAH','WST','ZBH']},
+  {etf:'XLP',name:'Consumer Staples',stocks:['COST','WMT','PG','KO','PEP','PM','MO','MDLZ','CL','TGT','KMB','GIS','MNST','KVUE','SYY','KDP','STZ','KHC','HSY','KR','ADM','MKC','CHD','CLX','TSN','K','HRL','SJM','CAG','CPB','BG','TAP','LW']},
+  {etf:'XLI',name:'Industrials',stocks:['GE','CAT','RTX','UNP','HON','ETN','BA','LMT','UPS','DE','ADP','TT','PH','GD','MMM','EMR','ITW','CSX','NSC','FDX','NOC','WM','GEV','CARR','PCAR','JCI','CMI','PWR','URI','RSG','OTIS','CTAS','PAYX','FAST','AME','ROK','DAL','LHX','VRSK','IR']},
+  {etf:'XLY',name:'Consumer Discretionary',stocks:['AMZN','TSLA','HD','MCD','BKNG','LOW','TJX','SBUX','NKE','ORLY','CMG','MAR','GM','HLT','F','AZO','ROST','YUM','DHI','LEN','RCL','LVS','GRMN','TSCO','EBAY','APTV','PHM','DRI','EXPE','CCL','ULTA','BBY','POOL','KMX','DPZ','NVR','TPR','GPC','LKQ','HAS']},
+  {etf:'XLB',name:'Materials',stocks:['LIN','SHW','APD','ECL','FCX','NEM','CTVA','DOW','NUE','DD','VMC','MLM','PPG','IFF','ALB','LYB','STLD','CF','BALL','AMCR','AVY','PKG','IP','CE','EMN','MOS','FMC','RPM','SW']},
+  {etf:'XLRE',name:'Real Estate',stocks:['PLD','AMT','EQIX','WELL','SPG','PSA','O','CCI','DLR','CBRE','EXR','VICI','AVB','IRM','EQR','SBAC','VTR','WY','INVH','ARE','MAA','ESS','DOC','KIM','UDR','HST','REG','CPT','BXP','FRT']},
+  {etf:'XLU',name:'Utilities',stocks:['NEE','SO','DUK','CEG','AEP','D','SRE','EXC','XEL','PEG','ED','VST','EIX','WEC','ETR','AWK','DTE','PPL','AEE','FE','ATO','CMS','CNP','NRG','ES','PCG','LNT','EVRG','NI','PNW']},
+  {etf:'XLC',name:'Communication Services',stocks:['META','GOOGL','GOOG','NFLX','TMUS','DIS','T','VZ','CMCSA','CHTR','EA','TTWO','OMC','WBD','LYV','IPG','MTCH','NWSA','FOXA','PARA','TKO','NWS','FOX']},
+];
+function calcScore(q,earnings,rec,target,etf){
+  const W=WEIGHTS[etf]||{beatMag:30,beatStreak:15,momentum:35,analyst:10,target:10};
+  const recent=(earnings||[]).slice(0,4).filter(e=>e.surprisePercent!=null);
+  const avgSurp=recent.length?recent.reduce((s,e)=>s+e.surprisePercent,0)/recent.length:null;
+  const magScore=avgSurp===null?0:avgSurp>15?W.beatMag:avgSurp>10?Math.round(W.beatMag*.73):avgSurp>5?Math.round(W.beatMag*.47):avgSurp>0?Math.round(W.beatMag*.23):0;
+  let streak=0;for(const e of(earnings||[]).slice(0,4)){if((e.surprisePercent??-1)>0)streak++;else break;}
+  const ss=streak>=4?W.beatStreak:streak===3?Math.round(W.beatStreak*.67):streak===2?Math.round(W.beatStreak*.4):streak===1?Math.round(W.beatStreak*.2):0;
+  const dp=q?.dp||0;
+  const ms=dp>10?W.momentum:dp>5?Math.round(W.momentum*.74):dp>1?Math.round(W.momentum*.46):dp>=0?Math.round(W.momentum*.23):0;
+  let as2=0,ad='—';
+  if(rec){const sb=rec.strongBuy||0,b=rec.buy||0,h=rec.hold||0,s=(rec.sell||0)+(rec.strongSell||0),tot=sb+b+h+s||1,bull=(sb+b)/tot;
+    if(bull>.65&&sb>b){as2=W.analyst;ad='Strong Buy';}else if(bull>.55){as2=Math.round(W.analyst*.7);ad='Buy';}else if(h>sb+b){as2=Math.round(W.analyst*.3);ad='Hold';}else{ad='Sell';}
+  }
+  let ts=0,td='—';
+  if(target?.targetMean&&q?.c){const up=((target.targetMean-q.c)/q.c)*100;td=(up>=0?'+':'')+up.toFixed(0)+'%';ts=up>20?W.target:up>10?Math.round(W.target*.7):up>5?Math.round(W.target*.4):up>0?Math.round(W.target*.2):0;}
+  return{total:magScore+ss+ms+as2+ts,signals:{beatMag:{score:magScore,max:W.beatMag,detail:avgSurp!==null?avgSurp.toFixed(1)+'%':'—'},beatStreak:{score:ss,max:W.beatStreak,detail:streak+'Q'},momentum:{score:ms,max:W.momentum,detail:(dp>=0?'+':'')+dp.toFixed(2)+'%'},analyst:{score:as2,max:W.analyst,detail:ad},target:{score:ts,max:W.target,detail:td}}};
+}
+
+async function generateLiveReport(){
+  const content=document.getElementById('content');
+  content.innerHTML='<div class="loading"><div class="loading-spinner"></div><div style="font-family:JetBrains Mono,monospace;font-size:.75rem;letter-spacing:.05em" id="genStatus">Scanning live market data…</div></div>';
+  const status=t=>{const el=document.getElementById('genStatus');if(el)el.textContent=t;};
+  try{
+    // Sector performance
+    status('Fetching sector performance…');
+    const etfs=Object.keys(SECTOR_NAMES);
+    const sectorPerf=[];
+    for(const etf of etfs){const q=await fq(etf);sectorPerf.push({etf,name:SECTOR_NAMES[etf],dp:q?.dp??null});await new Promise(r=>setTimeout(r,200));}
+    sectorPerf.sort((a,b)=>(b.dp??-999)-(a.dp??-999));
+
+    // Sample a subset of stocks (to keep call count reasonable ~60 calls)
+    status('Selecting candidates…');
+    const sample=[];
+    SECTORS.forEach(sec=>sec.stocks.slice(0,4).forEach(sym=>sample.push({sym,etf:sec.etf,sectorName:sec.name})));
+
+    // Quote them
+    status('Fetching quotes…');
+    const quoted=[];
+    for(let i=0;i<sample.length;i+=10){
+      const batch=sample.slice(i,i+10);
+      const res=await Promise.all(batch.map(async s=>{const q=await fq(s.sym);return q&&q.c?{...s,dp:q.dp,c:q.c,_q:q}:null;}));
+      quoted.push(...res.filter(Boolean));
+      await new Promise(r=>setTimeout(r,500));
+    }
+    quoted.sort((a,b)=>(b.dp??0)-(a.dp??0));
+    const toScore=quoted.slice(0,12); // deep-score top 12 movers only
+
+    status('Scoring top movers…');
+    const scored=[];
+    for(let i=0;i<toScore.length;i+=3){
+      const batch=toScore.slice(i,i+3);
+      await Promise.all(batch.map(async s=>{
+        const[e,rec,tgt,prof]=await Promise.all([fEarnings(s.sym),fRec(s.sym),fTarget(s.sym),fp(s.sym)]);
+        const sc=calcScore(s._q,e,rec,tgt,s.etf);
+        scored.push({sym:s.sym,name:prof?.name||s.sym,dp:s.dp,c:s.c,etf:s.etf,sectorName:s.sectorName,score:sc.total,signals:sc.signals,marketCap:prof?.marketCapitalization||null});
+      }));
+      await new Promise(r=>setTimeout(r,1200));
+    }
+    scored.sort((a,b)=>b.score-a.score);
+
+    const report={
+      generatedAt:new Date().toISOString(),
+      disclaimer:'Browser-generated sample report. Momentum signal rankings, not predictions. Not financial advice.',
+      universeSize:sample.length,afterPreFilter:quoted.length,
+      sectors:sectorPerf,topSignals:scored.slice(0,10),
+      summary:{highestScore:scored[0]?.score??null,highestScoreSymbol:scored[0]?.sym??null,avgTop10:scored.length?Math.round(scored.slice(0,10).reduce((s,x)=>s+x.score,0)/Math.min(10,scored.length)):null,leadingSector:sectorPerf[0]?.name??null,laggingSector:sectorPerf[sectorPerf.length-1]?.name??null},
+      _browserGenerated:true
+    };
+    renderReport(report);
+  }catch(err){
+    content.innerHTML='<div class="empty"><p style="color:#f87171">Live generation failed: '+err.message+'. Likely a rate limit — wait and try again.</p></div>';
+  }
+}
+
 const pct=d=>d==null||isNaN(d)?'—':(d>=0?'+':'')+d.toFixed(2)+'%';
 const mcap=m=>!m?'—':m>=1000?'$'+(m/1000).toFixed(1)+'T':'$'+m.toFixed(0)+'B';
 const priceF=c=>(!c||c===0)?'—':'$'+c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -155,8 +252,13 @@ async function loadReport(isManual){
   }catch(err){
     content.innerHTML=`<div class="empty">
       <div style="font-size:1.6rem;margin-bottom:.8rem;opacity:.3">&#128340;</div>
-      <div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:.5rem">No report available yet</div>
-      <p style="font-size:.82rem;color:var(--dim);font-weight:300;line-height:1.6">The daily report is generated automatically each weekday at 11:00 AM ET.<br>Once the first one runs, it'll appear here. (If you just set this up, trigger the GitHub Action manually to generate the first report.)</p>
+      <div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);margin-bottom:.5rem">No saved report found yet</div>
+      <p style="font-size:.82rem;color:var(--dim);font-weight:300;line-height:1.6;max-width:520px;margin:0 auto 1.2rem">
+        The scheduled report (auto-generated each weekday at <strong style="color:var(--gold)">9:00 AM ET</strong>) hasn't been produced yet. The most common reason is the GitHub Action hasn't been run once manually to activate it.
+        <br><br>You can also generate a report <strong style="color:var(--gold)">right now, in your browser</strong> from live data:
+      </p>
+      <button class="refresh-btn" onclick="generateLiveReport()" style="margin:0 auto"><span class="btn-dot" style="width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block"></span>&nbsp;Generate Report Now (Live)</button>
+      <p style="font-size:.68rem;color:var(--dim);margin-top:1rem;line-height:1.5;max-width:520px;margin-left:auto;margin-right:auto">This browser-generated version scans a sample of stocks live using your API quota (~60 calls). The scheduled server version is more thorough and doesn't use your browsing quota.</p>
     </div>`;
   }
   if(btn){
