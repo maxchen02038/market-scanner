@@ -1,0 +1,442 @@
+{
+  "generatedAt": "2026-07-02T17:53:58.377Z",
+  "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
+  "universeSize": 367,
+  "afterPreFilter": 108,
+  "sectors": [
+    {
+      "etf": "XLV",
+      "name": "Health Care",
+      "dp": 2.0371
+    },
+    {
+      "etf": "XLP",
+      "name": "Consumer Staples",
+      "dp": 1.6206
+    },
+    {
+      "etf": "XLU",
+      "name": "Utilities",
+      "dp": 1.5412
+    },
+    {
+      "etf": "XLF",
+      "name": "Financials",
+      "dp": 0.9127
+    },
+    {
+      "etf": "XLB",
+      "name": "Materials",
+      "dp": 0.882
+    },
+    {
+      "etf": "XLRE",
+      "name": "Real Estate",
+      "dp": 0.7696
+    },
+    {
+      "etf": "XLE",
+      "name": "Energy",
+      "dp": 0.4545
+    },
+    {
+      "etf": "XLI",
+      "name": "Industrials",
+      "dp": -0.6926
+    },
+    {
+      "etf": "XLC",
+      "name": "Communication Services",
+      "dp": -0.7017
+    },
+    {
+      "etf": "XLY",
+      "name": "Consumer Discretionary",
+      "dp": -1.1263
+    },
+    {
+      "etf": "XLK",
+      "name": "Information Technology",
+      "dp": -3.5341
+    }
+  ],
+  "topSignals": [
+    {
+      "sym": "CRM",
+      "name": "Salesforce Inc",
+      "dp": 1.5009,
+      "c": 165.68,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 70,
+      "signals": {
+        "beatMag": {
+          "score": 35,
+          "max": 35,
+          "detail": "15.9%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+1.50%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 133685.37312477193
+    },
+    {
+      "sym": "LVS",
+      "name": "Las Vegas Sands Corp",
+      "dp": 1.4486,
+      "c": 46.92,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 67,
+      "signals": {
+        "beatMag": {
+          "score": 25,
+          "max": 25,
+          "detail": "26.7%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+1.45%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 15,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 30646.975559563758
+    },
+    {
+      "sym": "NKE",
+      "name": "Nike Inc",
+      "dp": 1.9508,
+      "c": 43.9,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 56,
+      "signals": {
+        "beatMag": {
+          "score": 25,
+          "max": 25,
+          "detail": "36.9%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+1.95%"
+        },
+        "analyst": {
+          "score": 0,
+          "max": 15,
+          "detail": "Sell"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 63767.00455649794
+    },
+    {
+      "sym": "NEM",
+      "name": "Newmont Corporation",
+      "dp": 2.8725,
+      "c": 95.98,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 55,
+      "signals": {
+        "beatMag": {
+          "score": 15,
+          "max": 15,
+          "detail": "23.8%"
+        },
+        "beatStreak": {
+          "score": 10,
+          "max": 10,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+2.87%"
+        },
+        "analyst": {
+          "score": 14,
+          "max": 20,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 20,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 99602.67174481797
+    },
+    {
+      "sym": "TJX",
+      "name": "TJX Companies Inc",
+      "dp": 1.3082,
+      "c": 153.33,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 54,
+      "signals": {
+        "beatMag": {
+          "score": 12,
+          "max": 25,
+          "detail": "7.3%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+1.31%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 15,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 167197.02119783364
+    },
+    {
+      "sym": "LHX",
+      "name": "L3Harris Technologies Inc",
+      "dp": 3.1482,
+      "c": 301.43,
+      "etf": "XLI",
+      "sectorName": "Industrials",
+      "score": 52,
+      "signals": {
+        "beatMag": {
+          "score": 9,
+          "max": 20,
+          "detail": "5.6%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 14,
+          "max": 30,
+          "detail": "+3.15%"
+        },
+        "analyst": {
+          "score": 14,
+          "max": 20,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 15,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 54440.973252076205
+    },
+    {
+      "sym": "MSFT",
+      "name": "Microsoft Corp",
+      "dp": 1.6863,
+      "c": 390.76,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 51,
+      "signals": {
+        "beatMag": {
+          "score": 16,
+          "max": 35,
+          "detail": "5.6%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+1.69%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 2854598.752605206
+    },
+    {
+      "sym": "LOW",
+      "name": "Lowe's Companies Inc",
+      "dp": 1.2437,
+      "c": 224.68,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 48,
+      "signals": {
+        "beatMag": {
+          "score": 6,
+          "max": 25,
+          "detail": "1.2%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+1.24%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 15,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 124432.12101994356
+    },
+    {
+      "sym": "IT",
+      "name": "Gartner Inc",
+      "dp": 2.7811,
+      "c": 137.48,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 47,
+      "signals": {
+        "beatMag": {
+          "score": 16,
+          "max": 35,
+          "detail": "8.5%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+2.78%"
+        },
+        "analyst": {
+          "score": 0,
+          "max": 5,
+          "detail": "Sell"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 8955.484340169725
+    },
+    {
+      "sym": "ACN",
+      "name": "Accenture PLC",
+      "dp": 4.934,
+      "c": 137.6,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 43,
+      "signals": {
+        "beatMag": {
+          "score": 8,
+          "max": 35,
+          "detail": "2.3%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+4.93%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 10,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 80243.97421801591
+    }
+  ],
+  "summary": {
+    "highestScore": 70,
+    "highestScoreSymbol": "CRM",
+    "avgTop10": 54,
+    "leadingSector": "Health Care",
+    "laggingSector": "Information Technology"
+  }
+}
