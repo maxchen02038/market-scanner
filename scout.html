@@ -94,7 +94,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v9"></script>
+<script src="supabase-config.js?v11"></script>
 </head>
 <body>
 <div class="topbar">
@@ -102,11 +102,11 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   <div class="topbar-right"><span id="authStatus" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;margin-right:1rem"></span><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v9"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item active" href="scout.html?v9"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item" href="watchlist.html?v9"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item" href="assistant.html?v9"><span class="nav-dot"></span>Assistant</a>
-  <a class="nav-item" href="report.html?v9"><span class="nav-dot"></span>Daily Report</a>
+  <a class="nav-item" href="index.html?v11"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item active" href="scout.html?v11"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item" href="watchlist.html?v11"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item" href="assistant.html?v11"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="report.html?v11"><span class="nav-dot"></span>Daily Report</a>
 </nav>
 <div class="main">
   <div style="margin-bottom:2rem">
@@ -116,8 +116,34 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
   </div>
   <div class="divider"></div>
 
+  <div id="precomputedWrap" style="margin-bottom:1.5rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1rem">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase">&#9889; Today's Rankings <span id="precomputedTime" style="color:var(--dim);text-transform:none;letter-spacing:.04em"></span></div>
+      <select id="precomputedSector" onchange="renderPrecomputed()" style="background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.4rem .7rem;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.68rem;outline:none;cursor:pointer;-webkit-appearance:none">
+        <option value="ALL">All Sectors</option>
+        <option value="XLK">Information Technology</option>
+        <option value="XLF">Financials</option>
+        <option value="XLE">Energy</option>
+        <option value="XLV">Health Care</option>
+        <option value="XLP">Consumer Staples</option>
+        <option value="XLI">Industrials</option>
+        <option value="XLY">Consumer Discretionary</option>
+        <option value="XLB">Materials</option>
+        <option value="XLRE">Real Estate</option>
+        <option value="XLU">Utilities</option>
+        <option value="XLC">Communication Services</option>
+      </select>
+    </div>
+    <div id="precomputedList"></div>
+    <div id="precomputedEmpty" style="display:none;background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:1.4rem;text-align:center;font-size:.8rem;color:var(--dim)">
+      No pre-computed rankings yet. They're generated automatically each weekday morning. Use <strong style="color:var(--gold)">Scan Live Now</strong> below for current data.
+    </div>
+  </div>
+
+  <div style="height:1px;background:linear-gradient(to right,transparent,var(--bdr2),transparent);margin:0 0 1.5rem"></div>
+
   <div style="background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:1.2rem 1.4rem;margin-bottom:1.5rem">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem">&#9881;&nbsp; Scan Configuration</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem">&#9881;&nbsp; Scan Configuration <span style="color:var(--dim);text-transform:none;letter-spacing:.04em">&mdash; live, current data</span></div>
     <div style="display:flex;gap:.8rem;align-items:flex-end;flex-wrap:wrap">
       <div style="display:flex;flex-direction:column;gap:.3rem;flex:1;min-width:140px">
         <label style="font-family:'JetBrains Mono',monospace;font-size:.57rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase">Sector</label>
@@ -137,7 +163,7 @@ body{background:#0f1117;color:#e8edf5;font-family:'Inter',sans-serif;min-height:
         </select>
       </div>
       <div style="flex:0">
-        <button class="scan-btn" id="scoutBtn" onclick="runScoutScan()"><span class="btn-dot"></span>&nbsp;Find Top 5</button>
+        <button class="scan-btn" id="scoutBtn" onclick="runScoutScan()"><span class="btn-dot"></span>&nbsp;Scan Live Now</button>
       </div>
     </div>
 
@@ -313,7 +339,7 @@ function renderScoreCard(s,rank,etf,sectorName){
   card.querySelector('.save-slot').appendChild(makeSaveBtn(s.sym,saveData));
   return card;
 }
-document.addEventListener('DOMContentLoaded',initAuthUI);
+document.addEventListener('DOMContentLoaded',()=>{initAuthUI();loadPrecomputed();});
 
 
 const SIDS=['s0','s1','s2','s3','s4'];
@@ -373,6 +399,58 @@ async function runLookup(){
     errEl.classList.add('visible');
   }
   btn.disabled=false;btn.innerHTML='<span class="btn-dot"></span>&nbsp;Get Score';
+}
+
+let _precomputedData = null;
+
+async function loadPrecomputed(){
+  try{
+    const res = await fetch('scout-data.json?t='+Date.now());
+    if(!res.ok) throw new Error('no data');
+    _precomputedData = await res.json();
+    const gen = new Date(_precomputedData.generatedAt);
+    document.getElementById('precomputedTime').textContent = '· as of '+gen.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' '+gen.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    renderPrecomputed();
+  }catch(e){
+    // No pre-computed file yet
+    document.getElementById('precomputedList').innerHTML = '';
+    document.getElementById('precomputedEmpty').style.display = 'block';
+    document.getElementById('precomputedTime').textContent = '';
+  }
+}
+
+function renderPrecomputed(){
+  if(!_precomputedData){ return; }
+  const sel = document.getElementById('precomputedSector').value;
+  const list = document.getElementById('precomputedList');
+  document.getElementById('precomputedEmpty').style.display = 'none';
+  list.innerHTML = '';
+
+  // Gather stocks: all sectors merged, or one sector
+  let stocks = [];
+  if(sel === 'ALL'){
+    Object.values(_precomputedData.sectors).forEach(sec => { if(sec.top) stocks.push(...sec.top); });
+    stocks.sort((a,b)=>b.score-a.score);
+    stocks = stocks.slice(0,10);   // top 10 across all sectors
+  } else {
+    const sec = _precomputedData.sectors[sel];
+    stocks = sec && sec.top ? sec.top : [];
+  }
+
+  if(!stocks.length){
+    list.innerHTML = '<div style="background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:1.2rem;text-align:center;font-size:.78rem;color:var(--dim)">No ranked stocks for this sector in the latest scan.</div>';
+    return;
+  }
+
+  stocks.forEach((s,i)=>{
+    // Reshape to what renderScoreCard expects
+    const stockObj = {
+      sym: s.sym, dp: s.dp, c: s.c,
+      scoreResult: { total: s.score, signals: s.signals },
+      profile: { name: s.name, finnhubIndustry: s.sectorName, marketCapitalization: s.marketCap }
+    };
+    list.appendChild(renderScoreCard(stockObj, i, s.etf, s.sectorName));
+  });
 }
 
 async function runScoutScan(){
