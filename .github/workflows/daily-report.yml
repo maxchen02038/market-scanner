@@ -1,4 +1,4 @@
-name: Daily Market Signal Report
+name: Daily Market Data Refresh
 
 # ─── WHEN IT RUNS ───────────────────────────────────────────────────────────
 on:
@@ -28,15 +28,20 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Generate the report
+      - name: Generate the market report
         env:
           FINNHUB_KEY: ${{ secrets.FINNHUB_KEY }}
         run: node scripts/build-report.js
 
-      - name: Commit report.json
+      - name: Generate the scout data (pre-computed sector rankings)
+        env:
+          FINNHUB_KEY: ${{ secrets.FINNHUB_KEY }}
+        run: node scripts/build-scout.js
+
+      - name: Commit report.json and scout-data.json
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add report.json
-          git commit -m "Daily market signal report ($(date -u +%Y-%m-%d))" || echo "No changes to commit"
+          git add report.json scout-data.json
+          git commit -m "Daily market data refresh ($(date -u +%Y-%m-%d))" || echo "No changes to commit"
           git push
