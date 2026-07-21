@@ -1,0 +1,23 @@
+name: Test OpenAI Key
+
+# Run this manually from the Actions tab. It makes ONE tiny OpenAI call
+# to confirm the OPENAI_KEY secret works before we build anything on top of it.
+on:
+  workflow_dispatch:
+
+jobs:
+  test-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Ping OpenAI
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+        run: node scripts/test-openai.js
