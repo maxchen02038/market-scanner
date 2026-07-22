@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v13">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v11"></script>
+<script src="supabase-config.js?v13"></script>
 </head>
 <body>
 <div class="topbar">
@@ -19,11 +19,11 @@
   <div class="topbar-right"><span id="authStatus" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;margin-right:1rem"></span><span class="topbar-dot"></span>Live Market Data &middot; Finnhub</div>
 </div>
 <nav class="nav">
-  <a class="nav-item" href="index.html?v11"><span class="nav-dot"></span>Sector Scanner</a>
-  <a class="nav-item active" href="scout.html?v11"><span class="nav-dot"></span>Stock Scout</a>
-  <a class="nav-item" href="watchlist.html?v11"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
-  <a class="nav-item" href="assistant.html?v11"><span class="nav-dot"></span>Assistant</a>
-  <a class="nav-item" href="report.html?v11"><span class="nav-dot"></span>Daily Report</a>
+  <a class="nav-item" href="index.html?v13"><span class="nav-dot"></span>Sector Scanner</a>
+  <a class="nav-item active" href="scout.html?v13"><span class="nav-dot"></span>Stock Scout</a>
+  <a class="nav-item" href="watchlist.html?v13"><span class="nav-dot"></span>Watchlist<span class="nav-badge" id="wl-badge"></span></a>
+  <a class="nav-item" href="assistant.html?v13"><span class="nav-dot"></span>Assistant</a>
+  <a class="nav-item" href="report.html?v13"><span class="nav-dot"></span>Daily Report</a>
 </nav>
 <div class="main">
   <div style="margin-bottom:2rem">
@@ -31,6 +31,22 @@
     <h1 class="page-h1">Stock <span>Scout</span></h1>
     <p class="page-sub">S&P 500 constituents scored using our sector-adjusted formula &mdash; scored using our sector-adjusted formula. Single sector ~30s, all sectors 2&ndash;3 min.</p>
   </div>
+  <div class="divider"></div>
+
+  <!-- ══ AI SCOUT: LLM-selected picks from momentum + current events ══ -->
+  <div id="aiScoutWrap" style="margin-bottom:2rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase">&#129504; AI Scout &mdash; Agent Picks <span id="aiScoutTime" style="color:var(--dim);text-transform:none;letter-spacing:.04em"></span></div>
+    </div>
+    <p style="font-size:.72rem;color:var(--dim);font-weight:300;line-height:1.6;margin-bottom:1rem;max-width:640px">An AI agent independently selects 5 stocks from the momentum candidates by weighing each one's signals against its recent news headlines. Its picks may differ from the formula ranking &mdash; that's the point. <span style="color:var(--mid)">Signal interpretation, not predictions. Not financial advice.</span></p>
+    <div id="aiScoutSummary"></div>
+    <div id="aiScoutList"></div>
+    <div id="aiScoutExclusions"></div>
+    <div id="aiScoutEmpty" style="display:none;background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:1.4rem;text-align:center;font-size:.8rem;color:var(--dim)">
+      No AI analysis available yet. It's generated separately and uploaded as <code style="color:var(--gold)">ai-scout.json</code>. The formula rankings below are always available.
+    </div>
+  </div>
+
   <div class="divider"></div>
 
   <div id="precomputedWrap" style="margin-bottom:1.5rem">
@@ -255,7 +271,86 @@ function renderScoreCard(s,rank,etf,sectorName){
   card.querySelector('.save-slot').appendChild(makeSaveBtn(s.sym,saveData));
   return card;
 }
-document.addEventListener('DOMContentLoaded',()=>{initAuthUI();loadPrecomputed();});
+document.addEventListener('DOMContentLoaded',()=>{initAuthUI();loadAIScout();loadPrecomputed();});
+
+async function loadAIScout(){
+  try{
+    const res = await fetch('ai-scout.json?t='+Date.now());
+    if(!res.ok) throw new Error('none');
+    const d = await res.json();
+    renderAIScout(d);
+  }catch(e){
+    document.getElementById('aiScoutEmpty').style.display='block';
+    document.getElementById('aiScoutTime').textContent='';
+  }
+}
+
+function renderAIScout(d){
+  document.getElementById('aiScoutEmpty').style.display='none';
+  const gen = d.generatedAt ? new Date(d.generatedAt) : null;
+  if(gen){
+    const ageHrs = (Date.now()-gen.getTime())/3600000;
+    const stamp = gen.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' '+gen.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('aiScoutTime').textContent = '· '+stamp+(ageHrs>30?' (stale)':'');
+  }
+
+  // Market summary + how much the AI diverged from the formula
+  let sHtml = '';
+  if(d.marketSummary) sHtml += d.marketSummary;
+  if(d.divergenceFromFormula){
+    const dv = d.divergenceFromFormula;
+    if(dv.identicalRanking){
+      sHtml += '<div style="margin-top:.6rem;font-size:.7rem;color:var(--dim);font-family:\'JetBrains Mono\',monospace">Note: the AI\'s picks matched the formula ranking exactly today &mdash; the news didn\'t shift its selection.</div>';
+    } else {
+      sHtml += '<div style="margin-top:.6rem;font-size:.7rem;color:var(--grn);font-family:\'JetBrains Mono\',monospace">The AI shared '+dv.sharedPicks+'/5 picks with the formula but ranked them differently &mdash; news changed its view.</div>';
+    }
+  }
+  document.getElementById('aiScoutSummary').innerHTML = sHtml ? '<div class="ai-summary">'+sHtml+'</div>' : '';
+
+  // Picks
+  const list = document.getElementById('aiScoutList');
+  list.innerHTML = '';
+  (d.picks||[]).forEach(p=>{
+    const align = (p.alignment||'unknown').toLowerCase();
+    const moved = (p.formulaRank && p.formulaRank!==p.rank)
+      ? '<span class="ai-moved">formula #'+p.formulaRank+'</span>' : '';
+    const headlines = (p.headlines||[]).slice(0,3).map(h=>'<div class="ai-headline">'+escapeHtml(h)+'</div>').join('');
+    const card = document.createElement('div');
+    card.className='ai-pick';
+    card.innerHTML =
+      '<div class="ai-pick-top">'+
+        '<div class="ai-rank">'+p.rank+'</div>'+
+        '<div class="ai-pick-id">'+
+          '<div class="ai-pick-sym">'+p.sym+' <span class="ai-align '+align+'">'+align+'</span> '+moved+'</div>'+
+          '<div class="ai-pick-name">'+escapeHtml(p.name||'')+(p.sectorName?' · '+escapeHtml(p.sectorName):'')+'</div>'+
+        '</div>'+
+        '<div class="ai-pick-score"><div class="sc">'+(p.score??'—')+'</div><div class="lbl">score</div></div>'+
+      '</div>'+
+      '<div class="ai-pick-body">'+
+        '<div class="ai-reasoning">'+escapeHtml(p.reasoning||'')+'</div>'+
+        (p.watchOut?'<div class="ai-watchout"><strong>Watch:</strong> '+escapeHtml(p.watchOut)+'</div>':'')+
+        (headlines?'<div class="ai-headlines">'+headlines+'</div>':'')+
+      '</div>';
+    list.appendChild(card);
+  });
+
+  // Notable exclusions
+  const exWrap = document.getElementById('aiScoutExclusions');
+  if((d.notableExclusions||[]).length){
+    let ex = '<div class="ai-excl-wrap"><div class="ai-excl-title">High scorers the AI left out</div>';
+    d.notableExclusions.forEach(e=>{
+      ex += '<div class="ai-excl-row"><span class="esym">'+e.sym+'</span> <span class="escore">('+(e.score??'—')+')</span> — '+escapeHtml(e.whyExcluded||'')+'</div>';
+    });
+    ex += '</div>';
+    exWrap.innerHTML = ex;
+  } else {
+    exWrap.innerHTML = '';
+  }
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
 
 
 const SIDS=['s0','s1','s2','s3','s4'];
