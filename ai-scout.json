@@ -1,0 +1,286 @@
+{
+  "generatedAt": "2026-07-23T04:19:50.195Z",
+  "model": "gpt-5.4-mini",
+  "sourceScoresFrom": "2026-07-22T14:58:23.479Z",
+  "candidatesConsidered": 18,
+  "candidatesWithNews": 18,
+  "disclaimer": "AI-generated interpretation of momentum signals and recent headlines. Not a prediction of future performance. Not financial advice.",
+  "marketSummary": "The strongest candidates combine decent-to-strong quant momentum with headlines that are either clearly company-specific or clearly not. Several high scorers are being driven by broad AI, market, or sector commentary rather than direct company news, while a few lower-scoring names have cleaner headline support. I also excluded some high quant names where the headlines were generic or mixed with explicit negatives.",
+  "divergenceFromFormula": {
+    "formulaTop5": [
+      "HPE",
+      "SMCI",
+      "GM",
+      "FDX",
+      "WDC"
+    ],
+    "aiTop5": [
+      "GM",
+      "SMCI",
+      "HPE",
+      "NOC",
+      "MS"
+    ],
+    "sharedPicks": 3,
+    "identicalRanking": false
+  },
+  "picks": [
+    {
+      "sym": "GM",
+      "name": "General Motors Co",
+      "rank": 1,
+      "alignment": "confirmed",
+      "reasoning": "GM has a strong quant profile with a 74 score, a 17/17 recent beat streak, and the largest daily move among the more fundamentally supported names at +3.56%. The headline about GM raising its 2026 profit outlook to as much as $16 billion is directly company-specific and clearly supports the move. The other headline framing it as a global automaker that could outperform rivals also points in the same direction, rather than contradicting it.",
+      "watchOut": "The data does not show whether the move is isolated to GM or part of a broader autos-sector shift.",
+      "score": 74,
+      "formulaRank": 3,
+      "dp": 3.5589,
+      "c": 82.35,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 28,
+          "detail": "18.4%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+3.56%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 16,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Why This Forgotten Global Automaker Could Outperform Rivals Over the Next 5 Years",
+        "S&P 500 Q2 Earnings Beats Hit 5-Year Highs as Growth Accelerates",
+        "GM Raised Its 2026 Profit Outlook to as Much as $16 Billion -- the Second Raise This Year. Here's the Part of the Business That Turned."
+      ]
+    },
+    {
+      "sym": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "rank": 2,
+      "alignment": "divergent",
+      "reasoning": "SMCI shows an extreme price move of +24.16% and a very strong quant score of 76, so the stock is clearly moving hard. However, the headlines provided are mostly about Dell, the Nasdaq, and broader AI-capex sentiment rather than directly about Super Micro itself. The only SMCI-specific item is embedded in a generic market roundup, so the news does not cleanly explain the move.",
+      "watchOut": "Analyst consensus is weak at 2/5 Hold, and the headlines are not directly company-specific despite the very large jump.",
+      "score": 76,
+      "formulaRank": 2,
+      "dp": 24.1569,
+      "c": 31.66,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 39,
+          "detail": "11.9%"
+        },
+        "beatStreak": {
+          "score": 7,
+          "max": 17,
+          "detail": "2Q"
+        },
+        "momentum": {
+          "score": 39,
+          "max": 39,
+          "detail": "+24.16%"
+        },
+        "analyst": {
+          "score": 2,
+          "max": 5,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Dell Technologies (DELL) Climbs 9.3% on Booming Demand for Nvidia-Powered AI Servers",
+        "Stock Market Today, July 22: Nasdaq Slides Prior to Tesla and Alphabet's Earnings After Market Close",
+        "Dow Jones Futures: Google, Tesla Fall On Earnings, But Strong Capex Lifts AI Stocks"
+      ]
+    },
+    {
+      "sym": "HPE",
+      "name": "Hewlett Packard Enterprise Co",
+      "rank": 3,
+      "alignment": "confirmed",
+      "reasoning": "HPE has the highest quant score in the set at 89, supported by a 17/17 beat streak, 39/39 earnings beats, and a +5.16% daily gain. Even though the headlines are mostly about Dell, Super Micro, and SanDisk, they all sit in the same AI-server / AI-infrastructure context that HPE is already associated with in this candidate set. That makes the move more plausibly explained by the AI hardware tape than by unrelated market noise.",
+      "watchOut": "The provided headlines are indirect rather than explicitly about HPE, so the support is thematic more than direct.",
+      "score": 89,
+      "formulaRank": 1,
+      "dp": 5.1584,
+      "c": 49.13,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "signals": {
+        "beatMag": {
+          "score": 39,
+          "max": 39,
+          "detail": "15.6%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+5.16%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Is Dell Technologies (DELL) Undervalued On AI Server Volatility?",
+        "Stock Market Today, July 22: Super Micro Computer Surges on Record Q4 Orders and Surprise Margin Beat",
+        "SanDisk's Bold Pivot From AI Boom Beneficiary to Bust Breaker"
+      ]
+    },
+    {
+      "sym": "NOC",
+      "name": "Northrop Grumman Corp",
+      "rank": 4,
+      "alignment": "unexplained",
+      "reasoning": "Northrop Grumman has a solid quant score of 61, an 18/18 beat streak, and a respectable +2.75% move today. The headlines, however, are about GE Aerospace, SpaceX, and a generic buying-opportunity discussion, not Northrop itself. That leaves the price action without a clear company-specific news catalyst in the provided data.",
+      "watchOut": "Company-specific news is absent, so the move may be unrelated to the headlines shown here.",
+      "score": 61,
+      "formulaRank": 7,
+      "dp": 2.7465,
+      "c": 526.36,
+      "etf": "XLI",
+      "sectorName": "Industrials",
+      "signals": {
+        "beatMag": {
+          "score": 11,
+          "max": 24,
+          "detail": "8.1%"
+        },
+        "beatStreak": {
+          "score": 18,
+          "max": 18,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+2.75%"
+        },
+        "analyst": {
+          "score": 16,
+          "max": 23,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Reading Between The Lines Of GE's Latest Call",
+        "What History Says About Buying GE Aerospace Stock On Weakness",
+        "Is SpaceX Stock's 45% Drop a Buying Opportunity? Cathie Wood Thinks So — These ETFs Are Making the Biggest Bet"
+      ]
+    },
+    {
+      "sym": "MS",
+      "name": "Morgan Stanley",
+      "rank": 5,
+      "alignment": "divergent",
+      "reasoning": "Morgan Stanley’s fundamentals are strong in this dataset: 66 quant score, 19/19 beat streak, and a consistent earnings surprise profile. But the headlines are mixed, with one company-specific item, one broad bank/AI-deal item, and one explicitly negative sector headline saying financial stocks declined late afternoon. Because any materially negative headline makes this divergent, the set of headlines does not purely support the move.",
+      "watchOut": "The sector-level decline headline is a direct negative contradiction, even though other headlines are constructive.",
+      "score": 66,
+      "formulaRank": 6,
+      "dp": 0.5545,
+      "c": 217.6,
+      "etf": "XLF",
+      "sectorName": "Financials",
+      "signals": {
+        "beatMag": {
+          "score": 25,
+          "max": 25,
+          "detail": "15.3%"
+        },
+        "beatStreak": {
+          "score": 19,
+          "max": 19,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 9,
+          "max": 37,
+          "detail": "+0.55%"
+        },
+        "analyst": {
+          "score": 13,
+          "max": 19,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Morgan Stanley breaks from the crowd on the U.S. economy",
+        "Wall Street Banks Trading Parts of $35 Billion AI Chip Deal",
+        "Sector Update: Financial Stocks Decline Late Afternoon"
+      ]
+    }
+  ],
+  "notableExclusions": [
+    {
+      "sym": "WDC",
+      "whyExcluded": "Despite a respectable 67 quant score and strong earnings history, the headlines are mostly about SanDisk, Micron, and a general memory/AI rally rather than Western Digital itself.",
+      "score": 67
+    },
+    {
+      "sym": "FDX",
+      "whyExcluded": "The 68 quant score is solid, but the headlines are mostly generic industry watch items and a cautionary article about debt and macro risks rather than clearly supportive company-specific news.",
+      "score": 68
+    },
+    {
+      "sym": "RTX",
+      "whyExcluded": "The score is decent at 60, but the headlines are dominated by GE/GE Aerospace commentary and do not directly explain RTX’s own move.",
+      "score": 60
+    },
+    {
+      "sym": "LHX",
+      "whyExcluded": "L3Harris has a similar quant profile to RTX/NOC, but its headlines are comparative and sector-oriented rather than specific to a company-level catalyst.",
+      "score": 61
+    },
+    {
+      "sym": "ICE",
+      "whyExcluded": "The 55 quant score is workable, but the headlines are mostly partnership and infrastructure updates that read more like corporate boilerplate than a clear market-moving catalyst.",
+      "score": 55
+    }
+  ]
+}
