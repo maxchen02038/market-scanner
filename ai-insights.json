@@ -1,35 +1,35 @@
 {
-  "generatedAt": "2026-07-23T05:32:53.647Z",
+  "generatedAt": "2026-07-23T17:19:13.295Z",
   "model": "gpt-5.4-mini",
   "stocks": {
     "WDC": {
-      "insight": "The headlines are mostly market- and sector-focused, highlighting AI-driven enthusiasm for memory stocks, a SanDisk business-pivot story, and broad market coverage; none of them are direct company news about WDC. That broadly lines up with WDC being up 1.51% today, though the move is not clearly explained by company-specific headlines.",
-      "watchOut": "The main caveat is that the headlines are indirect and mixed, so they do not establish a direct catalyst for WDC itself.",
+      "insight": "The headlines are mostly sector- and peer-focused, discussing AI hardware and memory stocks like Micron, Sandisk, and SK Hynix, plus a comparison piece on WDC versus SMCI. They do not report a clear WDC-specific company event, so the 1.77% move looks more like a sector-move context than news directly tied to WDC itself.",
+      "watchOut": "The main caveat is that these headlines are largely about other stocks and broad memory/AI sentiment, so they do not firmly explain WDC’s own price change.",
       "headlines": [
-        "MU, SNDK, SKHY Stocks Jump: Google's AI Hunger, Elon Musk's Micron Shoutout Send Memory Bulls Charging",
-        "SanDisk's Bold Pivot From AI Boom Beneficiary to Bust Breaker",
-        "Super Micro, ServiceNow, GE Vernova, and More Stocks That Explain Today’s Market",
-        "Jim Cramer Defends His Dell Stance as Investors Complain About Missing Out"
+        "WDC vs. SMCI: Which AI Hardware Stock is the Smarter Investment Now?",
+        "MU Vs Its Peers: A Lead With A Price Tag",
+        "Why Micron, Sandisk, and SK Hynix Are Surging—And How to Play It",
+        "MU, SNDK, SKHY Stocks Jump: Google's AI Hunger, Elon Musk's Micron Shoutout Send Memory Bulls Charging"
       ]
     },
     "MU": {
-      "insight": "The headlines are mostly bullish on Micron, linking the stock to AI-related demand, an Elon Musk shoutout, and analysts arguing Micron could benefit from Nvidia and broader AI trends. One headline is general market commentary about stocks slipping, so the small daily decline does not line up cleanly with the company-specific headlines, which are mostly positive.",
-      "watchOut": "Most of the news is broad AI/semiconductor commentary rather than a specific Micron business update, so the move may be driven by overall market action rather than company news.",
+      "insight": "The headlines mostly point to sector and market coverage rather than a single Micron-specific event: one says Micron and other chip gear stocks rose even as the Dow fell, while another highlights Micron in a broader analyst blog alongside NVIDIA, AMD, and TSMC. That lines up with MU being up 3.9% today, but the news set is mostly general or mixed rather than a clear company-specific catalyst.",
+      "watchOut": "The main caveat is that these headlines do not show a direct Micron-only reason for the move, so the price change is not fully explained by the available news.",
       "headlines": [
-        "MU, SNDK, SKHY Stocks Jump: Google's AI Hunger, Elon Musk's Micron Shoutout Send Memory Bulls Charging",
-        "The Ultimate Bull Run for NVIDIA, Micron, and SanDisk May Be Closer Than Investors Think",
-        "This Chinese AI Model Became So Popular It Stopped Taking New Users— and Analysts Say Nvidia, Micron Could Be the Real Winners",
-        "Stocks Slip as Alphabet Gets Ready to Report: Stock Market Today"
+        "Stock Market Today: Dow Slammed 600 Points, But Micron, Chip Gear Stocks Rise; Alphabet Slides (Live Coverage)",
+        "Prediction: 1 Reason Palantir Could Keep Beating the Market",
+        "The Zacks Analyst Blog Highlights NVIDIA, AMD, Micron Technology and Taiwan Semiconductor Manufacturing",
+        "How Much Micron (MU) Do You Unknowingly Own?"
       ]
     },
     "INTC": {
-      "insight": "The headlines are mostly company-specific: they say Intel and AMD signed long-term server CPU deals with Chinese clients, SK Hynix denied an Intel Ohio fab deal, and Intel's foundry reportedly landed its first named outside customer, which briefly helped the stock. One headline is broader market context about earnings and jobs data. That mix does not cleanly explain today’s drop of 2.68%; in fact, the most directly bullish headline points in the opposite direction of the negative move.",
-      "watchOut": "Some of the headline set is mixed with market/earnings context and includes a report-based story, so it is not a single clear catalyst for today’s decline.",
+      "insight": "The headlines are mostly company-related: one says Intel’s foundry yield could support a second-half rebound, another is a comparison article on Nvidia vs. Intel, and a third says Multiverse Computing’s CompactifAI models now run on Intel Xeon 6 processors. The only clearly market-wide headline is about US equity futures falling on broader geopolitical concerns, so the day’s -1.71% move is only partly explained by news and not by a direct negative Intel-specific headline.",
+      "watchOut": "This data mixes Intel-specific items with a general market headline, so it does not show a single clear company news catalyst for the decline.",
       "headlines": [
-        "Exclusive-Intel, AMD sign long-term server CPU deals with Chinese clients as prices surge, sources say",
-        "SK Hynix denies Intel Ohio fab deal, but the market didn't care",
-        "Intel's Foundry Just Landed Its First Named Outside Customer Under Lip-Bu Tan. The Stock Jumped More Than 8% -- 2 Days Before Earnings.",
-        "Intel earnings loom as investors watch jobs data and corporate results"
+        "Intel’s 85% Foundry Yield Could Ignite a Second-Half Rebound",
+        "Nvidia vs. Intel: Which is the Better AI Chip Stock to Own for the Next 3 Years?",
+        "Multiverse Computing Unveils Breakthrough: All CompactifAI Models Now Run on Intel Xeon 6 Processors",
+        "Update: US Equity Futures Drop Pre-Bell as Mid-East Conflict Expands to Potentially Include Red Sea"
       ]
     }
   },
