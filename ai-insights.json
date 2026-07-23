@@ -1,57 +1,291 @@
 {
-  "generatedAt": "2026-07-23T05:21:20.499Z",
+  "generatedAt": "2026-07-23T05:32:53.587Z",
   "model": "gpt-5.4-mini",
-  "stocks": {
-    "GM": {
-      "insight": "The headlines are mostly company-specific and point to GM upbeat earnings news: one says GM raised its 2026 profit outlook to as much as $16 billion, and another says the company beat Q2 earnings. A separate headline calls GM potentially 40% undervalued after that earnings beat, while the broader S&P 500 earnings headline is more general market context. These headlines line up with the stock being up 3.28% today.",
-      "watchOut": "One headline is generic market commentary, so not all of the move is directly explained by GM-specific news.",
+  "sourceScoresFrom": "2026-07-22T14:58:23.479Z",
+  "candidatesConsidered": 18,
+  "candidatesWithNews": 18,
+  "disclaimer": "AI-generated interpretation of momentum signals and recent headlines. Not a prediction of future performance. Not financial advice.",
+  "marketSummary": "Today’s candidate set is split between a few stocks with clearly company-specific, supportive headlines and several where the headlines are generic sector noise or unrelated market chatter. The strongest-looking moves are in names where the quant strength lines up with explicit company developments; the weakest cases are where the move is either mostly unexplained by the headlines or accompanied by mixed/negative context.",
+  "divergenceFromFormula": {
+    "formulaTop5": [
+      "HPE",
+      "SMCI",
+      "GM",
+      "FDX",
+      "WDC"
+    ],
+    "aiTop5": [
+      "HPE",
+      "GM",
+      "SMCI",
+      "RTX",
+      "FDX"
+    ],
+    "sharedPicks": 4,
+    "identicalRanking": false
+  },
+  "picks": [
+    {
+      "sym": "HPE",
+      "name": "Hewlett Packard Enterprise Co",
+      "rank": 1,
+      "alignment": "unexplained",
+      "reasoning": "HPE has the highest quant score in the set, a strong 5.16% gain, and an exceptionally strong earnings pattern with 39/39 beat magnitude and a 17/17 consecutive beat streak. However, the recent headlines shown are about Dell, Super Micro, and SanDisk, not Hewlett Packard Enterprise itself. That means the price move is not actually explained by company-specific news in the provided data. The quant signal is strong, but the news flow here is generic to the AI/server space rather than direct confirmation.",
+      "watchOut": "The provided headlines do not mention HPE directly, so the move is not news-anchored in this set.",
+      "score": 89,
+      "formulaRank": 1,
+      "dp": 5.1584,
+      "c": 49.13,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "signals": {
+        "beatMag": {
+          "score": 39,
+          "max": 39,
+          "detail": "15.6%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+5.16%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Is Dell Technologies (DELL) Undervalued On AI Server Volatility?",
+        "Stock Market Today, July 22: Super Micro Computer Surges on Record Q4 Orders and Surprise Margin Beat",
+        "SanDisk's Bold Pivot From AI Boom Beneficiary to Bust Breaker"
+      ]
+    },
+    {
+      "sym": "GM",
+      "name": "General Motors Co",
+      "rank": 2,
+      "alignment": "confirmed",
+      "reasoning": "GM combines a solid 74 quant score with a 3.56% gain and very strong earnings consistency. The key headline is explicitly company-specific: GM raised its 2026 profit outlook to as much as $16 billion and this is described as the second raise this year. That directly supports the move and matches the strong underlying earnings history. The additional automaker commentary is less important than the direct outlook raise.",
+      "watchOut": "The headline set still includes broader market/peer context, so the confirmation comes mainly from one direct GM-specific item.",
+      "score": 74,
+      "formulaRank": 3,
+      "dp": 3.5589,
+      "c": 82.35,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 28,
+          "detail": "18.4%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+3.56%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 16,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
       "headlines": [
         "Why This Forgotten Global Automaker Could Outperform Rivals Over the Next 5 Years",
         "S&P 500 Q2 Earnings Beats Hit 5-Year Highs as Growth Accelerates",
-        "GM Raised Its 2026 Profit Outlook to as Much as $16 Billion -- the Second Raise This Year. Here's the Part of the Business That Turned.",
-        "General Motors (GM) Could Be 40% Undervalued After Q2 Earnings Beat"
+        "GM Raised Its 2026 Profit Outlook to as Much as $16 Billion -- the Second Raise This Year. Here's the Part of the Business That Turned."
       ]
     },
-    "MU": {
-      "insight": "The headlines are mostly bullish on Micron, saying Google’s AI demand, Elon Musk’s shoutout, and broader AI enthusiasm could benefit memory stocks like MU. One headline is general market commentary about stocks slipping, so the move down today is only partly aligned with the news and not fully explained by company-specific headlines.",
-      "watchOut": "Several of the headlines are broad, opinion-driven market pieces rather than direct Micron news, so they may not fully account for MU’s day-to-day move.",
+    {
+      "sym": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "rank": 3,
+      "alignment": "unexplained",
+      "reasoning": "SMCI has the biggest one-day price jump in the list at 24.16% and a high quant score of 76, with strong price momentum and a long earnings beat record. But the headlines shown are broad market and AI-sector commentary, plus stories focused on Dell and the wider chip/AI complex, not a direct Super Micro-specific catalyst. That makes the move look very strong quantitatively but not cleanly explained by the provided news. The headline set supports the AI theme generally, not SMCI specifically.",
+      "watchOut": "Despite the huge move, the provided headlines do not give a direct company-level reason for it.",
+      "score": 76,
+      "formulaRank": 2,
+      "dp": 24.1569,
+      "c": 31.66,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 39,
+          "detail": "11.9%"
+        },
+        "beatStreak": {
+          "score": 7,
+          "max": 17,
+          "detail": "2Q"
+        },
+        "momentum": {
+          "score": 39,
+          "max": 39,
+          "detail": "+24.16%"
+        },
+        "analyst": {
+          "score": 2,
+          "max": 5,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
       "headlines": [
-        "MU, SNDK, SKHY Stocks Jump: Google's AI Hunger, Elon Musk's Micron Shoutout Send Memory Bulls Charging",
-        "The Ultimate Bull Run for NVIDIA, Micron, and SanDisk May Be Closer Than Investors Think",
-        "This Chinese AI Model Became So Popular It Stopped Taking New Users— and Analysts Say Nvidia, Micron Could Be the Real Winners",
-        "Stocks Slip as Alphabet Gets Ready to Report: Stock Market Today"
+        "Dell Technologies (DELL) Climbs 9.3% on Booming Demand for Nvidia-Powered AI Servers",
+        "Stock Market Today, July 22: Nasdaq Slides Prior to Tesla and Alphabet's Earnings After Market Close",
+        "Dow Jones Futures: Google, Tesla Fall On Earnings, But Strong Capex Lifts AI Stocks"
       ]
     },
-    "FDX": {
-      "insight": "The headlines are mostly commentary around FedEx rather than fresh company news: one asks whether FDX is a buy amid growth targets, high debt, and macro risks, another highlights FedEx in a list of air-freight and cargo stocks to watch, and one quotes Jim Cramer recommending FedEx alongside other industrial names. A separate Memphis e-waste collection story is unrelated to the stock, so the 1.85% rise is only loosely explained by the provided headlines and looks more tied to opinion/sector commentary than a direct company-specific catalyst.",
-      "watchOut": "Because the headlines are largely opinion pieces and broader industry coverage, they do not show a clear company event that directly explains the move.",
+    {
+      "sym": "RTX",
+      "name": "RTX Corp",
+      "rank": 4,
+      "alignment": "confirmed",
+      "reasoning": "RTX shows a respectable 2.75% gain, a 60 quant score, and a very consistent earnings profile with 18/18 consecutive beats and strong analyst support. The headline set is not about RTX itself, but it does include an explicit 'IBD Stock Of The Day' item and defense/aerospace context that fits the stock’s sector. Among the names here, this is one of the cleaner cases where the move is at least supported by relevant, positive sector framing rather than contradicted by it. The quantitative backdrop and the sector-specific context are aligned.",
+      "watchOut": "The headlines are more sector- and peer-focused than direct RTX news, so the confirmation is not as strong as a true company-event headline would be.",
+      "score": 60,
+      "formulaRank": 9,
+      "dp": 0.6609,
+      "c": 194.95,
+      "etf": "XLI",
+      "sectorName": "Industrials",
+      "signals": {
+        "beatMag": {
+          "score": 18,
+          "max": 24,
+          "detail": "11.8%"
+        },
+        "beatStreak": {
+          "score": 18,
+          "max": 18,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 8,
+          "max": 35,
+          "detail": "+0.66%"
+        },
+        "analyst": {
+          "score": 16,
+          "max": 23,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "IBD Stock Of The Day, Already Up 71% in 2026, Flashes New Buy Signal",
+        "Reading Between The Lines Of GE's Latest Call",
+        "What History Says About Buying GE Aerospace Stock On Weakness"
+      ]
+    },
+    {
+      "sym": "FDX",
+      "name": "FedEx Corp",
+      "rank": 5,
+      "alignment": "divergent",
+      "reasoning": "FDX has a 68 quant score, a positive 1.27% move, and a strong earnings beat record, but the most specific headline introduces concern rather than clean support: it asks whether FDXF stock is a buy amid high debt and macro risks. That is materially cautionary and therefore prevents a confirmed label. The other headlines are generic industry/collection items and do not directly explain the move. The data show a decent quantitative profile, but the news tone is mixed to negative.",
+      "watchOut": "The clearest company-specific headline highlights debt and macro risk, which is a negative counterpoint.",
+      "score": 68,
+      "formulaRank": 4,
+      "dp": 1.2722,
+      "c": 319.2,
+      "etf": "XLI",
+      "sectorName": "Industrials",
+      "signals": {
+        "beatMag": {
+          "score": 18,
+          "max": 24,
+          "detail": "13.1%"
+        },
+        "beatStreak": {
+          "score": 18,
+          "max": 18,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 16,
+          "max": 35,
+          "detail": "+1.27%"
+        },
+        "analyst": {
+          "score": 16,
+          "max": 23,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
       "headlines": [
         "Is FDXF Stock a Buy With Growth Targets Amid High Debt and Macro Risks",
         "From Gadgets to Good: Memphis E-Waste Collection",
-        "3 Air-Freight & Cargo Stocks to Watch in a Promising Industry",
-        "Jim Cramer Says Forget Tech: Buy FedEx, Honeywell Aerospace, and GE Aerospace Instead"
-      ]
-    },
-    "NOC": {
-      "insight": "The headlines are about GE Aerospace and SpaceX, not Northrop Grumman, so they do not provide company-specific news for NOC. Based on these headlines alone, the 2.54% move is not explained by the news shown here and looks unrelated to the listed items.",
-      "watchOut": "The main caveat is that the headline set appears to be generic or focused on other companies, so it may be missing the actual catalyst for NOC's move.",
-      "headlines": [
-        "Reading Between The Lines Of GE's Latest Call",
-        "What History Says About Buying GE Aerospace Stock On Weakness",
-        "Is SpaceX Stock's 45% Drop a Buying Opportunity? Cathie Wood Thinks So — These ETFs Are Making the Biggest Bet",
-        "SpaceX’s Latest Growth Opportunity Has Nothing to Do With Starship"
-      ]
-    },
-    "MS": {
-      "insight": "The headlines are mostly Morgan Stanley-specific commentary about the U.S. economy and AI spending, plus one article about Wall Street banks trading parts of a large AI chip deal. One headline says financial stocks declined late afternoon, which does not line up cleanly with MS being up 0.97% today, so the move is only partly explained by the news shown.",
-      "watchOut": "These headlines are broad commentary and sector context, not a clear direct catalyst for Morgan Stanley’s share move.",
-      "headlines": [
-        "Morgan Stanley breaks from the crowd on the U.S. economy",
-        "Wall Street Banks Trading Parts of $35 Billion AI Chip Deal",
-        "Sector Update: Financial Stocks Decline Late Afternoon",
-        "Morgan Stanley: AI Spending Could Hit $1.4 Trillion by 2028, But 60% Leaves the US"
+        "3 Air-Freight & Cargo Stocks to Watch in a Promising Industry"
       ]
     }
-  },
-  "disclaimer": "AI-generated summary of recent headlines. Not a prediction. Not financial advice."
+  ],
+  "notableExclusions": [
+    {
+      "sym": "WDC",
+      "whyExcluded": "Strong quant score and positive move, but the headlines are mostly about SanDisk, Micron, and broader memory/AI commentary rather than direct Western Digital-specific news.",
+      "score": 67
+    },
+    {
+      "sym": "LHX",
+      "whyExcluded": "Solid quant and steady move, but the headlines are peer and industry comparisons with no direct L3Harris catalyst.",
+      "score": 61
+    },
+    {
+      "sym": "MS",
+      "whyExcluded": "Decent score and earnings profile, but the headlines are mostly broad macro/sector commentary and include a negative financial-sector decline item.",
+      "score": 66
+    },
+    {
+      "sym": "NOC",
+      "whyExcluded": "Quant is acceptable and the stock is up, but the headlines are about GE Aerospace and SpaceX, not Northrop Grumman itself.",
+      "score": 61
+    },
+    {
+      "sym": "BAC",
+      "whyExcluded": "The score is only middling and the headlines are mostly about unrelated banks, gold, and AI-chip trading rather than Bank of America specifically.",
+      "score": 53
+    },
+    {
+      "sym": "ICE",
+      "whyExcluded": "The score is okay, but the headlines are corporate partnership/update items and portfolio tracking rather than a clear market-moving ICE catalyst.",
+      "score": 55
+    }
+  ]
 }
