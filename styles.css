@@ -350,3 +350,9 @@ to{opacity:1;transform:translateY(0)}
 .rp-headlines{margin-top:.6rem;display:flex;flex-direction:column;gap:.2rem}
 .rp-headline{font-size:.67rem;color:var(--dim);line-height:1.45;padding-left:.75rem;position:relative;font-weight:300}
 .rp-headline::before{content:'\203A';position:absolute;left:0;color:var(--bdr2)}
+
+/* Age tag for manually-generated AI content */
+.age-tag{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.04em;padding:.1rem .38rem;border-radius:2px;text-transform:none;margin-left:.35rem}
+.age-tag.fresh{background:var(--grn-dim);color:var(--grn)}
+.age-tag.aging{background:var(--gold-dim);color:var(--gold)}
+.age-tag.stale{background:var(--red-dim);color:var(--red)}
