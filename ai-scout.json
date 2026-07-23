@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-23T05:21:20.433Z",
+  "generatedAt": "2026-07-23T05:32:53.587Z",
   "model": "gpt-5.4-mini",
   "sourceScoresFrom": "2026-07-22T14:58:23.479Z",
   "candidatesConsidered": 18,
   "candidatesWithNews": 18,
   "disclaimer": "AI-generated interpretation of momentum signals and recent headlines. Not a prediction of future performance. Not financial advice.",
-  "marketSummary": "Today’s candidate set is dominated by a few strong momentum names where the headlines either directly reinforce the move or are mostly unrelated market chatter. Several higher-score stocks are not automatically the best fits because some have generic headlines or mixed/negative context, so the ranking is not simply the quant order.",
+  "marketSummary": "Today’s candidate set is split between a few stocks with clearly company-specific, supportive headlines and several where the headlines are generic sector noise or unrelated market chatter. The strongest-looking moves are in names where the quant strength lines up with explicit company developments; the weakest cases are where the move is either mostly unexplained by the headlines or accompanied by mixed/negative context.",
   "divergenceFromFormula": {
     "formulaTop5": [
       "HPE",
@@ -15,69 +15,23 @@
       "WDC"
     ],
     "aiTop5": [
-      "SMCI",
       "HPE",
       "GM",
-      "FDX",
-      "ICE"
+      "SMCI",
+      "RTX",
+      "FDX"
     ],
     "sharedPicks": 4,
     "identicalRanking": false
   },
   "picks": [
     {
-      "sym": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "rank": 1,
-      "alignment": "confirmed",
-      "reasoning": "SMCI combines a very strong daily move (+24.16%) with the strongest price momentum score and a solid earnings-beat profile. The headlines are company-specific in the sense that they place Super Micro inside the same AI-server demand/theme that is moving peers like Dell, and one headline explicitly references Super Micro surging on record Q4 orders and a surprise margin beat. That is consistent with the stock’s quantitative strength rather than contradicting it.",
-      "watchOut": "Two of the headlines are broad market commentary rather than direct company coverage, so the news flow is not entirely SMCI-specific.",
-      "score": 76,
-      "formulaRank": 2,
-      "dp": 24.1569,
-      "c": 31.66,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 39,
-          "detail": "11.9%"
-        },
-        "beatStreak": {
-          "score": 7,
-          "max": 17,
-          "detail": "2Q"
-        },
-        "momentum": {
-          "score": 39,
-          "max": 39,
-          "detail": "+24.16%"
-        },
-        "analyst": {
-          "score": 2,
-          "max": 5,
-          "detail": "Hold"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "headlines": [
-        "Dell Technologies (DELL) Climbs 9.3% on Booming Demand for Nvidia-Powered AI Servers",
-        "Stock Market Today, July 22: Nasdaq Slides Prior to Tesla and Alphabet's Earnings After Market Close",
-        "Dow Jones Futures: Google, Tesla Fall On Earnings, But Strong Capex Lifts AI Stocks"
-      ]
-    },
-    {
       "sym": "HPE",
       "name": "Hewlett Packard Enterprise Co",
-      "rank": 2,
-      "alignment": "confirmed",
-      "reasoning": "HPE has the highest quant score in the set and a strong +5.16% move, backed by perfect earnings-beat consistency in the data. Even though the headlines are not all direct HPE coverage, they are clearly tied to the AI-server and storage hardware space, including a headline about Super Micro’s record orders and another about AI server volatility. That supports the idea that the stock’s move is part of a broader company-linked AI infrastructure trade.",
-      "watchOut": "The recent headlines are more thematic than directly about HPE itself, so the news support is indirect rather than explicit.",
+      "rank": 1,
+      "alignment": "unexplained",
+      "reasoning": "HPE has the highest quant score in the set, a strong 5.16% gain, and an exceptionally strong earnings pattern with 39/39 beat magnitude and a 17/17 consecutive beat streak. However, the recent headlines shown are about Dell, Super Micro, and SanDisk, not Hewlett Packard Enterprise itself. That means the price move is not actually explained by company-specific news in the provided data. The quant signal is strong, but the news flow here is generic to the AI/server space rather than direct confirmation.",
+      "watchOut": "The provided headlines do not mention HPE directly, so the move is not news-anchored in this set.",
       "score": 89,
       "formulaRank": 1,
       "dp": 5.1584,
@@ -120,10 +74,10 @@
     {
       "sym": "GM",
       "name": "General Motors Co",
-      "rank": 3,
+      "rank": 2,
       "alignment": "confirmed",
-      "reasoning": "GM shows a strong earnings track record, a respectable quant score, and a positive move today. The headlines are specifically company-level: one says GM raised its 2026 profit outlook to as much as $16 billion, and another references the business area that turned. That is a clear fundamental-news explanation for the stock’s strength and fits the quantitative setup.",
-      "watchOut": "The move is smaller than the top momentum names, so this is more of a news-backed fundamental rerating than a pure momentum burst.",
+      "reasoning": "GM combines a solid 74 quant score with a 3.56% gain and very strong earnings consistency. The key headline is explicitly company-specific: GM raised its 2026 profit outlook to as much as $16 billion and this is described as the second raise this year. That directly supports the move and matches the strong underlying earnings history. The additional automaker commentary is less important than the direct outlook raise.",
+      "watchOut": "The headline set still includes broader market/peer context, so the confirmation comes mainly from one direct GM-specific item.",
       "score": 74,
       "formulaRank": 3,
       "dp": 3.5589,
@@ -164,12 +118,104 @@
       ]
     },
     {
-      "sym": "FDX",
-      "name": "FedEx Corp",
+      "sym": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "rank": 3,
+      "alignment": "unexplained",
+      "reasoning": "SMCI has the biggest one-day price jump in the list at 24.16% and a high quant score of 76, with strong price momentum and a long earnings beat record. But the headlines shown are broad market and AI-sector commentary, plus stories focused on Dell and the wider chip/AI complex, not a direct Super Micro-specific catalyst. That makes the move look very strong quantitatively but not cleanly explained by the provided news. The headline set supports the AI theme generally, not SMCI specifically.",
+      "watchOut": "Despite the huge move, the provided headlines do not give a direct company-level reason for it.",
+      "score": 76,
+      "formulaRank": 2,
+      "dp": 24.1569,
+      "c": 31.66,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 39,
+          "detail": "11.9%"
+        },
+        "beatStreak": {
+          "score": 7,
+          "max": 17,
+          "detail": "2Q"
+        },
+        "momentum": {
+          "score": 39,
+          "max": 39,
+          "detail": "+24.16%"
+        },
+        "analyst": {
+          "score": 2,
+          "max": 5,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Dell Technologies (DELL) Climbs 9.3% on Booming Demand for Nvidia-Powered AI Servers",
+        "Stock Market Today, July 22: Nasdaq Slides Prior to Tesla and Alphabet's Earnings After Market Close",
+        "Dow Jones Futures: Google, Tesla Fall On Earnings, But Strong Capex Lifts AI Stocks"
+      ]
+    },
+    {
+      "sym": "RTX",
+      "name": "RTX Corp",
       "rank": 4,
       "alignment": "confirmed",
-      "reasoning": "FDX has a decent score, good earnings consistency, and a positive daily gain. The headlines are mixed but still company-linked enough to matter: one explicitly discusses FedEx stock with growth targets alongside debt and macro risks, and another flags air-freight and cargo stocks to watch. The specific FedEx mention supports the data, even if the article also raises caution.",
-      "watchOut": "The headline includes high debt and macro risks, so the news is not purely positive.",
+      "reasoning": "RTX shows a respectable 2.75% gain, a 60 quant score, and a very consistent earnings profile with 18/18 consecutive beats and strong analyst support. The headline set is not about RTX itself, but it does include an explicit 'IBD Stock Of The Day' item and defense/aerospace context that fits the stock’s sector. Among the names here, this is one of the cleaner cases where the move is at least supported by relevant, positive sector framing rather than contradicted by it. The quantitative backdrop and the sector-specific context are aligned.",
+      "watchOut": "The headlines are more sector- and peer-focused than direct RTX news, so the confirmation is not as strong as a true company-event headline would be.",
+      "score": 60,
+      "formulaRank": 9,
+      "dp": 0.6609,
+      "c": 194.95,
+      "etf": "XLI",
+      "sectorName": "Industrials",
+      "signals": {
+        "beatMag": {
+          "score": 18,
+          "max": 24,
+          "detail": "11.8%"
+        },
+        "beatStreak": {
+          "score": 18,
+          "max": 18,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 8,
+          "max": 35,
+          "detail": "+0.66%"
+        },
+        "analyst": {
+          "score": 16,
+          "max": 23,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "IBD Stock Of The Day, Already Up 71% in 2026, Flashes New Buy Signal",
+        "Reading Between The Lines Of GE's Latest Call",
+        "What History Says About Buying GE Aerospace Stock On Weakness"
+      ]
+    },
+    {
+      "sym": "FDX",
+      "name": "FedEx Corp",
+      "rank": 5,
+      "alignment": "divergent",
+      "reasoning": "FDX has a 68 quant score, a positive 1.27% move, and a strong earnings beat record, but the most specific headline introduces concern rather than clean support: it asks whether FDXF stock is a buy amid high debt and macro risks. That is materially cautionary and therefore prevents a confirmed label. The other headlines are generic industry/collection items and do not directly explain the move. The data show a decent quantitative profile, but the news tone is mixed to negative.",
+      "watchOut": "The clearest company-specific headline highlights debt and macro risk, which is a negative counterpoint.",
       "score": 68,
       "formulaRank": 4,
       "dp": 1.2722,
@@ -208,79 +254,38 @@
         "From Gadgets to Good: Memphis E-Waste Collection",
         "3 Air-Freight & Cargo Stocks to Watch in a Promising Industry"
       ]
-    },
-    {
-      "sym": "ICE",
-      "name": "Intercontinental Exchange Inc",
-      "rank": 5,
-      "alignment": "unexplained",
-      "reasoning": "ICE moved up 2.68% and has a middling-to-decent quant score, but the headlines do not really explain the stock move. The items are mostly about an NYSE content partnership, a connectivity update for ICE Bonds, and a portfolio-tracking article, which are either broad platform/newsflow items or not clearly tied to the stock’s daily action. This looks more like a stock moving without a strong company-specific news catalyst in the provided set.",
-      "watchOut": "The headline set is not clearly about operational results or a direct catalyst for the price change.",
-      "score": 55,
-      "formulaRank": 12,
-      "dp": 2.6754,
-      "c": 142.38,
-      "etf": "XLF",
-      "sectorName": "Financials",
-      "signals": {
-        "beatMag": {
-          "score": 6,
-          "max": 25,
-          "detail": "2.7%"
-        },
-        "beatStreak": {
-          "score": 19,
-          "max": 19,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 17,
-          "max": 37,
-          "detail": "+2.68%"
-        },
-        "analyst": {
-          "score": 13,
-          "max": 19,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "headlines": [
-        "NYSE Content Update: CNBC + NYSE Celebrate Extension of 30-Year Partnership",
-        "MultiLynq Becomes First Provider to Offer Connectivity to ICE Bonds' RMA Protocol",
-        "Tracking William Nygren's Harris Associates Portfolio - Q1 2026 Update"
-      ]
     }
   ],
   "notableExclusions": [
     {
+      "sym": "WDC",
+      "whyExcluded": "Strong quant score and positive move, but the headlines are mostly about SanDisk, Micron, and broader memory/AI commentary rather than direct Western Digital-specific news.",
+      "score": 67
+    },
+    {
+      "sym": "LHX",
+      "whyExcluded": "Solid quant and steady move, but the headlines are peer and industry comparisons with no direct L3Harris catalyst.",
+      "score": 61
+    },
+    {
       "sym": "MS",
-      "whyExcluded": "Despite a solid quant score and strong earnings streak, the headlines are mixed: one is company-specific but the other is a sector-level negative ('Financial Stocks Decline Late Afternoon'), which keeps it from being confirmed and makes the news less clean than the top five.",
+      "whyExcluded": "Decent score and earnings profile, but the headlines are mostly broad macro/sector commentary and include a negative financial-sector decline item.",
       "score": 66
     },
     {
       "sym": "NOC",
-      "whyExcluded": "The stock has a respectable quant score and positive move, but the headlines are mostly about GE Aerospace, SpaceX, and a broad defense/theme comparison rather than direct Northrop-specific news.",
+      "whyExcluded": "Quant is acceptable and the stock is up, but the headlines are about GE Aerospace and SpaceX, not Northrop Grumman itself.",
       "score": 61
     },
     {
-      "sym": "LHX",
-      "whyExcluded": "Similar to NOC, it has a strong earnings/momentum profile but the headlines are comparative or about peers, not clearly direct L3Harris catalysts.",
-      "score": 61
+      "sym": "BAC",
+      "whyExcluded": "The score is only middling and the headlines are mostly about unrelated banks, gold, and AI-chip trading rather than Bank of America specifically.",
+      "score": 53
     },
     {
-      "sym": "WDC",
-      "whyExcluded": "The quant score is solid, but the headlines are mostly about SanDisk, Micron, and AI-memory themes rather than direct Western Digital-specific news, so the move is not well explained at the company level.",
-      "score": 67
-    },
-    {
-      "sym": "SMCI",
-      "whyExcluded": "Not excluded from the final list; included as the top pick because its unusually strong move and the specific Super Micro headline were the strongest news/quant combination in the set.",
-      "score": 76
+      "sym": "ICE",
+      "whyExcluded": "The score is okay, but the headlines are corporate partnership/update items and portfolio tracking rather than a clear market-moving ICE catalyst.",
+      "score": 55
     }
   ]
 }
