@@ -1,62 +1,62 @@
 {
-  "generatedAt": "2026-07-23T17:19:13.227Z",
+  "generatedAt": "2026-07-28T17:18:52.323Z",
   "model": "gpt-5.4-mini",
-  "sourceScoresFrom": "2026-07-23T15:50:08.644Z",
+  "sourceScoresFrom": "2026-07-28T16:01:01.602Z",
   "candidatesConsidered": 18,
   "candidatesWithNews": 18,
   "disclaimer": "AI-generated interpretation of momentum signals and recent headlines. Not a prediction of future performance. Not financial advice.",
-  "marketSummary": "Today’s candidate set is split between a few stocks with company-specific catalysts and several movers whose headlines are mostly generic market wrap or broad thematic commentary. The strongest alignment appears in names with explicit earnings, upgrades, or corporate action headlines; several high momentum moves remain unexplained, and a few are directly contradicted by negative earnings news.",
+  "marketSummary": "The set is a mix of genuinely company-specific earnings/news catalysts and several names whose move is not well explained by the headlines provided. A few stocks have strong quantitative momentum plus headlines that directly support the move, but there are also cases where generic market commentary or explicitly negative news cuts against the price action.",
   "divergenceFromFormula": {
     "formulaTop5": [
-      "LHX",
-      "URI",
-      "NOC",
-      "AME",
-      "KMX"
+      "CRM",
+      "TTWO",
+      "GM",
+      "CCL",
+      "AMT"
     ],
     "aiTop5": [
-      "LHX",
-      "NOC",
-      "AME",
-      "GRMN",
-      "KMX"
+      "NUE",
+      "ITW",
+      "AMT",
+      "CRM",
+      "NUE"
     ],
-    "sharedPicks": 4,
+    "sharedPicks": 2,
     "identicalRanking": false
   },
   "picks": [
     {
-      "sym": "LHX",
-      "name": "L3Harris Technologies Inc",
+      "sym": "NUE",
+      "name": "Nucor Corp",
       "rank": 1,
-      "alignment": "unexplained",
-      "reasoning": "L3Harris has the strongest raw momentum in the set at +5.61% and a high quant score of 71, with solid earnings-beat history and strong analyst support. However, the headlines provided are mostly generic market-session commentary plus unrelated defense-sector items, not a clear company-specific catalyst for LHX itself. The data show a strong move, but the news does not directly explain it.",
-      "watchOut": "The headline set is not company-specific, so the move is not clearly attributable to a L3Harris event in the provided data.",
-      "score": 71,
-      "formulaRank": 1,
-      "dp": 5.6144,
-      "c": 301.17,
-      "etf": "XLI",
-      "sectorName": "Industrials",
+      "alignment": "confirmed",
+      "reasoning": "Nucor has both a strong daily move and headlines that directly explain it: Q2 earnings and revenues surpassed estimates, and the company posted record steel shipments on higher pricing and strong demand. That is tightly company-specific support for the positive move. The quant backdrop is also constructive with a solid score and a high price-momentum reading.",
+      "watchOut": "The beat streak is weaker than some peers, with only 5/12 in the last two quarters, so the consistency is not as pristine as the headline tone.",
+      "score": 65,
+      "formulaRank": 11,
+      "dp": 7.2702,
+      "c": 265.88,
+      "etf": "XLB",
+      "sectorName": "Materials",
       "signals": {
         "beatMag": {
-          "score": 11,
-          "max": 24,
-          "detail": "5.6%"
+          "score": 9,
+          "max": 19,
+          "detail": "7.9%"
         },
         "beatStreak": {
-          "score": 18,
-          "max": 18,
-          "detail": "4Q"
+          "score": 5,
+          "max": 12,
+          "detail": "2Q"
         },
         "momentum": {
-          "score": 26,
-          "max": 35,
-          "detail": "+5.61%"
+          "score": 33,
+          "max": 44,
+          "detail": "+7.27%"
         },
         "analyst": {
-          "score": 16,
-          "max": 23,
+          "score": 18,
+          "max": 25,
           "detail": "Buy"
         },
         "target": {
@@ -66,75 +66,29 @@
         }
       },
       "headlines": [
-        "What's going on in today's session: S&P500 movers",
-        "RTX Q2 Earnings Outpace Estimates, Revenues Increase Y/Y",
-        "Is Ondas in Play? Potential Acquirers Eye This Autonomous-Defense Specialist."
+        "Tuesday's session: top gainers and losers in the S&P500 index",
+        "Nucor's Q2 Earnings and Revenues Surpass Estimates on Higher Prices",
+        "Nucor posts record steel shipments on higher pricing, strong demand"
       ]
     },
     {
-      "sym": "NOC",
-      "name": "Northrop Grumman Corp",
+      "sym": "ITW",
+      "name": "Illinois Tool Works Inc",
       "rank": 2,
       "alignment": "confirmed",
-      "reasoning": "Northrop Grumman combines a strong quant profile with company-relevant news: it has a +2.76% move, an 18/18 recent beat streak, and high buy-side analyst representation. The headlines include a direct company article, 'Northrop Grumman: A Buy Despite Rising Fears,' plus a defense funding headline that is clearly supportive of the sector and company context. The news and the numbers point in the same direction.",
-      "watchOut": "One headline signals 'rising fears,' so the positive setup is not free of caution.",
-      "score": 61,
-      "formulaRank": 3,
-      "dp": 2.7566,
-      "c": 539.76,
-      "etf": "XLI",
-      "sectorName": "Industrials",
-      "signals": {
-        "beatMag": {
-          "score": 11,
-          "max": 24,
-          "detail": "8.1%"
-        },
-        "beatStreak": {
-          "score": 18,
-          "max": 18,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 16,
-          "max": 35,
-          "detail": "+2.76%"
-        },
-        "analyst": {
-          "score": 16,
-          "max": 23,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "headlines": [
-        "Northrop Grumman: A Buy Despite Rising Fears",
-        "7 Things To Watch For After The Fed Announces July Interest Rate Decision",
-        "Trump's Golden Dome, B-21 Bombers, New Submarines and More Win Funding as House Narrowly Approves $1.15 Trillion Defense Package"
-      ]
-    },
-    {
-      "sym": "AME",
-      "name": "AMETEK Inc",
-      "rank": 3,
-      "alignment": "confirmed",
-      "reasoning": "AMETEK shows a moderate positive move and a respectable quant score of 56, backed by a long streak of earnings beats and buy-rated analyst consensus. The headlines are specific and constructive: industry outlook coverage names AMETEK directly, and the stock appears in a list of stocks to buy from a prospering industry. That is a clean news backdrop for the positive reading in the signal data.",
-      "watchOut": "The headlines are industry-framed rather than a single distinct corporate catalyst, so the support is informative but not event-driven.",
-      "score": 56,
-      "formulaRank": 4,
-      "dp": 1.4045,
-      "c": 240.42,
+      "reasoning": "Illinois Tool Works has specific earnings headlines saying it topped Q2 earnings and revenue estimates and raised guidance after inline earnings. Those are direct company-level signals supporting the stock's 4.97% gain. The quant profile is moderate rather than elite, but the news clearly matches the move.",
+      "watchOut": "The earnings beat magnitude is relatively modest versus the strongest names here, so the news is supportive but not exceptionally strong.",
+      "score": 47,
+      "formulaRank": 15,
+      "dp": 4.968,
+      "c": 298.97,
       "etf": "XLI",
       "sectorName": "Industrials",
       "signals": {
         "beatMag": {
           "score": 6,
           "max": 24,
-          "detail": "3.9%"
+          "detail": "1.5%"
         },
         "beatStreak": {
           "score": 18,
@@ -144,11 +98,57 @@
         "momentum": {
           "score": 16,
           "max": 35,
-          "detail": "+1.40%"
+          "detail": "+4.97%"
         },
         "analyst": {
-          "score": 16,
+          "score": 7,
           "max": 23,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Illinois Tool Works (ITW) Q2 Earnings: Taking a Look at Key Metrics Versus Estimates",
+        "Illinois Tool Works (NYSE:ITW): Quality Industrial Stock Raises Guidance After Inline Earnings",
+        "Illinois Tool Works (ITW) Tops Q2 Earnings and Revenue Estimates"
+      ]
+    },
+    {
+      "sym": "AMT",
+      "name": "American Tower Corp",
+      "rank": 3,
+      "alignment": "confirmed",
+      "reasoning": "American Tower’s headlines are company-specific and clearly relevant: it beat second-quarter estimates, and the earnings call highlights were published alongside the results. Even though one headline notes that the revenue outlook missed expectations, the overall reporting still supports a positive reaction to the stock's 4.8% rise. The quant history is also strong, with a perfect recent beat streak and high analyst buy support.",
+      "watchOut": "The revenue outlook miss is the main negative detail in the set, so the catalyst is not cleanly positive across all measures.",
+      "score": 71,
+      "formulaRank": 5,
+      "dp": 4.7979,
+      "c": 174.74,
+      "etf": "XLRE",
+      "sectorName": "Real Estate",
+      "signals": {
+        "beatMag": {
+          "score": 15,
+          "max": 15,
+          "detail": "28.1%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 14,
+          "max": 31,
+          "detail": "+4.80%"
+        },
+        "analyst": {
+          "score": 27,
+          "max": 39,
           "detail": "Buy"
         },
         "target": {
@@ -158,44 +158,90 @@
         }
       },
       "headlines": [
-        "Zacks Industry Outlook Highlights AMETEK and Fortive",
-        "2 Electronics Testing Stocks to Buy From a Prospering Industry",
-        "3 Picks-and-Shovels Stocks Powering the Humanoid Robotics Buildout"
+        "American Tower Q2 Earnings Call Highlights",
+        "Compared to Estimates, American Tower (AMT) Q2 Earnings: A Look at Key Metrics",
+        "American Tower Beats Second-Quarter Estimates but Revenue Outlook Misses Expectations"
       ]
     },
     {
-      "sym": "GRMN",
-      "name": "Garmin Ltd",
+      "sym": "CRM",
+      "name": "Salesforce Inc",
       "rank": 4,
-      "alignment": "confirmed",
-      "reasoning": "Garmin’s move is modest, but the company has solid earnings-beat history and a clear news catalyst: it is acquiring TrainingPeaks and TrainHeroic, with a second headline repeating the acquisition and noting financial terms were not disclosed. A separate headline frames the stock as rising overnight around the acquisition and product-positioning narrative. This is direct company-level news that supports the current move.",
-      "watchOut": "The lack of disclosed financial terms limits how much the acquisition can be evaluated from this dataset.",
-      "score": 34,
-      "formulaRank": 11,
-      "dp": 0.3908,
-      "c": 241.45,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
+      "alignment": "unexplained",
+      "reasoning": "Salesforce has a strong quant score and solid price momentum, but the headlines provided are mostly generic or thematic rather than a direct company catalyst. 'Exploring the top movers' and broad market coverage are not company-specific, and the AI deployment piece is more topical than event-driven. Based on the supplied data, the move is not clearly explained by news.",
+      "watchOut": "The headline set does not include a clear company event, so the move is not well attributed to news in this dataset.",
+      "score": 78,
+      "formulaRank": 1,
+      "dp": 4.735,
+      "c": 181.82,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
       "signals": {
         "beatMag": {
-          "score": 13,
-          "max": 28,
-          "detail": "9.5%"
+          "score": 39,
+          "max": 39,
+          "detail": "15.9%"
         },
         "beatStreak": {
-          "score": 7,
+          "score": 17,
           "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+4.74%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "headlines": [
+        "Exploring the top movers within the dow jones index during today's session.",
+        "Salesforce’s (CRM) Impact on AI Deployment in Corporate Environments",
+        "Stock Market Today: Dow Rises, Nasdaq Sinks As Chipmakers Dive; Coca-Cola Surges (Live Coverage)"
+      ]
+    },
+    {
+      "sym": "NUE",
+      "name": "Nucor Corp",
+      "rank": 5,
+      "alignment": "confirmed",
+      "reasoning": "Nucor’s results and operating commentary are specific and supportive: Q2 earnings and revenues beat estimates, and record steel shipments were tied to higher pricing and strong demand. That combination lines up well with the stock's large same-day advance and respectable momentum score. This is one of the clearest news-and-price alignments in the group.",
+      "watchOut": "The beat history is not as uniform as the best names, so prior consistency is a bit less robust.",
+      "score": 65,
+      "formulaRank": 11,
+      "dp": 7.2702,
+      "c": 265.88,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "signals": {
+        "beatMag": {
+          "score": 9,
+          "max": 19,
+          "detail": "7.9%"
+        },
+        "beatStreak": {
+          "score": 5,
+          "max": 12,
           "detail": "2Q"
         },
         "momentum": {
-          "score": 9,
-          "max": 39,
-          "detail": "+0.39%"
+          "score": 33,
+          "max": 44,
+          "detail": "+7.27%"
         },
         "analyst": {
-          "score": 5,
-          "max": 16,
-          "detail": "Hold"
+          "score": 18,
+          "max": 25,
+          "detail": "Buy"
         },
         "target": {
           "score": 0,
@@ -204,83 +250,42 @@
         }
       },
       "headlines": [
-        "Garmin acquires TrainingPeaks and TrainHeroic, leading endurance and strength training platforms for athletes and coaches",
-        "Garmin Stock Rises Overnight: Can Its $200 Whoop And Google Fitbit Challenger Get Investors’ Hearts Racing Again?",
-        "Garmin Acquires TrainingPeaks And TrainHeroic Platforms For Athletes And Coaches; Financial Terms Not Disclosed"
-      ]
-    },
-    {
-      "sym": "KMX",
-      "name": "Carmax Inc",
-      "rank": 5,
-      "alignment": "confirmed",
-      "reasoning": "CarMax has a mixed price move today, but the quant signal is strong with the best earnings-beat magnitude in the set and a long beat streak. The headlines are clearly company-specific and positive: Barclays upgraded the name, raised its price target, and another note says the business is improving. The news aligns with the stronger fundamental trend shown in the signal detail.",
-      "watchOut": "The current price change is small, so the positive headlines are not accompanied by a large same-day move.",
-      "score": 53,
-      "formulaRank": 5,
-      "dp": 0.1218,
-      "c": 57.52,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 28,
-          "detail": "18.4%"
-        },
-        "beatStreak": {
-          "score": 11,
-          "max": 17,
-          "detail": "3Q"
-        },
-        "momentum": {
-          "score": 9,
-          "max": 39,
-          "detail": "+0.12%"
-        },
-        "analyst": {
-          "score": 5,
-          "max": 16,
-          "detail": "Hold"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "headlines": [
-        "Barclays Upgrades CarMax (KMX)",
-        "Barclays Upgrades CarMax to Equal-Weight, Raises Price Target to $61",
-        "CarMax: Business Is Improving, But Not Good Enough (Rating Upgrade)"
+        "Tuesday's session: top gainers and losers in the S&P500 index",
+        "Nucor's Q2 Earnings and Revenues Surpass Estimates on Higher Prices",
+        "Nucor posts record steel shipments on higher pricing, strong demand"
       ]
     }
   ],
   "notableExclusions": [
     {
-      "sym": "URI",
-      "whyExcluded": "Very strong price move and high quant score, but the headlines are only generic 'S&P500 movers' and 'gapping' commentary, so there is no company-specific news to explain it.",
+      "sym": "CRM",
+      "whyExcluded": "Although the quant score is high, the provided headlines are largely generic or thematic rather than a direct company catalyst, so the move is not clearly news-confirmed.",
+      "score": 78
+    },
+    {
+      "sym": "TTWO",
+      "whyExcluded": "Strong score and positive-looking headlines, but the price move is modest relative to peers and the news is more analyst-opinion oriented than a fresh company event.",
+      "score": 77
+    },
+    {
+      "sym": "SHW",
+      "whyExcluded": "The headlines are generic market-mover commentary without a company-specific catalyst, so the stock is not clearly supported by news despite the solid quant profile.",
+      "score": 67
+    },
+    {
+      "sym": "HSY",
+      "whyExcluded": "Materially negative headline risk dominates here: RBC says Hershey is likely to miss Q2 revenue estimates on soft consumption data, which makes the setup divergent rather than confirmed.",
+      "score": 66
+    },
+    {
+      "sym": "CCL",
+      "whyExcluded": "The headlines are about Royal Caribbean and broad cruise-sector movement, not a clear Carnival-specific catalyst, so the move is not well explained by company-level news.",
+      "score": 74
+    },
+    {
+      "sym": "IT",
+      "whyExcluded": "This was close to the top five, but it ranked behind the strongest company-specific catalyst names and one clearer unexplained momentum case; it remains a reasonable but not top-ranked inclusion.",
       "score": 64
-    },
-    {
-      "sym": "CB",
-      "whyExcluded": "Strong quant and a positive earnings-call headline, but the presence of a materially negative headline about Wells Fargo lowering the price target and a sell-side consensus makes the set divergent rather than cleanly confirmed.",
-      "score": 48
-    },
-    {
-      "sym": "LVS",
-      "whyExcluded": "The headlines are contradictory: one says the stock is down on a Q2 miss and revenue miss, which directly conflicts with a positive move and prevents a confirmed label.",
-      "score": 42
-    },
-    {
-      "sym": "TSCO",
-      "whyExcluded": "The news is materially negative, citing a Q2 miss and guidance cut, so it is divergent despite the price bounce.",
-      "score": 29
-    },
-    {
-      "sym": "CME",
-      "whyExcluded": "There is company-specific news, but the headline mix is mixed-to-negative with a note that the stock could be overvalued, which weakens the case versus clearer names.",
-      "score": 40
     }
   ]
 }
