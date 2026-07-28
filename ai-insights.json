@@ -1,35 +1,35 @@
 {
-  "generatedAt": "2026-07-23T17:19:13.295Z",
+  "generatedAt": "2026-07-28T17:18:52.390Z",
   "model": "gpt-5.4-mini",
   "stocks": {
-    "WDC": {
-      "insight": "The headlines are mostly sector- and peer-focused, discussing AI hardware and memory stocks like Micron, Sandisk, and SK Hynix, plus a comparison piece on WDC versus SMCI. They do not report a clear WDC-specific company event, so the 1.77% move looks more like a sector-move context than news directly tied to WDC itself.",
-      "watchOut": "The main caveat is that these headlines are largely about other stocks and broad memory/AI sentiment, so they do not firmly explain WDC’s own price change.",
-      "headlines": [
-        "WDC vs. SMCI: Which AI Hardware Stock is the Smarter Investment Now?",
-        "MU Vs Its Peers: A Lead With A Price Tag",
-        "Why Micron, Sandisk, and SK Hynix Are Surging—And How to Play It",
-        "MU, SNDK, SKHY Stocks Jump: Google's AI Hunger, Elon Musk's Micron Shoutout Send Memory Bulls Charging"
-      ]
-    },
     "MU": {
-      "insight": "The headlines mostly point to sector and market coverage rather than a single Micron-specific event: one says Micron and other chip gear stocks rose even as the Dow fell, while another highlights Micron in a broader analyst blog alongside NVIDIA, AMD, and TSMC. That lines up with MU being up 3.9% today, but the news set is mostly general or mixed rather than a clear company-specific catalyst.",
-      "watchOut": "The main caveat is that these headlines do not show a direct Micron-only reason for the move, so the price change is not fully explained by the available news.",
+      "insight": "The headlines are mostly market commentary, not new company-specific news. The only MU-specific item says MU, AMD, INTC, and SNDK stocks fell as Morgan Stanley’s Mike Wilson explained why investors are going after chip and memory stocks, which lines up with MU’s sharp drop today.",
+      "watchOut": "Because the headlines are broad sector and market coverage, they do not show a direct company event driving the move.",
       "headlines": [
-        "Stock Market Today: Dow Slammed 600 Points, But Micron, Chip Gear Stocks Rise; Alphabet Slides (Live Coverage)",
-        "Prediction: 1 Reason Palantir Could Keep Beating the Market",
-        "The Zacks Analyst Blog Highlights NVIDIA, AMD, Micron Technology and Taiwan Semiconductor Manufacturing",
-        "How Much Micron (MU) Do You Unknowingly Own?"
+        "Tuesday's session: top gainers and losers in the S&P500 index",
+        "Stock Market Today: Nasdaq-100 Hits Correction Territory; Commvault Trampled (Live Coverage)",
+        "NBT Bancorp Q2 Earnings Call Highlights",
+        "MU, AMD, INTC, SNDK Stocks Fall — Morgan Stanley's Mike Wilson Explains Why Investors Are Going After Chip And Memory Stocks"
       ]
     },
     "INTC": {
-      "insight": "The headlines are mostly company-related: one says Intel’s foundry yield could support a second-half rebound, another is a comparison article on Nvidia vs. Intel, and a third says Multiverse Computing’s CompactifAI models now run on Intel Xeon 6 processors. The only clearly market-wide headline is about US equity futures falling on broader geopolitical concerns, so the day’s -1.71% move is only partly explained by news and not by a direct negative Intel-specific headline.",
-      "watchOut": "This data mixes Intel-specific items with a general market headline, so it does not show a single clear company news catalyst for the decline.",
+      "insight": "The headlines are mostly sector-level and do not describe any Intel-specific company news this week. They say Intel fell along with other chip stocks as investors rotated toward NVIDIA and after Morgan Stanley commentary on chip and memory stocks, which is consistent with INTC being down 5.13% today.",
+      "watchOut": "Because the headlines are broad semiconductor and market commentary, they do not identify any Intel-specific catalyst for the move.",
       "headlines": [
-        "Intel’s 85% Foundry Yield Could Ignite a Second-Half Rebound",
-        "Nvidia vs. Intel: Which is the Better AI Chip Stock to Own for the Next 3 Years?",
-        "Multiverse Computing Unveils Breakthrough: All CompactifAI Models Now Run on Intel Xeon 6 Processors",
-        "Update: US Equity Futures Drop Pre-Bell as Mid-East Conflict Expands to Potentially Include Red Sea"
+        "AMD Sinks 8%, Marvell Sinks 7%, Intel Fall 6% as AI Chip Trade Narrows to NVIDIA",
+        "MU, AMD, INTC, SNDK Stocks Fall — Morgan Stanley's Mike Wilson Explains Why Investors Are Going After Chip And Memory Stocks",
+        "Corning, ASML, SK Hynix, PayPal, UPS, Coca-Cola, and More Stocks That Explain Today’s Market",
+        "This Chip ETF Just Pulled Off a Historic 2026 While Nvidia Stumbled"
+      ]
+    },
+    "WDC": {
+      "insight": "The headlines are mostly market commentary about chip and memory stocks falling, plus generic session lists, and one headline says Western Digital surged on strong hard drive demand and tighter supply. That does not line up cleanly with WDC being down 8.42% today; the only company-specific headline is bullish, while the others are broad sector moves rather than direct WDC news.",
+      "watchOut": "The headline set is mixed and mostly not specific to WDC, so the day’s drop is not clearly explained by company news in this data.",
+      "headlines": [
+        "Tuesday's session: top gainers and losers in the S&P500 index",
+        "MU, AMD, INTC, SNDK Stocks Fall — Morgan Stanley's Mike Wilson Explains Why Investors Are Going After Chip And Memory Stocks",
+        "These S&P500 stocks are gapping in today's session",
+        "Western Digital Corporation (WDC) Surged on Strong Hard Drive Demand and Tighter Supply"
       ]
     }
   },
