@@ -1,48 +1,11 @@
 {
-  "generatedAt": "2026-08-28T22:50:14.543Z",
+  "generatedAt": "2026-08-28T23:19:51.251Z",
   "sectors": {
     "XLK": {
       "name": "Information Technology",
       "scanned": 39,
       "afterFilter": 11,
       "top": [
-        {
-          "sym": "AAPL",
-          "name": "AAPL",
-          "dp": 1.6276,
-          "c": 319.7,
-          "etf": "XLK",
-          "sectorName": "Information Technology",
-          "marketCap": null,
-          "score": 18,
-          "signals": {
-            "beatMag": {
-              "score": 0,
-              "max": 39,
-              "detail": "—"
-            },
-            "beatStreak": {
-              "score": 0,
-              "max": 17,
-              "detail": "0Q"
-            },
-            "momentum": {
-              "score": 18,
-              "max": 39,
-              "detail": "+1.63%"
-            },
-            "analyst": {
-              "score": 0,
-              "max": 5,
-              "detail": "No data"
-            },
-            "target": {
-              "score": 0,
-              "max": 0,
-              "detail": "No data"
-            }
-          }
-        },
         {
           "sym": "MSFT",
           "name": "MSFT",
@@ -67,6 +30,43 @@
               "score": 18,
               "max": 39,
               "detail": "+1.68%"
+            },
+            "analyst": {
+              "score": 0,
+              "max": 5,
+              "detail": "No data"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "AAPL",
+          "name": "AAPL",
+          "dp": 1.6276,
+          "c": 319.7,
+          "etf": "XLK",
+          "sectorName": "Information Technology",
+          "marketCap": null,
+          "score": 18,
+          "signals": {
+            "beatMag": {
+              "score": 0,
+              "max": 39,
+              "detail": "—"
+            },
+            "beatStreak": {
+              "score": 0,
+              "max": 17,
+              "detail": "0Q"
+            },
+            "momentum": {
+              "score": 18,
+              "max": 39,
+              "detail": "+1.63%"
             },
             "analyst": {
               "score": 0,
