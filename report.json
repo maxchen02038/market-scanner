@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T18:01:55.085Z",
+  "generatedAt": "2026-09-07T18:32:03.561Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -247,43 +247,6 @@
       "marketCap": 26009.259178216533
     },
     {
-      "sym": "KMX",
-      "name": "Carmax Inc",
-      "dp": 1.0696,
-      "c": 63.31,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "score": 62,
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 28,
-          "detail": "18.4%"
-        },
-        "beatStreak": {
-          "score": 11,
-          "max": 17,
-          "detail": "3Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+1.07%"
-        },
-        "analyst": {
-          "score": 5,
-          "max": 16,
-          "detail": "Hold"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 8981.552610671297
-    },
-    {
       "sym": "LRCX",
       "name": "Lam Research Corp",
       "dp": 5.1357,
@@ -430,12 +393,49 @@
         }
       },
       "marketCap": 244400.10792157566
+    },
+    {
+      "sym": "GLW",
+      "name": "Corning Inc",
+      "dp": 5.7055,
+      "c": 154.33,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 53,
+      "signals": {
+        "beatMag": {
+          "score": 9,
+          "max": 39,
+          "detail": "0.9%"
+        },
+        "beatStreak": {
+          "score": 11,
+          "max": 17,
+          "detail": "3Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+5.71%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 132912.2155640144
     }
   ],
   "summary": {
     "highestScore": 89,
     "highestScoreSymbol": "MU",
-    "avgTop10": 68,
+    "avgTop10": 67,
     "leadingSector": "Information Technology",
     "laggingSector": "Consumer Discretionary"
   }
