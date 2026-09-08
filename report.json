@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T16:56:48.332Z",
+  "generatedAt": "2026-09-08T17:42:20.676Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -7,65 +7,65 @@
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": 1.1142
+      "dp": 1.1374
     },
     {
       "etf": "XLE",
       "name": "Energy",
-      "dp": 0.5932
+      "dp": 0.7649
     },
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": 0.4645
+      "dp": 0.6568
     },
     {
       "etf": "XLRE",
       "name": "Real Estate",
-      "dp": 0.4097
+      "dp": 0.5236
     },
     {
       "etf": "XLI",
       "name": "Industrials",
-      "dp": -0.0628
-    },
-    {
-      "etf": "XLY",
-      "name": "Consumer Discretionary",
-      "dp": -0.3916
+      "dp": -0.0799
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": -0.4285
+      "dp": -0.4552
+    },
+    {
+      "etf": "XLY",
+      "name": "Consumer Discretionary",
+      "dp": -0.5831
     },
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": -0.5149
+      "dp": -0.6293
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": -0.6621
+      "dp": -0.6503
     },
     {
       "etf": "XLF",
       "name": "Financials",
-      "dp": -0.9122
+      "dp": -0.9466
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": -2.1814
+      "dp": -2.1114
     }
   ],
   "topSignals": [
     {
       "sym": "INTC",
       "name": "Intel Corp",
-      "dp": 10.428,
-      "c": 105.79,
+      "dp": 10.4384,
+      "c": 105.8,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 97,
@@ -83,7 +83,7 @@
         "momentum": {
           "score": 39,
           "max": 39,
-          "detail": "+10.43%"
+          "detail": "+10.44%"
         },
         "analyst": {
           "score": 2,
@@ -101,8 +101,8 @@
     {
       "sym": "HPE",
       "name": "Hewlett Packard Enterprise Co",
-      "dp": 5.0385,
-      "c": 54.62,
+      "dp": 6.5,
+      "c": 55.38,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 89,
@@ -120,7 +120,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.04%"
+          "detail": "+6.50%"
         },
         "analyst": {
           "score": 4,
@@ -138,8 +138,8 @@
     {
       "sym": "FCX",
       "name": "Freeport-McMoRan Inc",
-      "dp": 5.4448,
-      "c": 76.69,
+      "dp": 5.5823,
+      "c": 76.79,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 82,
@@ -157,7 +157,7 @@
         "momentum": {
           "score": 33,
           "max": 44,
-          "detail": "+5.44%"
+          "detail": "+5.58%"
         },
         "analyst": {
           "score": 18,
@@ -175,8 +175,8 @@
     {
       "sym": "STX",
       "name": "Seagate Technology Holdings PLC",
-      "dp": 5.8049,
-      "c": 898.58,
+      "dp": 7.7819,
+      "c": 915.37,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -194,7 +194,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.80%"
+          "detail": "+7.78%"
         },
         "analyst": {
           "score": 4,
@@ -210,10 +210,47 @@
       "marketCap": 192484.661181
     },
     {
+      "sym": "PLD",
+      "name": "Prologis Inc",
+      "dp": 1.0849,
+      "c": 138.83,
+      "etf": "XLRE",
+      "sectorName": "Real Estate",
+      "score": 71,
+      "signals": {
+        "beatMag": {
+          "score": 15,
+          "max": 15,
+          "detail": "30.9%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 14,
+          "max": 31,
+          "detail": "+1.08%"
+        },
+        "analyst": {
+          "score": 27,
+          "max": 39,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 132811.225852
+    },
+    {
       "sym": "SMCI",
       "name": "Super Micro Computer Inc",
-      "dp": 2.4249,
-      "c": 40.55,
+      "dp": 3.2837,
+      "c": 40.89,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 70,
@@ -231,7 +268,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.42%"
+          "detail": "+3.28%"
         },
         "analyst": {
           "score": 2,
@@ -249,8 +286,8 @@
     {
       "sym": "AMD",
       "name": "Advanced Micro Devices Inc",
-      "dp": 6.7383,
-      "c": 509.75,
+      "dp": 7.0503,
+      "c": 511.24,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 68,
@@ -268,7 +305,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+6.74%"
+          "detail": "+7.05%"
         },
         "analyst": {
           "score": 4,
@@ -286,8 +323,8 @@
     {
       "sym": "WDC",
       "name": "Western Digital Corp",
-      "dp": 2.7296,
-      "c": 480.22,
+      "dp": 3.8998,
+      "c": 485.69,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 67,
@@ -305,7 +342,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.73%"
+          "detail": "+3.90%"
         },
         "analyst": {
           "score": 4,
@@ -321,33 +358,33 @@
       "marketCap": 183729.36
     },
     {
-      "sym": "PLD",
-      "name": "Prologis Inc",
-      "dp": 0.9174,
-      "c": 138.6,
-      "etf": "XLRE",
-      "sectorName": "Real Estate",
-      "score": 64,
+      "sym": "FTNT",
+      "name": "Fortinet Inc",
+      "dp": 0.4543,
+      "c": 157,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 67,
       "signals": {
         "beatMag": {
-          "score": 15,
-          "max": 15,
-          "detail": "30.9%"
+          "score": 39,
+          "max": 39,
+          "detail": "17.6%"
         },
         "beatStreak": {
-          "score": 15,
-          "max": 15,
+          "score": 17,
+          "max": 17,
           "detail": "4Q"
         },
         "momentum": {
-          "score": 7,
-          "max": 31,
-          "detail": "+0.92%"
+          "score": 9,
+          "max": 39,
+          "detail": "+0.45%"
         },
         "analyst": {
-          "score": 27,
-          "max": 39,
-          "detail": "Buy"
+          "score": 2,
+          "max": 5,
+          "detail": "Hold"
         },
         "target": {
           "score": 0,
@@ -355,35 +392,35 @@
           "detail": "No data"
         }
       },
-      "marketCap": 132811.225852
+      "marketCap": 114672.09722
     },
     {
-      "sym": "IRM",
-      "name": "Iron Mountain Inc",
-      "dp": 1.3264,
-      "c": 118.41,
-      "etf": "XLRE",
-      "sectorName": "Real Estate",
-      "score": 63,
+      "sym": "ALB",
+      "name": "Albemarle Corp",
+      "dp": 1.8134,
+      "c": 128.57,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 62,
       "signals": {
         "beatMag": {
-          "score": 7,
-          "max": 15,
-          "detail": "6.6%"
+          "score": 19,
+          "max": 19,
+          "detail": "20.7%"
         },
         "beatStreak": {
-          "score": 15,
-          "max": 15,
-          "detail": "4Q"
+          "score": 5,
+          "max": 12,
+          "detail": "2Q"
         },
         "momentum": {
-          "score": 14,
-          "max": 31,
-          "detail": "+1.33%"
+          "score": 20,
+          "max": 44,
+          "detail": "+1.81%"
         },
         "analyst": {
-          "score": 27,
-          "max": 39,
+          "score": 18,
+          "max": 25,
           "detail": "Buy"
         },
         "target": {
@@ -392,50 +429,13 @@
           "detail": "No data"
         }
       },
-      "marketCap": 34789.551706
-    },
-    {
-      "sym": "AMT",
-      "name": "American Tower Corp",
-      "dp": 0.9667,
-      "c": 177.55,
-      "etf": "XLRE",
-      "sectorName": "Real Estate",
-      "score": 60,
-      "signals": {
-        "beatMag": {
-          "score": 11,
-          "max": 15,
-          "detail": "14.7%"
-        },
-        "beatStreak": {
-          "score": 15,
-          "max": 15,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 7,
-          "max": 31,
-          "detail": "+0.97%"
-        },
-        "analyst": {
-          "score": 27,
-          "max": 39,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 81939.078074
+      "marketCap": 14901.678617
     }
   ],
   "summary": {
     "highestScore": 97,
     "highestScoreSymbol": "INTC",
-    "avgTop10": 74,
+    "avgTop10": 75,
     "leadingSector": "Utilities",
     "laggingSector": "Health Care"
   }
