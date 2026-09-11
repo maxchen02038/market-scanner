@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T16:51:15.047Z",
+  "generatedAt": "2026-09-11T17:27:28.797Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -7,68 +7,68 @@
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": 1.4631
+      "dp": 1.6143
     },
     {
       "etf": "XLI",
       "name": "Industrials",
-      "dp": 1.2724
+      "dp": 1.3193
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": 1.1928
+      "dp": 1.2915
     },
     {
       "etf": "XLRE",
       "name": "Real Estate",
-      "dp": 1.0685
+      "dp": 1.1382
     },
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": 0.9646
-    },
-    {
-      "etf": "XLF",
-      "name": "Financials",
-      "dp": 0.7209
+      "dp": 1.045
     },
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": 0.6304
+      "dp": 0.7486
+    },
+    {
+      "etf": "XLF",
+      "name": "Financials",
+      "dp": 0.6858
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": 0.5657
+      "dp": 0.6138
     },
     {
       "etf": "XLE",
       "name": "Energy",
-      "dp": 0.2772
+      "dp": 0.3234
     },
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": 0.1646
+      "dp": 0.1881
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": 0.0362
+      "dp": 0.0423
     }
   ],
   "topSignals": [
     {
       "sym": "HPE",
       "name": "Hewlett Packard Enterprise Co",
-      "dp": 10.1956,
-      "c": 60.85,
+      "dp": 9.8515,
+      "c": 60.66,
       "etf": "XLK",
       "sectorName": "Information Technology",
-      "score": 99,
+      "score": 89,
       "signals": {
         "beatMag": {
           "score": 39,
@@ -81,9 +81,9 @@
           "detail": "4Q"
         },
         "momentum": {
-          "score": 39,
+          "score": 29,
           "max": 39,
-          "detail": "+10.20%"
+          "detail": "+9.85%"
         },
         "analyst": {
           "score": 4,
@@ -101,8 +101,8 @@
     {
       "sym": "CRM",
       "name": "Salesforce Inc",
-      "dp": 2.5885,
-      "c": 249.29,
+      "dp": 2.284,
+      "c": 248.55,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -120,7 +120,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.59%"
+          "detail": "+2.28%"
         },
         "analyst": {
           "score": 4,
@@ -136,10 +136,47 @@
       "marketCap": 204700.675
     },
     {
+      "sym": "INTC",
+      "name": "Intel Corp",
+      "dp": 2.6914,
+      "c": 103.02,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 76,
+      "signals": {
+        "beatMag": {
+          "score": 39,
+          "max": 39,
+          "detail": "86.9%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+2.69%"
+        },
+        "analyst": {
+          "score": 2,
+          "max": 5,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 548195.5659692929
+    },
+    {
       "sym": "HAS",
       "name": "Hasbro Inc",
-      "dp": 2.2626,
-      "c": 92.2,
+      "dp": 2.063,
+      "c": 92.02,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 74,
@@ -157,7 +194,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.26%"
+          "detail": "+2.06%"
         },
         "analyst": {
           "score": 11,
@@ -175,8 +212,8 @@
     {
       "sym": "SMCI",
       "name": "Super Micro Computer Inc",
-      "dp": 4.7619,
-      "c": 39.16,
+      "dp": 4.5746,
+      "c": 39.09,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 70,
@@ -194,7 +231,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+4.76%"
+          "detail": "+4.57%"
         },
         "analyst": {
           "score": 2,
@@ -212,8 +249,8 @@
     {
       "sym": "APH",
       "name": "Amphenol Corp",
-      "dp": 4.2741,
-      "c": 83.68,
+      "dp": 4.3489,
+      "c": 83.74,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 67,
@@ -231,7 +268,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+4.27%"
+          "detail": "+4.35%"
         },
         "analyst": {
           "score": 4,
@@ -247,47 +284,10 @@
       "marketCap": 206598.718696807
     },
     {
-      "sym": "AMT",
-      "name": "American Tower Corp",
-      "dp": 2.8038,
-      "c": 177.83,
-      "etf": "XLRE",
-      "sectorName": "Real Estate",
-      "score": 67,
-      "signals": {
-        "beatMag": {
-          "score": 11,
-          "max": 15,
-          "detail": "14.7%"
-        },
-        "beatStreak": {
-          "score": 15,
-          "max": 15,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 14,
-          "max": 31,
-          "detail": "+2.80%"
-        },
-        "analyst": {
-          "score": 27,
-          "max": 39,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 83145.90971275963
-    },
-    {
       "sym": "IT",
       "name": "Gartner Inc",
-      "dp": 3.2587,
-      "c": 176.18,
+      "dp": 3.036,
+      "c": 175.8,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 63,
@@ -305,7 +305,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+3.26%"
+          "detail": "+3.04%"
         },
         "analyst": {
           "score": 0,
@@ -321,47 +321,10 @@
       "marketCap": 11067.173362483001
     },
     {
-      "sym": "KMX",
-      "name": "Carmax Inc",
-      "dp": 2.1646,
-      "c": 61.83,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "score": 62,
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 28,
-          "detail": "18.4%"
-        },
-        "beatStreak": {
-          "score": 11,
-          "max": 17,
-          "detail": "3Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.16%"
-        },
-        "analyst": {
-          "score": 5,
-          "max": 16,
-          "detail": "Hold"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 8811.259460321877
-    },
-    {
       "sym": "BLK",
       "name": "BlackRock Inc",
-      "dp": 2.5565,
-      "c": 1089.56,
+      "dp": 2.2816,
+      "c": 1086.64,
       "etf": "XLF",
       "sectorName": "Financials",
       "score": 61,
@@ -379,7 +342,7 @@
         "momentum": {
           "score": 17,
           "max": 37,
-          "detail": "+2.56%"
+          "detail": "+2.28%"
         },
         "analyst": {
           "score": 13,
@@ -430,10 +393,47 @@
         }
       },
       "marketCap": 31422.90750039734
+    },
+    {
+      "sym": "ADI",
+      "name": "Analog Devices Inc",
+      "dp": 5.1073,
+      "c": 379.7,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 59,
+      "signals": {
+        "beatMag": {
+          "score": 9,
+          "max": 39,
+          "detail": "3.5%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+5.11%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 183514.63108877867
     }
   ],
   "summary": {
-    "highestScore": 99,
+    "highestScore": 89,
     "highestScoreSymbol": "HPE",
     "avgTop10": 70,
     "leadingSector": "Information Technology",
