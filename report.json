@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-29T18:24:55.520Z",
+  "generatedAt": "2026-09-29T19:01:16.013Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -7,27 +7,27 @@
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": 0.9682
+      "dp": 1.0701
     },
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": 0.3119
+      "dp": 0.4037
     },
     {
       "etf": "XLI",
       "name": "Industrials",
-      "dp": 0.1066
-    },
-    {
-      "etf": "XLC",
-      "name": "Communication Services",
-      "dp": 0.009
+      "dp": 0.1777
     },
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": -0.036
+      "dp": 0.108
+    },
+    {
+      "etf": "XLC",
+      "name": "Communication Services",
+      "dp": 0.0899
     },
     {
       "etf": "XLRE",
@@ -37,35 +37,35 @@
     {
       "etf": "XLF",
       "name": "Financials",
-      "dp": -0.2953
+      "dp": -0.2768
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": -0.4087
+      "dp": -0.5547
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": -0.5348
-    },
-    {
-      "etf": "XLE",
-      "name": "Energy",
-      "dp": -0.7729
+      "dp": -0.632
     },
     {
       "etf": "XLB",
       "name": "Materials",
       "dp": -0.8894
+    },
+    {
+      "etf": "XLE",
+      "name": "Energy",
+      "dp": -1.3205
     }
   ],
   "topSignals": [
     {
       "sym": "CCL",
       "name": "Carnival Corp",
-      "dp": 12.8726,
-      "c": 24.99,
+      "dp": 13.7308,
+      "c": 25.18,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 95,
@@ -83,7 +83,7 @@
         "momentum": {
           "score": 39,
           "max": 39,
-          "detail": "+12.87%"
+          "detail": "+13.73%"
         },
         "analyst": {
           "score": 11,
@@ -101,8 +101,8 @@
     {
       "sym": "KMX",
       "name": "Carmax Inc",
-      "dp": 5.4465,
-      "c": 59.63,
+      "dp": 6.366,
+      "c": 60.15,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 79,
@@ -120,7 +120,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.45%"
+          "detail": "+6.37%"
         },
         "analyst": {
           "score": 5,
@@ -138,8 +138,8 @@
     {
       "sym": "MU",
       "name": "Micron Technology Inc",
-      "dp": 1.723,
-      "c": 1072.14,
+      "dp": 1.705,
+      "c": 1071.95,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -157,7 +157,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.72%"
+          "detail": "+1.71%"
         },
         "analyst": {
           "score": 4,
@@ -175,8 +175,8 @@
     {
       "sym": "NEM",
       "name": "Newmont Corporation",
-      "dp": 1.1633,
-      "c": 117.4,
+      "dp": 1.1891,
+      "c": 117.43,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 69,
@@ -194,7 +194,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+1.16%"
+          "detail": "+1.19%"
         },
         "analyst": {
           "score": 18,
@@ -212,8 +212,8 @@
     {
       "sym": "ORCL",
       "name": "Oracle Corp",
-      "dp": 3.8235,
-      "c": 137.67,
+      "dp": 3.9065,
+      "c": 137.78,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 67,
@@ -231,7 +231,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+3.82%"
+          "detail": "+3.91%"
         },
         "analyst": {
           "score": 4,
@@ -249,8 +249,8 @@
     {
       "sym": "INTC",
       "name": "Intel Corp",
-      "dp": 0.3016,
-      "c": 116.38,
+      "dp": 0.4051,
+      "c": 116.5,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 67,
@@ -268,7 +268,7 @@
         "momentum": {
           "score": 9,
           "max": 39,
-          "detail": "+0.30%"
+          "detail": "+0.41%"
         },
         "analyst": {
           "score": 2,
@@ -286,8 +286,8 @@
     {
       "sym": "PLD",
       "name": "Prologis Inc",
-      "dp": 0.2567,
-      "c": 132.78,
+      "dp": 0.2643,
+      "c": 132.79,
       "etf": "XLRE",
       "sectorName": "Real Estate",
       "score": 64,
@@ -321,10 +321,47 @@
       "marketCap": 128370.79927084703
     },
     {
+      "sym": "EXPE",
+      "name": "Expedia Group Inc",
+      "dp": 0.5904,
+      "c": 265.79,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 59,
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 28,
+          "detail": "16.6%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 9,
+          "max": 39,
+          "detail": "+0.59%"
+        },
+        "analyst": {
+          "score": 5,
+          "max": 16,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 31712.592323631376
+    },
+    {
       "sym": "MCHP",
       "name": "Microchip Technology Inc",
-      "dp": 1.5775,
-      "c": 79.2,
+      "dp": 1.5006,
+      "c": 79.14,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 57,
@@ -342,7 +379,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.58%"
+          "detail": "+1.50%"
         },
         "analyst": {
           "score": 4,
@@ -360,8 +397,8 @@
     {
       "sym": "RCL",
       "name": "Royal Caribbean Cruises Ltd",
-      "dp": 6.9995,
-      "c": 259.57,
+      "dp": 7.2138,
+      "c": 260.09,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 53,
@@ -379,7 +416,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+7.00%"
+          "detail": "+7.21%"
         },
         "analyst": {
           "score": 11,
@@ -393,50 +430,13 @@
         }
       },
       "marketCap": 64881.20106675583
-    },
-    {
-      "sym": "CTVA",
-      "name": "Corteva Inc",
-      "dp": 0.4888,
-      "c": 78.12,
-      "etf": "XLB",
-      "sectorName": "Materials",
-      "score": 52,
-      "signals": {
-        "beatMag": {
-          "score": 19,
-          "max": 19,
-          "detail": "20.6%"
-        },
-        "beatStreak": {
-          "score": 5,
-          "max": 12,
-          "detail": "2Q"
-        },
-        "momentum": {
-          "score": 10,
-          "max": 44,
-          "detail": "+0.49%"
-        },
-        "analyst": {
-          "score": 18,
-          "max": 25,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 51867.813569817874
     }
   ],
   "summary": {
     "highestScore": 95,
     "highestScoreSymbol": "CCL",
-    "avgTop10": 68,
+    "avgTop10": 69,
     "leadingSector": "Utilities",
-    "laggingSector": "Materials"
+    "laggingSector": "Energy"
   }
 }
