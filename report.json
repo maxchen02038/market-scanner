@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30T18:14:14.808Z",
+  "generatedAt": "2026-09-30T18:45:12.501Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -7,65 +7,65 @@
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": 1.1003
+      "dp": 1.1208
     },
     {
       "etf": "XLE",
       "name": "Energy",
-      "dp": 0.78
+      "dp": 0.7637
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": 0.3409
-    },
-    {
-      "etf": "XLB",
-      "name": "Materials",
-      "dp": 0
+      "dp": 0.2422
     },
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": -0.0092
+      "dp": -0.1099
+    },
+    {
+      "etf": "XLB",
+      "name": "Materials",
+      "dp": -0.1222
     },
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": -0.277
+      "dp": -0.3526
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": -0.5447
+      "dp": -0.7146
     },
     {
       "etf": "XLRE",
       "name": "Real Estate",
-      "dp": -0.6047
+      "dp": -0.7257
     },
     {
       "etf": "XLI",
       "name": "Industrials",
-      "dp": -0.745
+      "dp": -0.7509
     },
     {
       "etf": "XLF",
       "name": "Financials",
-      "dp": -0.7776
+      "dp": -0.8332
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": -0.8674
+      "dp": -1.1484
     }
   ],
   "topSignals": [
     {
       "sym": "HPE",
       "name": "Hewlett Packard Enterprise Co",
-      "dp": 5.4968,
-      "c": 64.87,
+      "dp": 5.448,
+      "c": 64.84,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 89,
@@ -83,7 +83,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.50%"
+          "detail": "+5.45%"
         },
         "analyst": {
           "score": 4,
@@ -101,8 +101,8 @@
     {
       "sym": "CRM",
       "name": "Salesforce Inc",
-      "dp": 1.8685,
-      "c": 229.52,
+      "dp": 1.5002,
+      "c": 228.69,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -120,7 +120,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.87%"
+          "detail": "+1.50%"
         },
         "analyst": {
           "score": 4,
@@ -138,8 +138,8 @@
     {
       "sym": "INTC",
       "name": "Intel Corp",
-      "dp": 3.0449,
-      "c": 119.46,
+      "dp": 3.0104,
+      "c": 119.42,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 76,
@@ -157,7 +157,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+3.04%"
+          "detail": "+3.01%"
         },
         "analyst": {
           "score": 2,
@@ -175,8 +175,8 @@
     {
       "sym": "FTNT",
       "name": "Fortinet Inc",
-      "dp": 2.2505,
-      "c": 179.92,
+      "dp": 2.296,
+      "c": 180,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 76,
@@ -194,7 +194,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.25%"
+          "detail": "+2.30%"
         },
         "analyst": {
           "score": 2,
@@ -212,8 +212,8 @@
     {
       "sym": "WDC",
       "name": "Western Digital Corp",
-      "dp": 1.3341,
-      "c": 459.53,
+      "dp": 1.1158,
+      "c": 458.54,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 67,
@@ -231,7 +231,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.33%"
+          "detail": "+1.12%"
         },
         "analyst": {
           "score": 4,
@@ -249,8 +249,8 @@
     {
       "sym": "TPR",
       "name": "Tapestry Inc",
-      "dp": 1.3232,
-      "c": 115.63,
+      "dp": 1.1129,
+      "c": 115.39,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 66,
@@ -268,7 +268,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.32%"
+          "detail": "+1.11%"
         },
         "analyst": {
           "score": 11,
@@ -286,8 +286,8 @@
     {
       "sym": "STX",
       "name": "Seagate Technology Holdings PLC",
-      "dp": 0.9382,
-      "c": 922.02,
+      "dp": 0.7587,
+      "c": 920.38,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 58,
@@ -305,7 +305,7 @@
         "momentum": {
           "score": 9,
           "max": 39,
-          "detail": "+0.94%"
+          "detail": "+0.76%"
         },
         "analyst": {
           "score": 4,
@@ -323,8 +323,8 @@
     {
       "sym": "MSFT",
       "name": "Microsoft Corp",
-      "dp": 1.8292,
-      "c": 518.27,
+      "dp": 1.7447,
+      "c": 517.84,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 57,
@@ -342,7 +342,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.83%"
+          "detail": "+1.74%"
         },
         "analyst": {
           "score": 4,
@@ -358,10 +358,47 @@
       "marketCap": 3779305.601012731
     },
     {
+      "sym": "IT",
+      "name": "Gartner Inc",
+      "dp": 0.7425,
+      "c": 187.23,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 54,
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 39,
+          "detail": "10.8%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 9,
+          "max": 39,
+          "detail": "+0.74%"
+        },
+        "analyst": {
+          "score": 0,
+          "max": 5,
+          "detail": "Sell"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 11736.236802870297
+    },
+    {
       "sym": "HPQ",
       "name": "HP Inc",
-      "dp": 1.4644,
-      "c": 31.18,
+      "dp": 2.3104,
+      "c": 31.44,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 49,
@@ -379,7 +416,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.46%"
+          "detail": "+2.31%"
         },
         "analyst": {
           "score": 2,
@@ -393,49 +430,12 @@
         }
       },
       "marketCap": 27712.037639968716
-    },
-    {
-      "sym": "ACN",
-      "name": "Accenture PLC",
-      "dp": 3.4271,
-      "c": 183.19,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 48,
-      "signals": {
-        "beatMag": {
-          "score": 9,
-          "max": 39,
-          "detail": "2.3%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+3.43%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 108387.1923598253
     }
   ],
   "summary": {
     "highestScore": 89,
     "highestScoreSymbol": "HPE",
-    "avgTop10": 66,
+    "avgTop10": 67,
     "leadingSector": "Information Technology",
     "laggingSector": "Consumer Staples"
   }
