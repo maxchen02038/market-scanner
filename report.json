@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-05T20:59:58.863Z",
+  "generatedAt": "2026-10-05T21:29:40.042Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
-  "afterPreFilter": 108,
+  "afterPreFilter": 107,
   "sectors": [
     {
       "etf": "XLB",
@@ -395,33 +395,33 @@
       "marketCap": 3842942.4246379496
     },
     {
-      "sym": "GRMN",
-      "name": "Garmin Ltd",
-      "dp": 1.5507,
-      "c": 285.52,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "score": 54,
+      "sym": "NUE",
+      "name": "Nucor Corp",
+      "dp": 4.5842,
+      "c": 251.41,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 52,
       "signals": {
         "beatMag": {
-          "score": 20,
-          "max": 28,
-          "detail": "12.1%"
+          "score": 9,
+          "max": 19,
+          "detail": "7.9%"
         },
         "beatStreak": {
-          "score": 11,
-          "max": 17,
-          "detail": "3Q"
+          "score": 5,
+          "max": 12,
+          "detail": "2Q"
         },
         "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+1.55%"
+          "score": 20,
+          "max": 44,
+          "detail": "+4.58%"
         },
         "analyst": {
-          "score": 5,
-          "max": 16,
-          "detail": "Hold"
+          "score": 18,
+          "max": 25,
+          "detail": "Buy"
         },
         "target": {
           "score": 0,
@@ -429,7 +429,7 @@
           "detail": "No data"
         }
       },
-      "marketCap": 54222.413952638126
+      "marketCap": 54538.64165770976
     }
   ],
   "summary": {

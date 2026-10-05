@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-05T20:59:59.152Z",
+  "generatedAt": "2026-10-05T21:29:40.214Z",
   "sectors": {
     "XLK": {
       "name": "Information Technology",
@@ -155,19 +155,19 @@
           }
         },
         {
-          "sym": "APH",
-          "name": "Amphenol Corp",
-          "dp": 0.3565,
-          "c": 87.27,
+          "sym": "MSI",
+          "name": "Motorola Solutions Inc",
+          "dp": 1.7791,
+          "c": 455.37,
           "etf": "XLK",
           "sectorName": "Information Technology",
-          "marketCap": 214440.48930291214,
-          "score": 58,
+          "marketCap": 74043.56940914245,
+          "score": 57,
           "signals": {
             "beatMag": {
-              "score": 28,
+              "score": 18,
               "max": 39,
-              "detail": "10.7%"
+              "detail": "6.3%"
             },
             "beatStreak": {
               "score": 17,
@@ -175,9 +175,9 @@
               "detail": "4Q"
             },
             "momentum": {
-              "score": 9,
+              "score": 18,
               "max": 39,
-              "detail": "+0.36%"
+              "detail": "+1.78%"
             },
             "analyst": {
               "score": 4,
@@ -521,43 +521,6 @@
           }
         },
         {
-          "sym": "JCI",
-          "name": "Johnson Controls International PLC",
-          "dp": 0.3904,
-          "c": 156.85,
-          "etf": "XLI",
-          "sectorName": "Industrials",
-          "marketCap": 94641.0571422637,
-          "score": 53,
-          "signals": {
-            "beatMag": {
-              "score": 11,
-              "max": 24,
-              "detail": "5.5%"
-            },
-            "beatStreak": {
-              "score": 18,
-              "max": 18,
-              "detail": "4Q"
-            },
-            "momentum": {
-              "score": 8,
-              "max": 35,
-              "detail": "+0.39%"
-            },
-            "analyst": {
-              "score": 16,
-              "max": 23,
-              "detail": "Buy"
-            },
-            "target": {
-              "score": 0,
-              "max": 0,
-              "detail": "No data"
-            }
-          }
-        },
-        {
           "sym": "LHX",
           "name": "L3Harris Technologies Inc",
           "dp": 0.1183,
@@ -632,19 +595,56 @@
           }
         },
         {
-          "sym": "CARR",
-          "name": "Carrier Global Corp",
-          "dp": 1.1067,
-          "c": 55.73,
+          "sym": "ADP",
+          "name": "Automatic Data Processing Inc",
+          "dp": 1.0012,
+          "c": 260.26,
           "etf": "XLI",
           "sectorName": "Industrials",
-          "marketCap": 45436.799041852944,
+          "marketCap": 102106.09774639797,
+          "score": 47,
+          "signals": {
+            "beatMag": {
+              "score": 6,
+              "max": 24,
+              "detail": "1.1%"
+            },
+            "beatStreak": {
+              "score": 18,
+              "max": 18,
+              "detail": "4Q"
+            },
+            "momentum": {
+              "score": 16,
+              "max": 35,
+              "detail": "+1.00%"
+            },
+            "analyst": {
+              "score": 7,
+              "max": 23,
+              "detail": "Hold"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "CTAS",
+          "name": "Cintas Corp",
+          "dp": 1.233,
+          "c": 195.4,
+          "etf": "XLI",
+          "sectorName": "Industrials",
+          "marketCap": 77343.33082777362,
           "score": 45,
           "signals": {
             "beatMag": {
               "score": 6,
               "max": 24,
-              "detail": "4.6%"
+              "detail": "0.2%"
             },
             "beatStreak": {
               "score": 7,
@@ -654,7 +654,7 @@
             "momentum": {
               "score": 16,
               "max": 35,
-              "detail": "+1.11%"
+              "detail": "+1.23%"
             },
             "analyst": {
               "score": 16,
@@ -673,8 +673,45 @@
     "XLY": {
       "name": "Consumer Discretionary",
       "scanned": 40,
-      "afterFilter": 6,
+      "afterFilter": 7,
       "top": [
+        {
+          "sym": "GM",
+          "name": "General Motors Co",
+          "dp": 2.5042,
+          "c": 80.23,
+          "etf": "XLY",
+          "sectorName": "Consumer Discretionary",
+          "marketCap": 68678.12977148668,
+          "score": 74,
+          "signals": {
+            "beatMag": {
+              "score": 28,
+              "max": 28,
+              "detail": "18.4%"
+            },
+            "beatStreak": {
+              "score": 17,
+              "max": 17,
+              "detail": "4Q"
+            },
+            "momentum": {
+              "score": 18,
+              "max": 39,
+              "detail": "+2.50%"
+            },
+            "analyst": {
+              "score": 11,
+              "max": 16,
+              "detail": "Buy"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
         {
           "sym": "TJX",
           "name": "TJX Companies Inc",
@@ -787,56 +824,19 @@
           }
         },
         {
-          "sym": "AZO",
-          "name": "Autozone Inc",
-          "dp": 0.5623,
-          "c": 2807.73,
+          "sym": "F",
+          "name": "Ford Motor Co",
+          "dp": 0.4132,
+          "c": 12.15,
           "etf": "XLY",
           "sectorName": "Consumer Discretionary",
-          "marketCap": 45580.88287311888,
-          "score": 37,
-          "signals": {
-            "beatMag": {
-              "score": 6,
-              "max": 28,
-              "detail": "0.6%"
-            },
-            "beatStreak": {
-              "score": 11,
-              "max": 17,
-              "detail": "3Q"
-            },
-            "momentum": {
-              "score": 9,
-              "max": 39,
-              "detail": "+0.56%"
-            },
-            "analyst": {
-              "score": 11,
-              "max": 16,
-              "detail": "Buy"
-            },
-            "target": {
-              "score": 0,
-              "max": 0,
-              "detail": "No data"
-            }
-          }
-        },
-        {
-          "sym": "YUM",
-          "name": "Yum! Brands Inc",
-          "dp": 0.6244,
-          "c": 136.97,
-          "etf": "XLY",
-          "sectorName": "Consumer Discretionary",
-          "marketCap": 43272.53,
+          "marketCap": 48249.90715938876,
           "score": 27,
           "signals": {
             "beatMag": {
               "score": 6,
               "max": 28,
-              "detail": "2.8%"
+              "detail": "2.3%"
             },
             "beatStreak": {
               "score": 7,
@@ -846,7 +846,7 @@
             "momentum": {
               "score": 9,
               "max": 39,
-              "detail": "+0.62%"
+              "detail": "+0.41%"
             },
             "analyst": {
               "score": 5,
