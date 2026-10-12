@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-12T21:30:12.034Z",
+  "generatedAt": "2026-10-12T21:57:22.585Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
-  "afterPreFilter": 107,
+  "afterPreFilter": 108,
   "sectors": [
     {
       "etf": "XLE",
@@ -210,6 +210,43 @@
       "marketCap": 12070.926868867256
     },
     {
+      "sym": "ROST",
+      "name": "Ross Stores Inc",
+      "dp": 1.5422,
+      "c": 225.84,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 59,
+      "signals": {
+        "beatMag": {
+          "score": 13,
+          "max": 28,
+          "detail": "7.9%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+1.54%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 16,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 71049.56856832927
+    },
+    {
       "sym": "MSFT",
       "name": "Microsoft Corp",
       "dp": 1.1363,
@@ -358,33 +395,33 @@
       "marketCap": 15474.556934
     },
     {
-      "sym": "INTU",
-      "name": "Intuit Inc",
-      "dp": 1.0702,
-      "c": 305.99,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 43,
+      "sym": "EBAY",
+      "name": "eBay Inc",
+      "dp": 2.1927,
+      "c": 114.65,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 46,
       "signals": {
         "beatMag": {
-          "score": 18,
-          "max": 39,
-          "detail": "6.7%"
+          "score": 6,
+          "max": 28,
+          "detail": "2.6%"
         },
         "beatStreak": {
-          "score": 3,
+          "score": 17,
           "max": 17,
-          "detail": "1Q"
+          "detail": "4Q"
         },
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.07%"
+          "detail": "+2.19%"
         },
         "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
+          "score": 5,
+          "max": 16,
+          "detail": "Hold"
         },
         "target": {
           "score": 0,
@@ -392,50 +429,13 @@
           "detail": "No data"
         }
       },
-      "marketCap": 80905.69800869998
-    },
-    {
-      "sym": "WELL",
-      "name": "Welltower Inc",
-      "dp": 2.1378,
-      "c": 230.29,
-      "etf": "XLRE",
-      "sectorName": "Real Estate",
-      "score": 41,
-      "signals": {
-        "beatMag": {
-          "score": 0,
-          "max": 15,
-          "detail": "-18.0%"
-        },
-        "beatStreak": {
-          "score": 0,
-          "max": 15,
-          "detail": "0Q"
-        },
-        "momentum": {
-          "score": 14,
-          "max": 31,
-          "detail": "+2.14%"
-        },
-        "analyst": {
-          "score": 27,
-          "max": 39,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 169829.13
+      "marketCap": 49924.55149680175
     }
   ],
   "summary": {
     "highestScore": 78,
     "highestScoreSymbol": "CRM",
-    "avgTop10": 58,
+    "avgTop10": 60,
     "leadingSector": "Energy",
     "laggingSector": "Information Technology"
   }
