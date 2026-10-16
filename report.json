@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T17:06:45.103Z",
+  "generatedAt": "2026-10-16T17:46:40.001Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -7,65 +7,65 @@
     {
       "etf": "XLE",
       "name": "Energy",
-      "dp": 1.9982
+      "dp": 2.2085
     },
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": 1.2005
+      "dp": 1.2725
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": 0.9229
+      "dp": 0.8653
     },
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": 0.7318
-    },
-    {
-      "etf": "XLRE",
-      "name": "Real Estate",
-      "dp": 0.3096
+      "dp": 0.6329
     },
     {
       "etf": "XLF",
       "name": "Financials",
-      "dp": 0.1447
+      "dp": 0.2352
+    },
+    {
+      "etf": "XLRE",
+      "name": "Real Estate",
+      "dp": 0.2143
     },
     {
       "etf": "XLI",
       "name": "Industrials",
-      "dp": -0.0655
+      "dp": 0.1608
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": -0.1016
+      "dp": -0.2088
     },
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": -0.6878
+      "dp": -0.82
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": -1.4497
+      "dp": -1.5386
     },
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": -2.2728
+      "dp": -2.2993
     }
   ],
   "topSignals": [
     {
       "sym": "NEM",
       "name": "Newmont Corporation",
-      "dp": 1.5114,
-      "c": 117.54,
+      "dp": 1.8395,
+      "c": 117.92,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 69,
@@ -83,7 +83,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+1.51%"
+          "detail": "+1.84%"
         },
         "analyst": {
           "score": 18,
@@ -99,92 +99,18 @@
       "marketCap": 122007.02420140231
     },
     {
-      "sym": "GM",
-      "name": "General Motors Co",
-      "dp": 0.4781,
-      "c": 84.06,
+      "sym": "KMX",
+      "name": "Carmax Inc",
+      "dp": 1.1783,
+      "c": 53.24,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
-      "score": 65,
+      "score": 68,
       "signals": {
         "beatMag": {
           "score": 28,
           "max": 28,
-          "detail": "18.4%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 9,
-          "max": 39,
-          "detail": "+0.48%"
-        },
-        "analyst": {
-          "score": 11,
-          "max": 16,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 73407.59837390199
-    },
-    {
-      "sym": "LHX",
-      "name": "L3Harris Technologies Inc",
-      "dp": 1.264,
-      "c": 243.54,
-      "etf": "XLI",
-      "sectorName": "Industrials",
-      "score": 61,
-      "signals": {
-        "beatMag": {
-          "score": 11,
-          "max": 24,
-          "detail": "5.7%"
-        },
-        "beatStreak": {
-          "score": 18,
-          "max": 18,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 16,
-          "max": 35,
-          "detail": "+1.26%"
-        },
-        "analyst": {
-          "score": 16,
-          "max": 23,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 44784.61487560211
-    },
-    {
-      "sym": "TJX",
-      "name": "TJX Companies Inc",
-      "dp": 1.8052,
-      "c": 147.19,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "score": 59,
-      "signals": {
-        "beatMag": {
-          "score": 13,
-          "max": 28,
-          "detail": "5.8%"
+          "detail": "42.5%"
         },
         "beatStreak": {
           "score": 17,
@@ -194,44 +120,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.81%"
-        },
-        "analyst": {
-          "score": 11,
-          "max": 16,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 159034.2428179731
-    },
-    {
-      "sym": "NKE",
-      "name": "Nike Inc",
-      "dp": 0.4847,
-      "c": 37.32,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "score": 59,
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 28,
-          "detail": "30.6%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 9,
-          "max": 39,
-          "detail": "+0.48%"
+          "detail": "+1.18%"
         },
         "analyst": {
           "score": 5,
@@ -244,13 +133,50 @@
           "detail": "No data"
         }
       },
-      "marketCap": 55164.37115193485
+      "marketCap": 7469.030619740666
+    },
+    {
+      "sym": "AMT",
+      "name": "American Tower Corp",
+      "dp": 2.0401,
+      "c": 185.06,
+      "etf": "XLRE",
+      "sectorName": "Real Estate",
+      "score": 67,
+      "signals": {
+        "beatMag": {
+          "score": 11,
+          "max": 15,
+          "detail": "14.7%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 14,
+          "max": 31,
+          "detail": "+2.04%"
+        },
+        "analyst": {
+          "score": 27,
+          "max": 39,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 84506.51224481202
     },
     {
       "sym": "MSI",
       "name": "Motorola Solutions Inc",
-      "dp": 2.3554,
-      "c": 467.14,
+      "dp": 1.9194,
+      "c": 465.15,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 57,
@@ -268,7 +194,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.36%"
+          "detail": "+1.92%"
         },
         "analyst": {
           "score": 4,
@@ -284,10 +210,84 @@
       "marketCap": 75529.70554152316
     },
     {
+      "sym": "TPR",
+      "name": "Tapestry Inc",
+      "dp": 0.7182,
+      "c": 120.61,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 57,
+      "signals": {
+        "beatMag": {
+          "score": 20,
+          "max": 28,
+          "detail": "13.9%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 9,
+          "max": 39,
+          "detail": "+0.72%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 16,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 23762.63273203295
+    },
+    {
+      "sym": "BLK",
+      "name": "BlackRock Inc",
+      "dp": 0.8432,
+      "c": 1130.23,
+      "etf": "XLF",
+      "sectorName": "Financials",
+      "score": 53,
+      "signals": {
+        "beatMag": {
+          "score": 12,
+          "max": 25,
+          "detail": "8.8%"
+        },
+        "beatStreak": {
+          "score": 19,
+          "max": 19,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 9,
+          "max": 37,
+          "detail": "+0.84%"
+        },
+        "analyst": {
+          "score": 13,
+          "max": 19,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 182100.0705115362
+    },
+    {
       "sym": "NUE",
       "name": "Nucor Corp",
-      "dp": 1.2996,
-      "c": 258,
+      "dp": 1.3428,
+      "c": 258.11,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 52,
@@ -305,7 +305,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+1.30%"
+          "detail": "+1.34%"
         },
         "analyst": {
           "score": 18,
@@ -323,8 +323,8 @@
     {
       "sym": "ROST",
       "name": "Ross Stores Inc",
-      "dp": 0.8559,
-      "c": 236.84,
+      "dp": 0.9411,
+      "c": 237.04,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 50,
@@ -342,7 +342,7 @@
         "momentum": {
           "score": 9,
           "max": 39,
-          "detail": "+0.86%"
+          "detail": "+0.94%"
         },
         "analyst": {
           "score": 11,
@@ -358,32 +358,32 @@
       "marketCap": 75017.17972672911
     },
     {
-      "sym": "MCHP",
-      "name": "Microchip Technology Inc",
-      "dp": 0.983,
-      "c": 74.99,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 48,
+      "sym": "APTV",
+      "name": "APTIV PLC",
+      "dp": 1.3056,
+      "c": 45.78,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 49,
       "signals": {
         "beatMag": {
-          "score": 18,
-          "max": 39,
-          "detail": "6.3%"
+          "score": 13,
+          "max": 28,
+          "detail": "8.5%"
         },
         "beatStreak": {
-          "score": 17,
+          "score": 7,
           "max": 17,
-          "detail": "4Q"
+          "detail": "2Q"
         },
         "momentum": {
-          "score": 9,
+          "score": 18,
           "max": 39,
-          "detail": "+0.98%"
+          "detail": "+1.31%"
         },
         "analyst": {
-          "score": 4,
-          "max": 5,
+          "score": 11,
+          "max": 16,
           "detail": "Buy"
         },
         "target": {
@@ -392,21 +392,21 @@
           "detail": "No data"
         }
       },
-      "marketCap": 40323.82361063832
+      "marketCap": 9382.950633362765
     },
     {
-      "sym": "VMC",
-      "name": "Vulcan Materials Co",
-      "dp": 1.7314,
-      "c": 256.77,
+      "sym": "FMC",
+      "name": "FMC Corp",
+      "dp": 3.7367,
+      "c": 5.83,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 47,
       "signals": {
         "beatMag": {
-          "score": 4,
+          "score": 14,
           "max": 19,
-          "detail": "0.8%"
+          "detail": "12.1%"
         },
         "beatStreak": {
           "score": 5,
@@ -416,12 +416,12 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+1.73%"
+          "detail": "+3.74%"
         },
         "analyst": {
-          "score": 18,
+          "score": 8,
           "max": 25,
-          "detail": "Buy"
+          "detail": "Hold"
         },
         "target": {
           "score": 0,
@@ -429,7 +429,7 @@
           "detail": "No data"
         }
       },
-      "marketCap": 32705.67338114737
+      "marketCap": 874.1685658491965
     }
   ],
   "summary": {
