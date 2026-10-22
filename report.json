@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T17:46:13.486Z",
+  "generatedAt": "2026-10-22T18:14:49.252Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -7,22 +7,22 @@
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": 2.6748
+      "dp": 2.7322
     },
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": 1.3571
+      "dp": 1.5238
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": 1.2518
+      "dp": 1.1456
     },
     {
       "etf": "XLF",
       "name": "Financials",
-      "dp": 0.9279
+      "dp": 0.9458
     },
     {
       "etf": "XLRE",
@@ -32,40 +32,40 @@
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": 0.2143
+      "dp": 0.2923
     },
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": -0.3635
+      "dp": -0.5107
     },
     {
       "etf": "XLE",
       "name": "Energy",
-      "dp": -1.2471
+      "dp": -1.0123
     },
     {
       "etf": "XLI",
       "name": "Industrials",
-      "dp": -1.4794
+      "dp": -1.4675
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": -1.5142
+      "dp": -1.6794
     },
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": -3.1134
+      "dp": -3.2407
     }
   ],
   "topSignals": [
     {
       "sym": "CRM",
       "name": "Salesforce Inc",
-      "dp": 2.9076,
-      "c": 248.81,
+      "dp": 3.437,
+      "c": 250.09,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -83,7 +83,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.91%"
+          "detail": "+3.44%"
         },
         "analyst": {
           "score": 4,
@@ -101,8 +101,8 @@
     {
       "sym": "EXPE",
       "name": "Expedia Group Inc",
-      "dp": 3.7565,
-      "c": 296.37,
+      "dp": 3.907,
+      "c": 296.8,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 68,
@@ -120,7 +120,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+3.76%"
+          "detail": "+3.91%"
         },
         "analyst": {
           "score": 5,
@@ -138,8 +138,8 @@
     {
       "sym": "IT",
       "name": "Gartner Inc",
-      "dp": 4.486,
-      "c": 229.42,
+      "dp": 4.6773,
+      "c": 229.84,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 63,
@@ -157,7 +157,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+4.49%"
+          "detail": "+4.68%"
         },
         "analyst": {
           "score": 0,
@@ -175,8 +175,8 @@
     {
       "sym": "ULTA",
       "name": "Ulta Beauty Inc",
-      "dp": 4.1236,
-      "c": 632.02,
+      "dp": 4.1335,
+      "c": 632.08,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 59,
@@ -194,7 +194,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+4.12%"
+          "detail": "+4.13%"
         },
         "analyst": {
           "score": 11,
@@ -212,8 +212,8 @@
     {
       "sym": "DOW",
       "name": "Dow Inc",
-      "dp": 2.5675,
-      "c": 31.16,
+      "dp": 2.8966,
+      "c": 31.26,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 59,
@@ -231,7 +231,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+2.57%"
+          "detail": "+2.90%"
         },
         "analyst": {
           "score": 8,
@@ -249,8 +249,8 @@
     {
       "sym": "INTU",
       "name": "Intuit Inc",
-      "dp": 5.3753,
-      "c": 353.65,
+      "dp": 5.4498,
+      "c": 353.9,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 58,
@@ -268,7 +268,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.38%"
+          "detail": "+5.45%"
         },
         "analyst": {
           "score": 4,
@@ -284,33 +284,33 @@
       "marketCap": 91468.1953168078
     },
     {
-      "sym": "SHW",
-      "name": "Sherwin-Williams Co",
-      "dp": 2.0873,
-      "c": 344.31,
-      "etf": "XLB",
-      "sectorName": "Materials",
-      "score": 54,
+      "sym": "BBY",
+      "name": "Best Buy Co Inc",
+      "dp": 5.2167,
+      "c": 99.03,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 57,
       "signals": {
         "beatMag": {
-          "score": 4,
-          "max": 19,
-          "detail": "3.2%"
+          "score": 6,
+          "max": 28,
+          "detail": "4.4%"
         },
         "beatStreak": {
-          "score": 12,
-          "max": 12,
+          "score": 17,
+          "max": 17,
           "detail": "4Q"
         },
         "momentum": {
-          "score": 20,
-          "max": 44,
-          "detail": "+2.09%"
+          "score": 29,
+          "max": 39,
+          "detail": "+5.22%"
         },
         "analyst": {
-          "score": 18,
-          "max": 25,
-          "detail": "Buy"
+          "score": 5,
+          "max": 16,
+          "detail": "Hold"
         },
         "target": {
           "score": 0,
@@ -318,13 +318,13 @@
           "detail": "No data"
         }
       },
-      "marketCap": 81666.271106233
+      "marketCap": 20045.774811017844
     },
     {
       "sym": "LYB",
       "name": "LyondellBasell Industries NV",
-      "dp": 2.3234,
-      "c": 64.74,
+      "dp": 2.8133,
+      "c": 65.05,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 52,
@@ -342,7 +342,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+2.32%"
+          "detail": "+2.81%"
         },
         "analyst": {
           "score": 8,
@@ -360,8 +360,8 @@
     {
       "sym": "PKG",
       "name": "Packaging Corp of America",
-      "dp": 2.6109,
-      "c": 245.24,
+      "dp": 3.1757,
+      "c": 246.59,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 50,
@@ -379,7 +379,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+2.61%"
+          "detail": "+3.18%"
         },
         "analyst": {
           "score": 18,
@@ -395,32 +395,32 @@
       "marketCap": 21939.5646821282
     },
     {
-      "sym": "ACN",
-      "name": "Accenture PLC",
-      "dp": 4.3952,
-      "c": 250.82,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 48,
+      "sym": "AVY",
+      "name": "Avery Dennison Corp",
+      "dp": 2.4185,
+      "c": 183.37,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 50,
       "signals": {
         "beatMag": {
-          "score": 9,
-          "max": 39,
-          "detail": "2.3%"
+          "score": 4,
+          "max": 19,
+          "detail": "3.9%"
         },
         "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
+          "score": 8,
+          "max": 12,
+          "detail": "3Q"
         },
         "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+4.40%"
+          "score": 20,
+          "max": 44,
+          "detail": "+2.42%"
         },
         "analyst": {
-          "score": 4,
-          "max": 5,
+          "score": 18,
+          "max": 25,
           "detail": "Buy"
         },
         "target": {
@@ -429,7 +429,7 @@
           "detail": "No data"
         }
       },
-      "marketCap": 144703.8695980602
+      "marketCap": 13588.054993125055
     }
   ],
   "summary": {
