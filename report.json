@@ -1,89 +1,89 @@
 {
-  "generatedAt": "2026-10-26T19:41:42.724Z",
+  "generatedAt": "2026-10-27T18:30:15.110Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
-  "afterPreFilter": 108,
+  "afterPreFilter": 107,
   "sectors": [
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": 1.9484
-    },
-    {
-      "etf": "XLI",
-      "name": "Industrials",
-      "dp": 1.5126
+      "dp": 1.6262
     },
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": 1.1671
-    },
-    {
-      "etf": "XLRE",
-      "name": "Real Estate",
-      "dp": 0.4933
+      "dp": 1.0152
     },
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": 0.3703
+      "dp": 0.7591
     },
     {
-      "etf": "XLE",
-      "name": "Energy",
-      "dp": 0.3462
-    },
-    {
-      "etf": "XLF",
-      "name": "Financials",
-      "dp": 0.2862
+      "etf": "XLI",
+      "name": "Industrials",
+      "dp": 0.5211
     },
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": 0.1175
+      "dp": 0.282
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": -0.2008
-    },
-    {
-      "etf": "XLP",
-      "name": "Consumer Staples",
-      "dp": -0.4759
+      "dp": -0.1227
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": -1.4501
+      "dp": -0.1637
+    },
+    {
+      "etf": "XLF",
+      "name": "Financials",
+      "dp": -0.2321
+    },
+    {
+      "etf": "XLP",
+      "name": "Consumer Staples",
+      "dp": -0.9777
+    },
+    {
+      "etf": "XLRE",
+      "name": "Real Estate",
+      "dp": -1.1449
+    },
+    {
+      "etf": "XLE",
+      "name": "Energy",
+      "dp": -1.8093
     }
   ],
   "topSignals": [
     {
-      "sym": "INTC",
-      "name": "Intel Corp",
-      "dp": 5.1518,
-      "c": 91.44,
+      "sym": "SMCI",
+      "name": "Super Micro Computer Inc",
+      "dp": 7.1887,
+      "c": 35.04,
       "etf": "XLK",
       "sectorName": "Information Technology",
-      "score": 87,
+      "score": 81,
       "signals": {
         "beatMag": {
           "score": 39,
           "max": 39,
-          "detail": "86.9%"
+          "detail": "32.5%"
         },
         "beatStreak": {
-          "score": 17,
+          "score": 11,
           "max": 17,
-          "detail": "4Q"
+          "detail": "3Q"
         },
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.15%"
+          "detail": "+7.19%"
         },
         "analyst": {
           "score": 2,
@@ -96,13 +96,50 @@
           "detail": "No data"
         }
       },
-      "marketCap": 459679.7200758891
+      "marketCap": 23075.908461903487
+    },
+    {
+      "sym": "WDC",
+      "name": "Western Digital Corp",
+      "dp": 7.4804,
+      "c": 382.77,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 78,
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 39,
+          "detail": "10.5%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+7.48%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 128643.68
     },
     {
       "sym": "HPE",
-      "name": "Hewlett Packard Enterprise Co",
-      "dp": 4.0042,
-      "c": 58.96,
+      "name": "Hewlett Packard Enterprise Company",
+      "dp": 3.7466,
+      "c": 60.92,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -120,7 +157,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+4.00%"
+          "detail": "+3.75%"
         },
         "analyst": {
           "score": 4,
@@ -133,13 +170,124 @@
           "detail": "No data"
         }
       },
-      "marketCap": 75253.9767280887
+      "marketCap": 81094.82153276449
+    },
+    {
+      "sym": "MU",
+      "name": "Micron Technology, Inc.",
+      "dp": 3.1814,
+      "c": 932.45,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 78,
+      "signals": {
+        "beatMag": {
+          "score": 39,
+          "max": 39,
+          "detail": "16.2%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+3.18%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 1050374.2954679506
+    },
+    {
+      "sym": "INTC",
+      "name": "Intel Corp",
+      "dp": 3.2386,
+      "c": 93.4,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 76,
+      "signals": {
+        "beatMag": {
+          "score": 39,
+          "max": 39,
+          "detail": "86.9%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+3.24%"
+        },
+        "analyst": {
+          "score": 2,
+          "max": 5,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 494832.33960685
+    },
+    {
+      "sym": "ALB",
+      "name": "Albemarle Corp",
+      "dp": 6.1657,
+      "c": 99.18,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 75,
+      "signals": {
+        "beatMag": {
+          "score": 19,
+          "max": 19,
+          "detail": "20.7%"
+        },
+        "beatStreak": {
+          "score": 5,
+          "max": 12,
+          "detail": "2Q"
+        },
+        "momentum": {
+          "score": 33,
+          "max": 44,
+          "detail": "+6.17%"
+        },
+        "analyst": {
+          "score": 18,
+          "max": 25,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 11731.472639558286
     },
     {
       "sym": "CCL",
-      "name": "Carnival Corp",
-      "dp": 2.9874,
-      "c": 26.89,
+      "name": "Carnival Corporation Ltd",
+      "dp": 3.6858,
+      "c": 27.85,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 74,
@@ -157,7 +305,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.99%"
+          "detail": "+3.69%"
         },
         "analyst": {
           "score": 11,
@@ -170,13 +318,13 @@
           "detail": "No data"
         }
       },
-      "marketCap": 35107.76980548966
+      "marketCap": 37534.792001563284
     },
     {
-      "sym": "WDC",
-      "name": "Western Digital Corp",
-      "dp": 5.5838,
-      "c": 362.86,
+      "sym": "ANET",
+      "name": "Arista Networks, Inc.",
+      "dp": 5.8395,
+      "c": 187.59,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 68,
@@ -184,7 +332,7 @@
         "beatMag": {
           "score": 18,
           "max": 39,
-          "detail": "9.8%"
+          "detail": "7.0%"
         },
         "beatStreak": {
           "score": 17,
@@ -194,7 +342,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.58%"
+          "detail": "+5.84%"
         },
         "analyst": {
           "score": 4,
@@ -207,169 +355,21 @@
           "detail": "No data"
         }
       },
-      "marketCap": 141399.22
+      "marketCap": 236656.19303803967
     },
     {
-      "sym": "MU",
-      "name": "Micron Technology Inc",
-      "dp": 3.7434,
-      "c": 910.4,
+      "sym": "MCHP",
+      "name": "Microchip Technology Inc",
+      "dp": 5.2569,
+      "c": 79.89,
       "etf": "XLK",
       "sectorName": "Information Technology",
-      "score": 67,
+      "score": 68,
       "signals": {
         "beatMag": {
-          "score": 28,
-          "max": 39,
-          "detail": "13.7%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+3.74%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 992880.4334366333
-    },
-    {
-      "sym": "STX",
-      "name": "Seagate Technology Holdings PLC",
-      "dp": 3.7622,
-      "c": 654.21,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 67,
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 39,
-          "detail": "13.4%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+3.76%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 143369.0288472343
-    },
-    {
-      "sym": "APH",
-      "name": "Amphenol Corp",
-      "dp": 2.227,
-      "c": 75.74,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 67,
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 39,
-          "detail": "10.7%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.23%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 182703.4973053245
-    },
-    {
-      "sym": "GS",
-      "name": "Goldman Sachs Group Inc",
-      "dp": 2.2326,
-      "c": 895.23,
-      "etf": "XLF",
-      "sectorName": "Financials",
-      "score": 67,
-      "signals": {
-        "beatMag": {
-          "score": 25,
-          "max": 25,
-          "detail": "21.8%"
-        },
-        "beatStreak": {
-          "score": 19,
-          "max": 19,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 17,
-          "max": 37,
-          "detail": "+2.23%"
-        },
-        "analyst": {
-          "score": 6,
-          "max": 19,
-          "detail": "Hold"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 254972.98315306523
-    },
-    {
-      "sym": "SNPS",
-      "name": "Synopsys Inc",
-      "dp": 6.1329,
-      "c": 456.52,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 59,
-      "signals": {
-        "beatMag": {
-          "score": 9,
-          "max": 39,
-          "detail": "3.8%"
+          "detail": "6.3%"
         },
         "beatStreak": {
           "score": 17,
@@ -379,7 +379,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+6.13%"
+          "detail": "+5.26%"
         },
         "analyst": {
           "score": 4,
@@ -392,36 +392,36 @@
           "detail": "No data"
         }
       },
-      "marketCap": 82430.5875293822
+      "marketCap": 42626.18121555336
     },
     {
-      "sym": "DOW",
-      "name": "Dow Inc",
-      "dp": 4.6305,
-      "c": 34.12,
-      "etf": "XLB",
-      "sectorName": "Materials",
-      "score": 59,
+      "sym": "AMD",
+      "name": "Advanced Micro Devices, Inc.",
+      "dp": 5.4058,
+      "c": 560,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 68,
       "signals": {
         "beatMag": {
-          "score": 19,
-          "max": 19,
-          "detail": "25.3%"
+          "score": 18,
+          "max": 39,
+          "detail": "5.9%"
         },
         "beatStreak": {
-          "score": 12,
-          "max": 12,
+          "score": 17,
+          "max": 17,
           "detail": "4Q"
         },
         "momentum": {
-          "score": 20,
-          "max": 44,
-          "detail": "+4.63%"
+          "score": 29,
+          "max": 39,
+          "detail": "+5.41%"
         },
         "analyst": {
-          "score": 8,
-          "max": 25,
-          "detail": "Hold"
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
         },
         "target": {
           "score": 0,
@@ -429,14 +429,14 @@
           "detail": "No data"
         }
       },
-      "marketCap": 23555.529773883998
+      "marketCap": 911925.0587743834
     }
   ],
   "summary": {
-    "highestScore": 87,
-    "highestScoreSymbol": "INTC",
-    "avgTop10": 69,
+    "highestScore": 81,
+    "highestScoreSymbol": "SMCI",
+    "avgTop10": 74,
     "leadingSector": "Information Technology",
-    "laggingSector": "Communication Services"
+    "laggingSector": "Energy"
   }
 }
