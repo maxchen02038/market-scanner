@@ -1,190 +1,79 @@
 {
-  "generatedAt": "2026-11-03T20:22:58.069Z",
+  "generatedAt": "2026-11-04T20:38:41.984Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
   "sectors": [
     {
-      "etf": "XLK",
-      "name": "Information Technology",
-      "dp": 1.3374
-    },
-    {
-      "etf": "XLI",
-      "name": "Industrials",
-      "dp": 0.9781
+      "etf": "XLY",
+      "name": "Consumer Discretionary",
+      "dp": 4.5427
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": 0.9775
-    },
-    {
-      "etf": "XLV",
-      "name": "Health Care",
-      "dp": -0.1517
-    },
-    {
-      "etf": "XLRE",
-      "name": "Real Estate",
-      "dp": -0.2521
-    },
-    {
-      "etf": "XLU",
-      "name": "Utilities",
-      "dp": -0.5038
-    },
-    {
-      "etf": "XLE",
-      "name": "Energy",
-      "dp": -0.5204
-    },
-    {
-      "etf": "XLF",
-      "name": "Financials",
-      "dp": -0.5733
-    },
-    {
-      "etf": "XLY",
-      "name": "Consumer Discretionary",
-      "dp": -0.677
+      "dp": 3.8052
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": -1.8166
+      "dp": 3.7324
+    },
+    {
+      "etf": "XLF",
+      "name": "Financials",
+      "dp": 3.3747
+    },
+    {
+      "etf": "XLV",
+      "name": "Health Care",
+      "dp": 3.3149
+    },
+    {
+      "etf": "XLRE",
+      "name": "Real Estate",
+      "dp": 3.2517
     },
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": -1.8446
+      "dp": 2.3198
+    },
+    {
+      "etf": "XLU",
+      "name": "Utilities",
+      "dp": 0.5758
+    },
+    {
+      "etf": "XLK",
+      "name": "Information Technology",
+      "dp": 0.2323
+    },
+    {
+      "etf": "XLI",
+      "name": "Industrials",
+      "dp": -1.109
+    },
+    {
+      "etf": "XLE",
+      "name": "Energy",
+      "dp": -5.249
     }
   ],
   "topSignals": [
     {
-      "sym": "ORCL",
-      "name": "Oracle Corporation",
-      "dp": 5.3347,
-      "c": 125.58,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 78,
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 39,
-          "detail": "12.0%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 29,
-          "max": 39,
-          "detail": "+5.33%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 360489.81962400005
-    },
-    {
-      "sym": "HPE",
-      "name": "Hewlett Packard Enterprise Company",
-      "dp": 4.1414,
-      "c": 53.31,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 78,
-      "signals": {
-        "beatMag": {
-          "score": 39,
-          "max": 39,
-          "detail": "19.8%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+4.14%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 67952.91728
-    },
-    {
-      "sym": "MU",
-      "name": "Micron Technology, Inc.",
-      "dp": 2.3213,
-      "c": 852.94,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 78,
-      "signals": {
-        "beatMag": {
-          "score": 39,
-          "max": 39,
-          "detail": "16.2%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.32%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 943143.110489
-    },
-    {
-      "sym": "DD",
-      "name": "DuPont de Nemours, Inc.",
-      "dp": 8.9101,
-      "c": 153.89,
+      "sym": "NEM",
+      "name": "Newmont Corporation",
+      "dp": 10.1238,
+      "c": 118.35,
       "etf": "XLB",
       "sectorName": "Materials",
-      "score": 72,
+      "score": 93,
       "signals": {
         "beatMag": {
-          "score": 9,
+          "score": 19,
           "max": 19,
-          "detail": "6.6%"
+          "detail": "16.8%"
         },
         "beatStreak": {
           "score": 12,
@@ -192,9 +81,9 @@
           "detail": "4Q"
         },
         "momentum": {
-          "score": 33,
+          "score": 44,
           "max": 44,
-          "detail": "+8.91%"
+          "detail": "+10.12%"
         },
         "analyst": {
           "score": 18,
@@ -207,21 +96,243 @@
           "detail": "No data"
         }
       },
-      "marketCap": 19081.571896000005
+      "marketCap": 121481.69082112034
     },
     {
-      "sym": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "dp": 4.4678,
-      "c": 31.8,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
+      "sym": "EXPE",
+      "name": "Expedia Group, Inc.",
+      "dp": 12.4856,
+      "c": 321.45,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 89,
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 28,
+          "detail": "16.6%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 39,
+          "max": 39,
+          "detail": "+12.49%"
+        },
+        "analyst": {
+          "score": 5,
+          "max": 16,
+          "detail": "Hold"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 38481.65450239242
+    },
+    {
+      "sym": "CCL",
+      "name": "Carnival Corporation Ltd",
+      "dp": 7.089,
+      "c": 31.27,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 85,
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 28,
+          "detail": "16.6%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+7.09%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 16,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 41790.48323102876
+    },
+    {
+      "sym": "ALB",
+      "name": "Albemarle Corp",
+      "dp": 5.1225,
+      "c": 94.81,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 75,
+      "signals": {
+        "beatMag": {
+          "score": 19,
+          "max": 19,
+          "detail": "20.7%"
+        },
+        "beatStreak": {
+          "score": 5,
+          "max": 12,
+          "detail": "2Q"
+        },
+        "momentum": {
+          "score": 33,
+          "max": 44,
+          "detail": "+5.12%"
+        },
+        "analyst": {
+          "score": 18,
+          "max": 25,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 11174.489296973334
+    },
+    {
+      "sym": "GRMN",
+      "name": "Garmin Ltd.",
+      "dp": 7.6113,
+      "c": 292.1,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 74,
+      "signals": {
+        "beatMag": {
+          "score": 28,
+          "max": 28,
+          "detail": "15.4%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+7.61%"
+        },
+        "analyst": {
+          "score": 0,
+          "max": 16,
+          "detail": "Sell"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 56191.87613434255
+    },
+    {
+      "sym": "ROST",
+      "name": "Ross Stores Inc",
+      "dp": 6.5976,
+      "c": 246.88,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
       "score": 70,
       "signals": {
         "beatMag": {
-          "score": 39,
+          "score": 13,
+          "max": 28,
+          "detail": "7.9%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
           "max": 39,
-          "detail": "32.5%"
+          "detail": "+6.60%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 16,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 79243.5442760881
+    },
+    {
+      "sym": "ANET",
+      "name": "Arista Networks, Inc.",
+      "dp": 5.3793,
+      "c": 179.05,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 68,
+      "signals": {
+        "beatMag": {
+          "score": 18,
+          "max": 39,
+          "detail": "8.6%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+5.38%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 224352.9444745702
+    },
+    {
+      "sym": "APTV",
+      "name": "APTIV PLC",
+      "dp": 5.999,
+      "c": 43.82,
+      "etf": "XLY",
+      "sectorName": "Consumer Discretionary",
+      "score": 64,
+      "signals": {
+        "beatMag": {
+          "score": 13,
+          "max": 28,
+          "detail": "5.5%"
         },
         "beatStreak": {
           "score": 11,
@@ -229,9 +340,83 @@
           "detail": "3Q"
         },
         "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+6.00%"
+        },
+        "analyst": {
+          "score": 11,
+          "max": 16,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 9083.958278301887
+    },
+    {
+      "sym": "BALL",
+      "name": "Ball Corp",
+      "dp": 6.3914,
+      "c": 67.25,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 63,
+      "signals": {
+        "beatMag": {
+          "score": 4,
+          "max": 19,
+          "detail": "3.2%"
+        },
+        "beatStreak": {
+          "score": 8,
+          "max": 12,
+          "detail": "3Q"
+        },
+        "momentum": {
+          "score": 33,
+          "max": 44,
+          "detail": "+6.39%"
+        },
+        "analyst": {
+          "score": 18,
+          "max": 25,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 17565.713296584716
+    },
+    {
+      "sym": "HPQ",
+      "name": "HP Inc",
+      "dp": 6.9331,
+      "c": 30.23,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 60,
+      "signals": {
+        "beatMag": {
           "score": 18,
           "max": 39,
-          "detail": "+4.47%"
+          "detail": "6.9%"
+        },
+        "beatStreak": {
+          "score": 11,
+          "max": 17,
+          "detail": "3Q"
+        },
+        "momentum": {
+          "score": 29,
+          "max": 39,
+          "detail": "+6.93%"
         },
         "analyst": {
           "score": 2,
@@ -244,199 +429,14 @@
           "detail": "No data"
         }
       },
-      "marketCap": 19998.026916
-    },
-    {
-      "sym": "WDC",
-      "name": "Western Digital Corp",
-      "dp": 2.0704,
-      "c": 345.6,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 67,
-      "signals": {
-        "beatMag": {
-          "score": 28,
-          "max": 39,
-          "detail": "10.5%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.07%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 137043.49
-    },
-    {
-      "sym": "AMD",
-      "name": "Advanced Micro Devices, Inc.",
-      "dp": 4.4276,
-      "c": 487.51,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 57,
-      "signals": {
-        "beatMag": {
-          "score": 18,
-          "max": 39,
-          "detail": "5.9%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+4.43%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 762104.611624
-    },
-    {
-      "sym": "APH",
-      "name": "Amphenol Corp",
-      "dp": 4.8221,
-      "c": 83.69,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 57,
-      "signals": {
-        "beatMag": {
-          "score": 18,
-          "max": 39,
-          "detail": "9.1%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+4.82%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 197145.807598
-    },
-    {
-      "sym": "ANET",
-      "name": "Arista Networks, Inc.",
-      "dp": 2.9487,
-      "c": 168.98,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 57,
-      "signals": {
-        "beatMag": {
-          "score": 18,
-          "max": 39,
-          "detail": "7.0%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.95%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 207017.40661299997
-    },
-    {
-      "sym": "MCHP",
-      "name": "Microchip Technology Inc",
-      "dp": 2.6278,
-      "c": 78.11,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 57,
-      "signals": {
-        "beatMag": {
-          "score": 18,
-          "max": 39,
-          "detail": "6.3%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.63%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 41328.38997599999
+      "marketCap": 27563.242839410155
     }
   ],
   "summary": {
-    "highestScore": 78,
-    "highestScoreSymbol": "ORCL",
-    "avgTop10": 67,
-    "leadingSector": "Information Technology",
-    "laggingSector": "Materials"
+    "highestScore": 93,
+    "highestScoreSymbol": "NEM",
+    "avgTop10": 74,
+    "leadingSector": "Consumer Discretionary",
+    "laggingSector": "Energy"
   }
 }
