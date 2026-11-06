@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T19:47:40.170Z",
+  "generatedAt": "2026-11-06T20:11:49.399Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 107,
@@ -7,65 +7,65 @@
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": 1.7367
+      "dp": 1.9461
     },
     {
       "etf": "XLC",
       "name": "Communication Services",
-      "dp": 1.1118
+      "dp": 1.198
     },
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": 0.5355
-    },
-    {
-      "etf": "XLI",
-      "name": "Industrials",
-      "dp": 0.4308
+      "dp": 0.697
     },
     {
       "etf": "XLE",
       "name": "Energy",
-      "dp": 0.2434
+      "dp": 0.5841
+    },
+    {
+      "etf": "XLI",
+      "name": "Industrials",
+      "dp": 0.4739
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": 0.1244
+      "dp": 0.1622
     },
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": -0.0231
+      "dp": 0.1155
     },
     {
       "etf": "XLF",
       "name": "Financials",
-      "dp": -0.1391
+      "dp": -0.0522
     },
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": -0.3249
+      "dp": -0.172
     },
     {
       "etf": "XLRE",
       "name": "Real Estate",
-      "dp": -0.5869
+      "dp": -0.3837
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": -1.0082
+      "dp": -0.9973
     }
   ],
   "topSignals": [
     {
       "sym": "MU",
       "name": "Micron Technology, Inc.",
-      "dp": 5.3916,
-      "c": 691.78,
+      "dp": 5.6994,
+      "c": 693.8,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 89,
@@ -83,7 +83,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.39%"
+          "detail": "+5.70%"
         },
         "analyst": {
           "score": 4,
@@ -101,8 +101,8 @@
     {
       "sym": "INTC",
       "name": "Intel Corp",
-      "dp": 8.4785,
-      "c": 56.68,
+      "dp": 8.9378,
+      "c": 56.92,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 87,
@@ -120,7 +120,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+8.48%"
+          "detail": "+8.94%"
         },
         "analyst": {
           "score": 2,
@@ -138,8 +138,8 @@
     {
       "sym": "SMCI",
       "name": "Super Micro Computer Inc",
-      "dp": 5.3176,
-      "c": 28.52,
+      "dp": 6.1669,
+      "c": 28.75,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 87,
@@ -157,7 +157,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.32%"
+          "detail": "+6.17%"
         },
         "analyst": {
           "score": 2,
@@ -175,8 +175,8 @@
     {
       "sym": "AMD",
       "name": "Advanced Micro Devices, Inc.",
-      "dp": 10.1385,
-      "c": 445.4,
+      "dp": 10.905,
+      "c": 448.5,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -194,7 +194,7 @@
         "momentum": {
           "score": 39,
           "max": 39,
-          "detail": "+10.14%"
+          "detail": "+10.90%"
         },
         "analyst": {
           "score": 4,
@@ -212,8 +212,8 @@
     {
       "sym": "HPE",
       "name": "Hewlett Packard Enterprise Company",
-      "dp": 1.5172,
-      "c": 44.83,
+      "dp": 2.1513,
+      "c": 45.11,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 78,
@@ -231,7 +231,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.52%"
+          "detail": "+2.15%"
         },
         "analyst": {
           "score": 4,
@@ -249,8 +249,8 @@
     {
       "sym": "FCX",
       "name": "Freeport-McMoRan Inc",
-      "dp": 3.3506,
-      "c": 59.84,
+      "dp": 3.6442,
+      "c": 60.01,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 69,
@@ -268,7 +268,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+3.35%"
+          "detail": "+3.64%"
         },
         "analyst": {
           "score": 18,
@@ -286,8 +286,8 @@
     {
       "sym": "NEM",
       "name": "Newmont Corporation",
-      "dp": 1.1277,
-      "c": 121.06,
+      "dp": 1.3199,
+      "c": 121.29,
       "etf": "XLB",
       "sectorName": "Materials",
       "score": 69,
@@ -305,7 +305,7 @@
         "momentum": {
           "score": 20,
           "max": 44,
-          "detail": "+1.13%"
+          "detail": "+1.32%"
         },
         "analyst": {
           "score": 18,
@@ -323,8 +323,8 @@
     {
       "sym": "ANET",
       "name": "Arista Networks, Inc.",
-      "dp": 6.949,
-      "c": 170.22,
+      "dp": 7.1563,
+      "c": 170.55,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 68,
@@ -342,7 +342,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+6.95%"
+          "detail": "+7.16%"
         },
         "analyst": {
           "score": 4,
@@ -358,32 +358,32 @@
       "marketCap": 200736.5040231392
     },
     {
-      "sym": "BLK",
-      "name": "BlackRock, Inc.",
-      "dp": 1.1301,
-      "c": 1183.9,
-      "etf": "XLF",
-      "sectorName": "Financials",
-      "score": 61,
+      "sym": "IRM",
+      "name": "Iron Mountain Inc",
+      "dp": 1.0047,
+      "c": 106.56,
+      "etf": "XLRE",
+      "sectorName": "Real Estate",
+      "score": 63,
       "signals": {
         "beatMag": {
-          "score": 12,
-          "max": 25,
-          "detail": "8.8%"
+          "score": 7,
+          "max": 15,
+          "detail": "8.3%"
         },
         "beatStreak": {
-          "score": 19,
-          "max": 19,
+          "score": 15,
+          "max": 15,
           "detail": "4Q"
         },
         "momentum": {
-          "score": 17,
-          "max": 37,
-          "detail": "+1.13%"
+          "score": 14,
+          "max": 31,
+          "detail": "+1.00%"
         },
         "analyst": {
-          "score": 13,
-          "max": 19,
+          "score": 27,
+          "max": 39,
           "detail": "Buy"
         },
         "target": {
@@ -392,7 +392,7 @@
           "detail": "No data"
         }
       },
-      "marketCap": 190206.00023215316
+      "marketCap": 31407.64846115372
     },
     {
       "sym": "IP",
