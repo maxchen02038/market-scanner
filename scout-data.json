@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-16T22:40:53.742Z",
+  "generatedAt": "2026-11-16T23:09:11.184Z",
   "sectors": {
     "XLK": {
       "name": "Information Technology",
@@ -369,42 +369,73 @@
     "XLI": {
       "name": "Industrials",
       "scanned": 40,
-      "afterFilter": 0,
-      "top": []
-    },
-    "XLY": {
-      "name": "Consumer Discretionary",
-      "scanned": 40,
-      "afterFilter": 15,
+      "afterFilter": 7,
       "top": [
         {
-          "sym": "HAS",
-          "name": "Hasbro, Inc.",
-          "dp": 0.3899,
-          "c": 121.02,
-          "etf": "XLY",
-          "sectorName": "Consumer Discretionary",
-          "marketCap": 16835.260938334468,
-          "score": 65,
+          "sym": "NSC",
+          "name": "Norfolk Southern Corp",
+          "dp": 0.4239,
+          "c": 329.27,
+          "etf": "XLI",
+          "sectorName": "Industrials",
+          "marketCap": 73707.9659395727,
+          "score": 44,
           "signals": {
             "beatMag": {
-              "score": 28,
-              "max": 28,
-              "detail": "37.7%"
+              "score": 11,
+              "max": 24,
+              "detail": "7.1%"
             },
             "beatStreak": {
-              "score": 17,
-              "max": 17,
+              "score": 18,
+              "max": 18,
               "detail": "4Q"
             },
             "momentum": {
-              "score": 9,
-              "max": 39,
-              "detail": "+0.39%"
+              "score": 8,
+              "max": 35,
+              "detail": "+0.42%"
             },
             "analyst": {
-              "score": 11,
-              "max": 16,
+              "score": 7,
+              "max": 23,
+              "detail": "Hold"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "RSG",
+          "name": "Republic Services Inc",
+          "dp": 1.0159,
+          "c": 255.56,
+          "etf": "XLI",
+          "sectorName": "Industrials",
+          "marketCap": 77836.9550644597,
+          "score": 38,
+          "signals": {
+            "beatMag": {
+              "score": 6,
+              "max": 24,
+              "detail": "2.7%"
+            },
+            "beatStreak": {
+              "score": 0,
+              "max": 18,
+              "detail": "0Q"
+            },
+            "momentum": {
+              "score": 16,
+              "max": 35,
+              "detail": "+1.02%"
+            },
+            "analyst": {
+              "score": 16,
+              "max": 23,
               "detail": "Buy"
             },
             "target": {
@@ -414,6 +445,124 @@
             }
           }
         },
+        {
+          "sym": "VRSK",
+          "name": "Verisk Analytics, Inc.",
+          "dp": 2.3771,
+          "c": 212.76,
+          "etf": "XLI",
+          "sectorName": "Industrials",
+          "marketCap": 25549.63,
+          "score": 38,
+          "signals": {
+            "beatMag": {
+              "score": 6,
+              "max": 24,
+              "detail": "3.4%"
+            },
+            "beatStreak": {
+              "score": 0,
+              "max": 18,
+              "detail": "0Q"
+            },
+            "momentum": {
+              "score": 16,
+              "max": 35,
+              "detail": "+2.38%"
+            },
+            "analyst": {
+              "score": 16,
+              "max": 23,
+              "detail": "Buy"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "DAL",
+          "name": "Delta Air Lines, Inc.",
+          "dp": 0.4058,
+          "c": 86.6,
+          "etf": "XLI",
+          "sectorName": "Industrials",
+          "marketCap": 57616.67435941248,
+          "score": 30,
+          "signals": {
+            "beatMag": {
+              "score": 6,
+              "max": 24,
+              "detail": "3.2%"
+            },
+            "beatStreak": {
+              "score": 0,
+              "max": 18,
+              "detail": "0Q"
+            },
+            "momentum": {
+              "score": 8,
+              "max": 35,
+              "detail": "+0.41%"
+            },
+            "analyst": {
+              "score": 16,
+              "max": 23,
+              "detail": "Buy"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "WM",
+          "name": "Waste Management Inc",
+          "dp": 0.2051,
+          "c": 244.33,
+          "etf": "XLI",
+          "sectorName": "Industrials",
+          "marketCap": 92827.87,
+          "score": 24,
+          "signals": {
+            "beatMag": {
+              "score": 0,
+              "max": 24,
+              "detail": "-2.0%"
+            },
+            "beatStreak": {
+              "score": 0,
+              "max": 18,
+              "detail": "0Q"
+            },
+            "momentum": {
+              "score": 8,
+              "max": 35,
+              "detail": "+0.21%"
+            },
+            "analyst": {
+              "score": 16,
+              "max": 23,
+              "detail": "Buy"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        }
+      ]
+    },
+    "XLY": {
+      "name": "Consumer Discretionary",
+      "scanned": 40,
+      "afterFilter": 15,
+      "top": [
         {
           "sym": "TPR",
           "name": "Tapestry, Inc.",
@@ -438,6 +587,43 @@
               "score": 9,
               "max": 39,
               "detail": "+0.41%"
+            },
+            "analyst": {
+              "score": 11,
+              "max": 16,
+              "detail": "Buy"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "HAS",
+          "name": "Hasbro, Inc.",
+          "dp": 0.3899,
+          "c": 121.02,
+          "etf": "XLY",
+          "sectorName": "Consumer Discretionary",
+          "marketCap": 16835.260938334468,
+          "score": 65,
+          "signals": {
+            "beatMag": {
+              "score": 28,
+              "max": 28,
+              "detail": "37.7%"
+            },
+            "beatStreak": {
+              "score": 17,
+              "max": 17,
+              "detail": "4Q"
+            },
+            "momentum": {
+              "score": 9,
+              "max": 39,
+              "detail": "+0.39%"
             },
             "analyst": {
               "score": 11,
@@ -567,83 +753,8 @@
     "XLB": {
       "name": "Materials",
       "scanned": 29,
-      "afterFilter": 2,
-      "top": [
-        {
-          "sym": "NUE",
-          "name": "Nucor Corporation",
-          "dp": 0.3734,
-          "c": 252.67,
-          "etf": "XLB",
-          "sectorName": "Materials",
-          "marketCap": 57576.70828686736,
-          "score": 32,
-          "signals": {
-            "beatMag": {
-              "score": 4,
-              "max": 19,
-              "detail": "2.4%"
-            },
-            "beatStreak": {
-              "score": 0,
-              "max": 12,
-              "detail": "0Q"
-            },
-            "momentum": {
-              "score": 10,
-              "max": 44,
-              "detail": "+0.37%"
-            },
-            "analyst": {
-              "score": 18,
-              "max": 25,
-              "detail": "Buy"
-            },
-            "target": {
-              "score": 0,
-              "max": 0,
-              "detail": "No data"
-            }
-          }
-        },
-        {
-          "sym": "SHW",
-          "name": "Sherwin-Williams Co",
-          "dp": 0.1858,
-          "c": 350.54,
-          "etf": "XLB",
-          "sectorName": "Materials",
-          "marketCap": 85171.87895902371,
-          "score": 14,
-          "signals": {
-            "beatMag": {
-              "score": 4,
-              "max": 19,
-              "detail": "1.7%"
-            },
-            "beatStreak": {
-              "score": 0,
-              "max": 12,
-              "detail": "0Q"
-            },
-            "momentum": {
-              "score": 10,
-              "max": 44,
-              "detail": "+0.19%"
-            },
-            "analyst": {
-              "score": 0,
-              "max": 25,
-              "detail": "Sell"
-            },
-            "target": {
-              "score": 0,
-              "max": 0,
-              "detail": "No data"
-            }
-          }
-        }
-      ]
+      "afterFilter": 0,
+      "top": []
     },
     "XLRE": {
       "name": "Real Estate",
