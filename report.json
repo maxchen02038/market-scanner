@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T21:02:06.675Z",
+  "generatedAt": "2026-11-18T21:42:07.380Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -7,65 +7,65 @@
     {
       "etf": "XLY",
       "name": "Consumer Discretionary",
-      "dp": 1.8787
-    },
-    {
-      "etf": "XLC",
-      "name": "Communication Services",
-      "dp": 0.456
+      "dp": 1.7933
     },
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": 0.3859
+      "dp": 0.3369
+    },
+    {
+      "etf": "XLC",
+      "name": "Communication Services",
+      "dp": 0.304
     },
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": 0.3455
+      "dp": 0.2994
     },
     {
       "etf": "XLRE",
       "name": "Real Estate",
-      "dp": 0.1606
+      "dp": 0.0688
     },
     {
       "etf": "XLI",
       "name": "Industrials",
-      "dp": 0.085
+      "dp": -0.0546
     },
     {
       "etf": "XLP",
       "name": "Consumer Staples",
-      "dp": -0.2077
+      "dp": -0.3061
     },
     {
       "etf": "XLB",
       "name": "Materials",
-      "dp": -0.6491
+      "dp": -0.7474
     },
     {
       "etf": "XLF",
       "name": "Financials",
-      "dp": -0.9813
+      "dp": -1.139
     },
     {
       "etf": "XLV",
       "name": "Health Care",
-      "dp": -2.0946
+      "dp": -2.1971
     },
     {
       "etf": "XLE",
       "name": "Energy",
-      "dp": -3.1092
+      "dp": -3.267
     }
   ],
   "topSignals": [
     {
       "sym": "FTNT",
       "name": "Fortinet, Inc.",
-      "dp": 5.9357,
-      "c": 131.89,
+      "dp": 5.8715,
+      "c": 131.81,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 76,
@@ -83,7 +83,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.94%"
+          "detail": "+5.87%"
         },
         "analyst": {
           "score": 2,
@@ -99,47 +99,10 @@
       "marketCap": 91471.36734
     },
     {
-      "sym": "SMCI",
-      "name": "Super Micro Computer Inc",
-      "dp": 1.0356,
-      "c": 24.39,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 76,
-      "signals": {
-        "beatMag": {
-          "score": 39,
-          "max": 39,
-          "detail": "47.2%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+1.04%"
-        },
-        "analyst": {
-          "score": 2,
-          "max": 5,
-          "detail": "Hold"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 15913.747970000002
-    },
-    {
       "sym": "CCL",
       "name": "Carnival Corporation Ltd",
-      "dp": 2.8942,
-      "c": 28.975,
+      "dp": 2.8764,
+      "c": 28.97,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 74,
@@ -157,7 +120,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+2.89%"
+          "detail": "+2.88%"
         },
         "analyst": {
           "score": 11,
@@ -175,8 +138,8 @@
     {
       "sym": "AMD",
       "name": "Advanced Micro Devices, Inc.",
-      "dp": 5.4389,
-      "c": 530.79,
+      "dp": 5.3098,
+      "c": 530.14,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 68,
@@ -194,7 +157,7 @@
         "momentum": {
           "score": 29,
           "max": 39,
-          "detail": "+5.44%"
+          "detail": "+5.31%"
         },
         "analyst": {
           "score": 4,
@@ -212,8 +175,8 @@
     {
       "sym": "KMX",
       "name": "Carmax Inc",
-      "dp": 1.5728,
-      "c": 51.02,
+      "dp": 1.5329,
+      "c": 51,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 68,
@@ -231,7 +194,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.57%"
+          "detail": "+1.53%"
         },
         "analyst": {
           "score": 5,
@@ -249,8 +212,8 @@
     {
       "sym": "NKE",
       "name": "NIKE, Inc.",
-      "dp": 1.2692,
-      "c": 36.305,
+      "dp": 1.2831,
+      "c": 36.31,
       "etf": "XLY",
       "sectorName": "Consumer Discretionary",
       "score": 68,
@@ -268,7 +231,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.27%"
+          "detail": "+1.28%"
         },
         "analyst": {
           "score": 5,
@@ -323,8 +286,8 @@
     {
       "sym": "WDC",
       "name": "Western Digital Corp",
-      "dp": 1.7753,
-      "c": 288.36,
+      "dp": 1.7153,
+      "c": 288.19,
       "etf": "XLK",
       "sectorName": "Information Technology",
       "score": 67,
@@ -342,7 +305,7 @@
         "momentum": {
           "score": 18,
           "max": 39,
-          "detail": "+1.78%"
+          "detail": "+1.72%"
         },
         "analyst": {
           "score": 4,
@@ -358,32 +321,32 @@
       "marketCap": 137043.49
     },
     {
-      "sym": "JCI",
-      "name": "Johnson Controls International PLC",
-      "dp": 1.5625,
-      "c": 138.45,
-      "etf": "XLI",
-      "sectorName": "Industrials",
-      "score": 61,
+      "sym": "IP",
+      "name": "International Paper Co",
+      "dp": 1.088,
+      "c": 32.52,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 60,
       "signals": {
         "beatMag": {
-          "score": 11,
-          "max": 24,
-          "detail": "5.5%"
+          "score": 14,
+          "max": 19,
+          "detail": "14.7%"
         },
         "beatStreak": {
-          "score": 18,
-          "max": 18,
-          "detail": "4Q"
+          "score": 8,
+          "max": 12,
+          "detail": "3Q"
         },
         "momentum": {
-          "score": 16,
-          "max": 35,
-          "detail": "+1.56%"
+          "score": 20,
+          "max": 44,
+          "detail": "+1.09%"
         },
         "analyst": {
-          "score": 16,
-          "max": 23,
+          "score": 18,
+          "max": 25,
           "detail": "Buy"
         },
         "target": {
@@ -392,7 +355,7 @@
           "detail": "No data"
         }
       },
-      "marketCap": 81819.236779
+      "marketCap": 17037.312712
     },
     {
       "sym": "ROST",
@@ -430,12 +393,49 @@
         }
       },
       "marketCap": 70423.440431
+    },
+    {
+      "sym": "AVY",
+      "name": "Avery Dennison Corp",
+      "dp": 1.3817,
+      "c": 187.84,
+      "etf": "XLB",
+      "sectorName": "Materials",
+      "score": 59,
+      "signals": {
+        "beatMag": {
+          "score": 9,
+          "max": 19,
+          "detail": "5.2%"
+        },
+        "beatStreak": {
+          "score": 12,
+          "max": 12,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 20,
+          "max": 44,
+          "detail": "+1.38%"
+        },
+        "analyst": {
+          "score": 18,
+          "max": 25,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 13990.758856000002
     }
   ],
   "summary": {
     "highestScore": 76,
     "highestScoreSymbol": "FTNT",
-    "avgTop10": 69,
+    "avgTop10": 67,
     "leadingSector": "Consumer Discretionary",
     "laggingSector": "Energy"
   }
