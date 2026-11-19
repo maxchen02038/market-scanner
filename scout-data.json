@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T21:06:56.383Z",
+  "generatedAt": "2026-11-19T21:57:22.253Z",
   "sectors": {
     "XLK": {
       "name": "Information Technology",
@@ -7,13 +7,13 @@
       "afterFilter": 4,
       "top": [
         {
-          "sym": "WDC",
-          "name": "WDC",
-          "dp": 2.9807,
-          "c": 296.78,
+          "sym": "QCOM",
+          "name": "QUALCOMM Incorporated",
+          "dp": 1.3766,
+          "c": 162.01,
           "etf": "XLK",
           "sectorName": "Information Technology",
-          "marketCap": null,
+          "marketCap": 176469.74730439833,
           "score": 18,
           "signals": {
             "beatMag": {
@@ -29,7 +29,7 @@
             "momentum": {
               "score": 18,
               "max": 39,
-              "detail": "+2.98%"
+              "detail": "+1.38%"
             },
             "analyst": {
               "score": 0,
@@ -45,12 +45,12 @@
         },
         {
           "sym": "INTC",
-          "name": "INTC",
+          "name": "Intel Corp",
           "dp": 1.9206,
           "c": 55.72,
           "etf": "XLK",
           "sectorName": "Information Technology",
-          "marketCap": null,
+          "marketCap": 301147.88991375297,
           "score": 18,
           "signals": {
             "beatMag": {
@@ -81,10 +81,10 @@
           }
         },
         {
-          "sym": "QCOM",
-          "name": "QCOM",
-          "dp": 1.3766,
-          "c": 162.01,
+          "sym": "WDC",
+          "name": "WDC",
+          "dp": 2.9807,
+          "c": 296.78,
           "etf": "XLK",
           "sectorName": "Information Technology",
           "marketCap": null,
@@ -103,7 +103,7 @@
             "momentum": {
               "score": 18,
               "max": 39,
-              "detail": "+1.38%"
+              "detail": "+2.98%"
             },
             "analyst": {
               "score": 0,

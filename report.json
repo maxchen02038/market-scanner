@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T21:06:56.162Z",
+  "generatedAt": "2026-11-19T21:57:22.003Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
   "afterPreFilter": 108,
@@ -12,7 +12,7 @@
     {
       "etf": "XLU",
       "name": "Utilities",
-      "dp": -1.217
+      "dp": -1.24
     },
     {
       "etf": "XLP",
@@ -32,7 +32,7 @@
     {
       "etf": "XLK",
       "name": "Information Technology",
-      "dp": -1.9108
+      "dp": -1.9046
     },
     {
       "etf": "XLI",
@@ -364,7 +364,7 @@
       "c": 75.61,
       "etf": "XLK",
       "sectorName": "Information Technology",
-      "score": 39,
+      "score": 35,
       "signals": {
         "beatMag": {
           "score": 18,
@@ -382,9 +382,9 @@
           "detail": "-0.94%"
         },
         "analyst": {
-          "score": 4,
+          "score": 0,
           "max": 5,
-          "detail": "Buy"
+          "detail": "No data"
         },
         "target": {
           "score": 0,
@@ -435,7 +435,7 @@
   "summary": {
     "highestScore": 76,
     "highestScoreSymbol": "INTC",
-    "avgTop10": 50,
+    "avgTop10": 49,
     "leadingSector": "Energy",
     "laggingSector": "Consumer Discretionary"
   }
