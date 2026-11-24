@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-24T22:52:30.688Z",
+  "generatedAt": "2026-11-24T23:21:22.625Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
-  "afterPreFilter": 108,
+  "afterPreFilter": 107,
   "sectors": [
     {
       "etf": "XLV",
@@ -284,6 +284,43 @@
       "marketCap": 7294.440746326001
     },
     {
+      "sym": "CBRE",
+      "name": "CBRE Group, Inc.",
+      "dp": 3.169,
+      "c": 133.48,
+      "etf": "XLRE",
+      "sectorName": "Real Estate",
+      "score": 67,
+      "signals": {
+        "beatMag": {
+          "score": 11,
+          "max": 15,
+          "detail": "11.1%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 14,
+          "max": 31,
+          "detail": "+3.17%"
+        },
+        "analyst": {
+          "score": 27,
+          "max": 39,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 37822.878399127534
+    },
+    {
       "sym": "IT",
       "name": "Gartner, Inc.",
       "dp": 2.4288,
@@ -393,49 +430,12 @@
         }
       },
       "marketCap": 83157.440983
-    },
-    {
-      "sym": "ULTA",
-      "name": "Ulta Beauty Inc",
-      "dp": 2.5567,
-      "c": 641,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "score": 49,
-      "signals": {
-        "beatMag": {
-          "score": 13,
-          "max": 28,
-          "detail": "5.2%"
-        },
-        "beatStreak": {
-          "score": 7,
-          "max": 17,
-          "detail": "2Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.56%"
-        },
-        "analyst": {
-          "score": 11,
-          "max": 16,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 27546.92923468592
     }
   ],
   "summary": {
     "highestScore": 78,
     "highestScoreSymbol": "CRM",
-    "avgTop10": 66,
+    "avgTop10": 67,
     "leadingSector": "Health Care",
     "laggingSector": "Information Technology"
   }
