@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-25T22:05:18.121Z",
+  "generatedAt": "2026-11-25T22:54:20.630Z",
   "disclaimer": "These are momentum SIGNAL RANKINGS based on historical patterns, not predictions of future performance. For educational purposes only. Not financial advice.",
   "universeSize": 367,
-  "afterPreFilter": 108,
+  "afterPreFilter": 107,
   "sectors": [
     {
       "etf": "XLB",
@@ -61,6 +61,43 @@
     }
   ],
   "topSignals": [
+    {
+      "sym": "CRM",
+      "name": "Salesforce, Inc.",
+      "dp": 2.0439,
+      "c": 197.21,
+      "etf": "XLK",
+      "sectorName": "Information Technology",
+      "score": 78,
+      "signals": {
+        "beatMag": {
+          "score": 39,
+          "max": 39,
+          "detail": "34.5%"
+        },
+        "beatStreak": {
+          "score": 17,
+          "max": 17,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 18,
+          "max": 39,
+          "detail": "+2.04%"
+        },
+        "analyst": {
+          "score": 4,
+          "max": 5,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 159159.96547595883
+    },
     {
       "sym": "HPQ",
       "name": "HP Inc",
@@ -134,6 +171,43 @@
         }
       },
       "marketCap": 14259.088238388593
+    },
+    {
+      "sym": "CBRE",
+      "name": "CBRE Group, Inc.",
+      "dp": 3.3039,
+      "c": 137.89,
+      "etf": "XLRE",
+      "sectorName": "Real Estate",
+      "score": 67,
+      "signals": {
+        "beatMag": {
+          "score": 11,
+          "max": 15,
+          "detail": "11.1%"
+        },
+        "beatStreak": {
+          "score": 15,
+          "max": 15,
+          "detail": "4Q"
+        },
+        "momentum": {
+          "score": 14,
+          "max": 31,
+          "detail": "+3.30%"
+        },
+        "analyst": {
+          "score": 27,
+          "max": 39,
+          "detail": "Buy"
+        },
+        "target": {
+          "score": 0,
+          "max": 0,
+          "detail": "No data"
+        }
+      },
+      "marketCap": 38634.148202357996
     },
     {
       "sym": "IT",
@@ -356,86 +430,12 @@
         }
       },
       "marketCap": 14304.886057868585
-    },
-    {
-      "sym": "MCHP",
-      "name": "Microchip Technology Inc",
-      "dp": 2.2977,
-      "c": 57.655,
-      "etf": "XLK",
-      "sectorName": "Information Technology",
-      "score": 57,
-      "signals": {
-        "beatMag": {
-          "score": 18,
-          "max": 39,
-          "detail": "6.3%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.30%"
-        },
-        "analyst": {
-          "score": 4,
-          "max": 5,
-          "detail": "Buy"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 29818.013164244672
-    },
-    {
-      "sym": "BBY",
-      "name": "Best Buy Co., Inc.",
-      "dp": 2.9713,
-      "c": 102.58,
-      "etf": "XLY",
-      "sectorName": "Consumer Discretionary",
-      "score": 53,
-      "signals": {
-        "beatMag": {
-          "score": 13,
-          "max": 28,
-          "detail": "5.4%"
-        },
-        "beatStreak": {
-          "score": 17,
-          "max": 17,
-          "detail": "4Q"
-        },
-        "momentum": {
-          "score": 18,
-          "max": 39,
-          "detail": "+2.97%"
-        },
-        "analyst": {
-          "score": 5,
-          "max": 16,
-          "detail": "Hold"
-        },
-        "target": {
-          "score": 0,
-          "max": 0,
-          "detail": "No data"
-        }
-      },
-      "marketCap": 20937.117557664526
     }
   ],
   "summary": {
-    "highestScore": 76,
-    "highestScoreSymbol": "HPQ",
-    "avgTop10": 62,
+    "highestScore": 78,
+    "highestScoreSymbol": "CRM",
+    "avgTop10": 66,
     "leadingSector": "Materials",
     "laggingSector": "Information Technology"
   }
