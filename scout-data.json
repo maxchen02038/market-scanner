@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T22:03:16.408Z",
+  "generatedAt": "2026-11-26T22:43:35.080Z",
   "sectors": {
     "XLK": {
       "name": "Information Technology",
@@ -310,43 +310,6 @@
           }
         },
         {
-          "sym": "MA",
-          "name": "Mastercard Incorporated",
-          "dp": 1.9353,
-          "c": 659.97,
-          "etf": "XLF",
-          "sectorName": "Financials",
-          "marketCap": 574950.0991501085,
-          "score": 36,
-          "signals": {
-            "beatMag": {
-              "score": 6,
-              "max": 25,
-              "detail": "3.2%"
-            },
-            "beatStreak": {
-              "score": 0,
-              "max": 19,
-              "detail": "0Q"
-            },
-            "momentum": {
-              "score": 17,
-              "max": 37,
-              "detail": "+1.94%"
-            },
-            "analyst": {
-              "score": 13,
-              "max": 19,
-              "detail": "Buy"
-            },
-            "target": {
-              "score": 0,
-              "max": 0,
-              "detail": "No data"
-            }
-          }
-        },
-        {
           "sym": "V",
           "name": "Visa Inc.",
           "dp": 1.8259,
@@ -370,6 +333,43 @@
               "score": 17,
               "max": 37,
               "detail": "+1.83%"
+            },
+            "analyst": {
+              "score": 13,
+              "max": 19,
+              "detail": "Buy"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "MA",
+          "name": "Mastercard Incorporated",
+          "dp": 1.9353,
+          "c": 659.97,
+          "etf": "XLF",
+          "sectorName": "Financials",
+          "marketCap": 574950.0991501085,
+          "score": 36,
+          "signals": {
+            "beatMag": {
+              "score": 6,
+              "max": 25,
+              "detail": "3.2%"
+            },
+            "beatStreak": {
+              "score": 0,
+              "max": 19,
+              "detail": "0Q"
+            },
+            "momentum": {
+              "score": 17,
+              "max": 37,
+              "detail": "+1.94%"
             },
             "analyst": {
               "score": 13,
@@ -710,7 +710,7 @@
     "XLY": {
       "name": "Consumer Discretionary",
       "scanned": 40,
-      "afterFilter": 14,
+      "afterFilter": 13,
       "top": [
         {
           "sym": "NKE",
@@ -911,43 +911,6 @@
       "afterFilter": 10,
       "top": [
         {
-          "sym": "FRT",
-          "name": "Federal Realty Investment Trust",
-          "dp": 1.5104,
-          "c": 114.25,
-          "etf": "XLRE",
-          "sectorName": "Real Estate",
-          "marketCap": 9888.105688729454,
-          "score": 71,
-          "signals": {
-            "beatMag": {
-              "score": 15,
-              "max": 15,
-              "detail": "18.1%"
-            },
-            "beatStreak": {
-              "score": 15,
-              "max": 15,
-              "detail": "4Q"
-            },
-            "momentum": {
-              "score": 14,
-              "max": 31,
-              "detail": "+1.51%"
-            },
-            "analyst": {
-              "score": 27,
-              "max": 39,
-              "detail": "Buy"
-            },
-            "target": {
-              "score": 0,
-              "max": 0,
-              "detail": "No data"
-            }
-          }
-        },
-        {
           "sym": "MAA",
           "name": "Mid-America Apartment Communities Inc",
           "dp": 1.5193,
@@ -971,6 +934,43 @@
               "score": 14,
               "max": 31,
               "detail": "+1.52%"
+            },
+            "analyst": {
+              "score": 0,
+              "max": 39,
+              "detail": "No data"
+            },
+            "target": {
+              "score": 0,
+              "max": 0,
+              "detail": "No data"
+            }
+          }
+        },
+        {
+          "sym": "ESS",
+          "name": "Essex Property Trust, Inc.",
+          "dp": 1.3172,
+          "c": 279.21,
+          "etf": "XLRE",
+          "sectorName": "Real Estate",
+          "marketCap": 17963.677186553883,
+          "score": 14,
+          "signals": {
+            "beatMag": {
+              "score": 0,
+              "max": 15,
+              "detail": "—"
+            },
+            "beatStreak": {
+              "score": 0,
+              "max": 15,
+              "detail": "0Q"
+            },
+            "momentum": {
+              "score": 14,
+              "max": 31,
+              "detail": "+1.32%"
             },
             "analyst": {
               "score": 0,
@@ -1022,13 +1022,13 @@
           }
         },
         {
-          "sym": "ESS",
-          "name": "Essex Property Trust, Inc.",
-          "dp": 1.3172,
-          "c": 279.21,
+          "sym": "KIM",
+          "name": "Kimco Realty Corp",
+          "dp": 1.0081,
+          "c": 26.05,
           "etf": "XLRE",
           "sectorName": "Real Estate",
-          "marketCap": 17963.677186553883,
+          "marketCap": 17309.961679852655,
           "score": 14,
           "signals": {
             "beatMag": {
@@ -1044,7 +1044,7 @@
             "momentum": {
               "score": 14,
               "max": 31,
-              "detail": "+1.32%"
+              "detail": "+1.01%"
             },
             "analyst": {
               "score": 0,
@@ -1302,7 +1302,7 @@
           "etf": "XLC",
           "sectorName": "Communication Services",
           "marketCap": 214528.5294239556,
-          "score": 48,
+          "score": 60,
           "signals": {
             "beatMag": {
               "score": 16,
@@ -1320,9 +1320,9 @@
               "detail": "+2.52%"
             },
             "analyst": {
-              "score": 0,
+              "score": 12,
               "max": 17,
-              "detail": "No data"
+              "detail": "Buy"
             },
             "target": {
               "score": 0,
@@ -1339,17 +1339,17 @@
           "etf": "XLC",
           "sectorName": "Communication Services",
           "marketCap": 1559025.8757642175,
-          "score": 27,
+          "score": 38,
           "signals": {
             "beatMag": {
-              "score": 0,
+              "score": 8,
               "max": 33,
-              "detail": "—"
+              "detail": "0.7%"
             },
             "beatStreak": {
-              "score": 0,
+              "score": 3,
               "max": 17,
-              "detail": "0Q"
+              "detail": "1Q"
             },
             "momentum": {
               "score": 15,
